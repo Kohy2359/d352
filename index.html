@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>D352 — Projet všechny D-obce na Rekole</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Jost:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Kohymaaa';
+      src: url('Kohyma_final-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --solar:   #F5C518;
+      --meadow:  #2A9D8F;
+      --fuchsia: #EE3C95;
+      --sage:    #A8C4BC;
+      --cream:   #EDE8DC;
+      --night:   #264040;
+      --dust:    #8A9E9B;
+      --earth:   #6B5B4F;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    [style*="Bebas Neue"], .section-title, .hero-title, .d-giant,
+    .counter-num, .stat-num, .nav-logo span, .step-num { font-weight: 400 !important; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    section[id], div[id] { scroll-margin-top: 90px; }
+    body { font-family: 'Jost', sans-serif; background: var(--night); color: #fff; line-height: 1.7; overflow-x: hidden; }
+
+    /* ─── NAVIGACE ─── */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 64px;
+      background: #F5C518;
+      border-radius: 0 0 6px 6px;
+      box-sizing: border-box;
+    }
+    .nav-logo { display: flex; align-items: center; gap: .6rem; text-decoration: none; }
+    .nav-logo-d {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem; line-height: 1;
+      color: var(--night);
+    }
+    .nav-logo-text {
+      font-family: 'Jost', sans-serif;
+      font-size: .75rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--night); opacity: .7;
+      line-height: 1.3;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 1.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: #404040; text-decoration: none; font-size: .82rem;
+      font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      white-space: nowrap; transition: opacity .2s;
+    }
+    .nav-links a:hover { opacity: .6; }
+    .nav-mobile-label { display: none; font-size: .65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(38,64,64,.5); padding: .5rem 0 .25rem; border-bottom: 1px solid rgba(38,64,64,.1); margin-bottom: .25rem; list-style: none; }
+    .nav-cta {
+      background: #264040; color: #F5C518 !important;
+      padding: .4rem 1.1rem; border-radius: 100px; font-weight: 800 !important;
+    }
+    .nav-cta:hover { opacity: .85 !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 22px; height: 2px; background: #264040; border-radius: 2px; }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 60vh;
+      display: flex; flex-direction: column;
+      justify-content: flex-start; align-items: flex-start;
+      padding: 5rem 2rem 4rem;
+      position: relative; overflow: hidden;
+      background: var(--night);
+    }
+    .hero-right {
+      position: relative; z-index: 1;
+      padding-left: 3rem;
+      border-left: 1px solid rgba(255,255,255,.06);
+    }
+    @media (max-width: 768px) {
+      #hero { grid-template-columns: 1fr; }
+      .hero-right { border-left: none; border-top: 1px solid rgba(255,255,255,.06); padding-left: 0; padding-top: 2rem; margin-top: 1rem; }
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('Fotky/8E5695DA-9545-40A9-9EA1-CE93150999E6.jpg') center 38% / cover no-repeat;
+      transform: scale(1.05);
+      animation: herozoom 16s ease-in-out infinite alternate;
+      filter: brightness(.8);
+    }
+    @keyframes herozoom {
+      from { transform: scale(1.05); }
+      to   { transform: scale(1.11) translate(1.5%, -1%); }
+    }
+    .hero-noise {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(110deg, rgba(10,22,22,.92) 0%, rgba(20,38,38,.75) 42%, rgba(20,38,38,.18) 100%),
+        radial-gradient(ellipse at 80% 20%, rgba(245,197,24,.10) 0%, transparent 55%),
+        radial-gradient(ellipse at 10% 80%, rgba(42,157,143,.06) 0%, transparent 45%);
+      pointer-events: none;
+    }
+    .hero-d-bg {
+      position: absolute;
+      right: -4rem; top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(20rem, 40vw, 50rem);
+      line-height: .85;
+      color: rgba(245,197,24,.05);
+      pointer-events: none; user-select: none;
+      letter-spacing: -10px;
+    }
+    .hero-inner { position: relative; z-index: 1; max-width: 800px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-size: .65rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--solar); border: 1px solid rgba(245,197,24,.3);
+      padding: .45rem 1.5rem; border-radius: 100px; margin-bottom: 2rem;
+    }
+    .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--fuchsia); animation: blink 1.5s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 12vw, 10rem);
+      line-height: .85; letter-spacing: 4px; color: #fff;
+      margin-bottom: 1rem;
+    }
+    .hero-title .d { color: var(--solar); }
+    .hero-subtitle {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.8rem);
+      letter-spacing: 2px; color: rgba(255,255,255,.75);
+      margin-bottom: .6rem; line-height: 1.1;
+    }
+    .hero-sub {
+      font-family: 'Kohymaaa', cursive;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      color: var(--sage); margin-bottom: 2rem;
+      line-height: 1.4;
+    }
+    .hero-perex {
+      font-size: 1rem; color: rgba(255,255,255,.6);
+      max-width: 520px; line-height: 1.8; margin-bottom: 3rem;
+    }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .85rem 2rem; border-radius: 100px;
+      font-weight: 700; font-size: .9rem; letter-spacing: .5px;
+      text-decoration: none; transition: transform .2s, box-shadow .2s;
+      cursor: pointer; border: none;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.3); }
+    .btn-solar { background: var(--solar); color: var(--night); }
+    .btn-fuchsia { background: var(--fuchsia); color: #fff; }
+    .btn-outline { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,.25); }
+    .btn-outline:hover { border-color: var(--solar); color: var(--solar); }
+
+
+    /* ─── SEKCE obecné ─── */
+    .section { padding: 6rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: .65rem; font-weight: 700; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--solar); margin-bottom: .6rem;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 1; letter-spacing: 1px; margin-bottom: 1rem;
+      color: #fff;
+    }
+    .section-title .d { color: var(--solar); }
+    .divider { width: 50px; height: 3px; background: var(--solar); border-radius: 2px; margin: 1rem 0 1.8rem; }
+    .body-text { font-size: 1rem; line-height: 1.9; color: rgba(255,255,255,.55); max-width: 640px; }
+    .body-text strong { color: #fff; }
+
+    /* ─── CO JE D352 ─── */
+    #co-je { background: var(--night); }
+    .co-je-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-top: 3rem;
+    }
+    .d-visual {
+      aspect-ratio: 1;
+      background: transparent;
+      border: none;
+      border-radius: 24px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .d-visual-logo {
+      position: absolute;
+      top: 53%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      text-align: center;
+      width: 100%;
+      user-select: none;
+    }
+    .d-visual-logo-d,
+    .d-visual-logo-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4.5rem, 9vw, 7.5rem);
+      line-height: 1;
+      letter-spacing: -1px;
+      display: inline;
+    }
+    .d-visual-logo-d { color: var(--solar); }
+    .d-visual-logo-num { color: #fff; }
+    .d-visual-logo-sub {
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--dust);
+    }
+    .d-visual-glow {
+      position: absolute;
+      width: 60%; height: 60%;
+      background: radial-gradient(circle, rgba(245,197,24,.12) 0%, transparent 70%);
+      top: 20%; left: 20%;
+      pointer-events: none;
+    }
+    .d-visual-ring {
+      position: absolute;
+      border: 1px solid rgba(245,197,24,.06);
+      border-radius: 50%;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .d-visual-ring:nth-child(1) { width: 85%; height: 85%; }
+    .d-visual-ring:nth-child(2) { width: 115%; height: 115%; border-color: rgba(245,197,24,.03); }
+    .d-facts { display: flex; flex-direction: column; gap: 1.2rem; }
+    .d-fact {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1.2rem 1.4rem;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 14px;
+      transition: border-color .3s;
+    }
+    .d-fact:hover { border-color: rgba(245,197,24,.3); }
+    .d-fact-icon {
+      font-size: 1.5rem; flex-shrink: 0;
+      width: 44px; height: 44px;
+      background: rgba(245,197,24,.08);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .d-fact-text h4 { font-size: .95rem; font-weight: 700; color: #fff; margin-bottom: .2rem; }
+    .d-fact-text p { font-size: .88rem; color: var(--dust); line-height: 1.6; }
+
+    /* ─── JAK TO FUNGUJE ─── */
+    #jak-to-funguje {
+      background: rgba(255,255,255,.02);
+      border-top: 1px solid rgba(255,255,255,.05);
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .step {
+      padding: 1.8rem 1.4rem;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 18px;
+      transition: transform .25s, border-color .25s;
+    }
+    .step:hover { transform: translateY(-4px); border-color: rgba(245,197,24,.3); }
+    .step-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem; line-height: 1;
+      color: rgba(245,197,24,.2);
+      margin-bottom: .8rem;
+    }
+    .step h4 { font-size: .95rem; font-weight: 700; color: var(--solar); margin-bottom: .5rem; }
+    .step p { font-size: .88rem; color: var(--dust); line-height: 1.7; }
+
+    /* ─── MAPA (placeholder) ─── */
+    #mapa { background: var(--night); }
+    .map-placeholder {
+      margin-top: 3rem;
+      border: 2px dashed rgba(245,197,24,.2);
+      border-radius: 24px;
+      padding: 5rem 2rem;
+      text-align: center;
+      background: rgba(245,197,24,.02);
+      position: relative; overflow: hidden;
+    }
+    .map-placeholder::before {
+      content: '🗺️';
+      font-size: 5rem;
+      display: block;
+      margin-bottom: 1.5rem;
+      filter: saturate(0) opacity(.4);
+    }
+    .map-placeholder h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem; color: rgba(245,197,24,.4);
+      letter-spacing: 2px;
+    }
+    .map-placeholder p { font-size: .95rem; color: var(--dust); margin-top: .5rem; }
+    .map-legend {
+      display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+    .map-legend-item {
+      display: flex; align-items: center; gap: .5rem;
+      font-size: .8rem; color: var(--dust);
+    }
+    .map-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+    }
+    .map-dot.waiting { background: var(--sage); opacity: .7; }
+    .map-dot.done { background: var(--solar); box-shadow: 0 0 8px rgba(245,197,24,.6); }
+    .map-dot.live { background: var(--fuchsia); animation: blink 1s ease-in-out infinite; }
+    .map-dot.contributed { background: var(--solar); box-shadow: 0 0 8px rgba(245,197,24,.6); border: 2px solid #fff; }
+
+    /* ─── FUNDRAISING ─── */
+    #fundraising { background: var(--night); }
+    .fundraising-card {
+      margin-top: 3rem;
+      background: linear-gradient(135deg, rgba(238,60,149,.08) 0%, rgba(42,157,143,.06) 100%);
+      border: 1px solid rgba(238,60,149,.2);
+      border-radius: 24px;
+      padding: 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    .fundraising-left h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: .9; letter-spacing: 2px; color: #fff;
+      margin-bottom: 1rem;
+    }
+    .fundraising-left h3 span { color: var(--fuchsia); }
+    .fundraising-left p { font-size: 1rem; color: rgba(255,255,255,.55); line-height: 1.8; }
+    .fundraising-right {}
+    .fundraising-progress {
+      margin-bottom: 2rem;
+    }
+    .fp-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .5rem; }
+    .fp-amount {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem; color: var(--solar); letter-spacing: 2px;
+    }
+    .fp-goal { font-size: .8rem; color: var(--dust); }
+    .fp-bar-wrap { height: 8px; background: rgba(255,255,255,.08); border-radius: 100px; overflow: hidden; }
+    .fp-bar { height: 100%; background: linear-gradient(90deg, var(--fuchsia), var(--solar)); border-radius: 100px; width: 0%; transition: width 1.5s ease; }
+    .fp-label { font-size: .75rem; color: var(--dust); margin-top: .5rem; }
+    .domestici-info {
+      display: flex; align-items: center; gap: .8rem;
+      padding: 1rem 1.2rem;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px;
+    }
+    .domestici-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--fuchsia);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+    .domestici-text { font-size: .85rem; color: rgba(255,255,255,.6); line-height: 1.5; }
+    .domestici-text strong { color: #fff; display: block; font-size: .9rem; }
+
+    /* ─── D-VÝZVA ─── */
+    #d-vyzva {
+      background: rgba(245,197,24,.04);
+      border-top: 1px solid rgba(245,197,24,.1);
+    }
+    .vyzva-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .vyzva-card {
+      padding: 2rem 1.6rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.07);
+      background: rgba(255,255,255,.03);
+      transition: transform .25s, border-color .25s;
+    }
+    .vyzva-card:hover { transform: translateY(-4px); border-color: rgba(245,197,24,.3); }
+    .vyzva-card .icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+    .vyzva-card h4 { font-size: 1rem; font-weight: 700; color: var(--solar); margin-bottom: .6rem; }
+    .vyzva-card p { font-size: .88rem; color: var(--dust); line-height: 1.7; }
+    .vyzva-hashtag {
+      display: inline-block;
+      margin-top: .8rem;
+      font-size: .75rem; font-weight: 700; letter-spacing: 1px;
+      color: var(--fuchsia); background: rgba(238,60,149,.1);
+      padding: .2rem .7rem; border-radius: 100px;
+    }
+
+    /* ─── GENERÁTOR ─── */
+    #generator { background: var(--night); }
+    .generator-banner {
+      margin-top: 3rem;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 24px;
+      padding: 2.5rem 3rem;
+      display: flex; align-items: center; gap: 3rem;
+      transition: border-color .3s;
+    }
+    .generator-banner:hover { border-color: rgba(245,197,24,.3); }
+    .generator-preview {
+      flex-shrink: 0;
+      width: 200px; height: 120px;
+      border-radius: 14px;
+      background: rgba(245,197,24,.06);
+      border: 1px solid rgba(245,197,24,.15);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .generator-preview-d {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 6rem; color: rgba(245,197,24,.15); line-height: 1;
+      position: absolute;
+    }
+    .generator-preview-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem; color: var(--solar);
+      letter-spacing: 2px; z-index: 1; text-align: center;
+      line-height: 1.2;
+    }
+    .generator-info h4 {
+      font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: .5rem;
+    }
+    .generator-info p { font-size: .9rem; color: var(--dust); line-height: 1.7; margin-bottom: 1.2rem; }
+
+    /* ─── PARTNEŘI ─── */
+    #partneri {
+      background: rgba(255,255,255,.02);
+      border-top: 1px solid rgba(255,255,255,.05);
+    }
+    .partners-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .partner-card {
+      padding: 2rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+      transition: border-color .3s;
+    }
+    .partner-card:hover { border-color: rgba(245,197,24,.3); }
+    .partner-logo {
+      width: 56px; height: 56px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; margin-bottom: 1.2rem;
+    }
+    .partner-card h4 { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: .3rem; }
+    .partner-card .tag {
+      display: inline-block; font-size: .65rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: .2rem .7rem; border-radius: 100px; margin-bottom: .8rem;
+    }
+    .tag-confirmed { background: rgba(42,157,143,.15); color: var(--meadow); }
+    .partner-card p { font-size: .88rem; color: var(--dust); line-height: 1.7; }
+
+    /* ─── HONZIKOVIC CESTA LINK ─── */
+    #hc-link {
+      background: var(--solar);
+      padding: 4rem 2rem;
+    }
+    .hc-link-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .hc-link-left h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      color: var(--night); letter-spacing: 2px; line-height: 1;
+      margin-bottom: .5rem;
+    }
+    .hc-link-left p { font-size: .95rem; color: rgba(38,64,64,.7); line-height: 1.6; max-width: 500px; }
+    .btn-dark { background: var(--night); color: var(--solar); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #1a2f2f;
+      border-top: 1px solid rgba(255,255,255,.06);
+      padding: 3rem 2rem;
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .footer-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem; color: var(--solar); letter-spacing: 3px;
+    }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; flex-wrap: wrap; }
+    .footer-links a { font-size: .82rem; color: var(--dust); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--solar); }
+    .footer-meta { font-size: .75rem; color: rgba(255,255,255,.2); }
+    .footer-meta a { color: var(--meadow); text-decoration: none; }
+
+    /* ─── QUOTE BLOCK ─── */
+    .quote-block {
+      padding: 5rem 2rem;
+      text-align: center;
+      background: var(--night);
+    }
+    .quote-inner { max-width: 700px; margin: 0 auto; }
+    .quote-text {
+      font-family: 'Kohymaaa', cursive;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      color: var(--sage);
+      line-height: 1.4; margin-bottom: 1rem;
+    }
+    .quote-attr { font-size: .8rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,.2); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .counter-grid { grid-template-columns: repeat(2, 1fr); }
+      .co-je-grid { grid-template-columns: 1fr; }
+      .d-visual { aspect-ratio: 1; max-width: 380px; margin: 2rem auto 0; }
+      .steps-grid { grid-template-columns: repeat(2, 1fr); }
+      .fundraising-card { grid-template-columns: 1fr; }
+      .vyzva-grid { grid-template-columns: 1fr; }
+      .partners-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      #navbar { left: .8rem; right: .8rem; padding: 0 1.2rem; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .generator-banner { flex-direction: column; text-align: center; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .nav-mobile-label { display: block; }
+      .hc-link-inner { justify-content: center; text-align: center; }
+    }
+
+    /* ─── SCROLL HINT ─── */
+    .scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      z-index: 1; display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      color: var(--fuchsia); font-size: .65rem; letter-spacing: 3px; text-transform: uppercase;
+    }
+    .scroll-arrow {
+      width: 20px; height: 20px;
+      border-right: 2px solid var(--fuchsia); border-bottom: 2px solid var(--fuchsia);
+      transform: rotate(45deg);
+      animation: bounce .9s infinite alternate;
+    }
+    @keyframes bounce { from { transform: rotate(45deg) translateY(-3px); } to { transform: rotate(45deg) translateY(3px); } }
+
+    /* ─── COUNTDOWN ─── */
+    #countdown-strava {
+      background: var(--night);
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      padding: 3.5rem 2rem;
+    }
+    .cs-grid {
+      max-width: 1100px; margin: 0 auto;
+    }
+    /* Countdown block */
+    .cd-block {
+      background: rgba(238,60,149,.06);
+      border: 1px solid rgba(238,60,149,.25);
+      border-radius: 20px;
+      padding: 2rem;
+    }
+    .cd-label {
+      font-size: .65rem; font-weight: 700; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--solar);
+      display: flex; align-items: center; gap: .6rem;
+      margin-bottom: 1.5rem;
+    }
+    .cd-label::before {
+      content: ''; width: 7px; height: 7px; border-radius: 50%;
+      background: var(--fuchsia); flex-shrink: 0;
+      animation: blink 1s infinite;
+    }
+    .cd-units { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+    .cd-unit {
+      flex: 1; min-width: 60px; text-align: center;
+      background: rgba(255,255,255,.05); border-radius: 12px; padding: 1rem .5rem;
+    }
+    .cd-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1; color: var(--solar); letter-spacing: 2px;
+      display: block;
+    }
+    .cd-lbl {
+      font-size: .6rem; color: var(--dust);
+      letter-spacing: 2px; text-transform: uppercase; margin-top: .3rem;
+    }
+    .cd-date {
+      font-family: 'Kohymaaa', cursive;
+      font-size: 1.6rem; color: var(--sage); text-align: center;
+    }
+    /* Live stats (po startu) */
+    .stats-live { display: none; }
+    .stats-live .cd-num { font-size: clamp(1.6rem, 3vw, 2.6rem); }
+    .stat-of { font-size: .45em; opacity: .5; vertical-align: middle; }
+    .stats-progress { margin-top: 1rem; }
+    .stats-progress-bar { height: 6px; background: rgba(255,255,255,.08); border-radius: 100px; overflow: hidden; margin-bottom: .4rem; }
+    .stats-progress-fill { height: 100%; background: linear-gradient(90deg, var(--fuchsia), var(--solar)); border-radius: 100px; transition: width 1.5s ease; }
+    .stats-last { margin-top: .75rem; font-size: .85rem; color: var(--sage); }
+    .stats-last strong { color: #fff; }
+    /* Strava widget */
+    .strava-widget {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 20px;
+      padding: 1.75rem;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; gap: .8rem;
+      max-width: 100%;
+    }
+    .strava-icon { font-size: 2.5rem; }
+    .strava-widget h4 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem; letter-spacing: 2px; color: #fff;
+    }
+    .strava-stats-row { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .strava-stat { font-size: .85rem; color: var(--solar); }
+    .strava-divider { width: 100%; height: 1px; background: rgba(255,255,255,.08); }
+    .strava-30d { font-size: .78rem; color: var(--dust); }
+    .strava-30d strong { color: var(--sage); }
+
+    /* ─── STATISTICS COUNTER ─── */
+    #counter {
+      background: rgba(245,197,24,.04);
+      border-top: 1px solid rgba(245,197,24,.1);
+      border-bottom: 1px solid rgba(245,197,24,.1);
+      padding: 3rem 2rem;
+    }
+    .counter-grid {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 2rem; text-align: center;
+    }
+    .counter-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      line-height: 1; color: var(--solar);
+      display: block;
+    }
+    .counter-num.inactive { color: rgba(255,255,255,.18); }
+    .counter-label {
+      font-size: .7rem; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--dust); margin-top: .3rem;
+    }
+    .counter-bar-wrap {
+      width: 80%; margin: .8rem auto 0;
+      height: 3px; background: rgba(255,255,255,.08);
+      border-radius: 100px; overflow: hidden;
+    }
+    .counter-bar { height: 100%; background: var(--solar); border-radius: 100px; transition: width 1s ease; }
+
+    @media (max-width: 860px) {
+      .cs-grid { grid-template-columns: 1fr; }
+      .counter-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  #dmapchart { width: 100%; height: 520px; border-radius: 16px; overflow: hidden; }
+
+  /* ── Denik grid ── */
+  .denik-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+  .denik-card:hover { transform: translateY(-4px); }
+  .denik-date { font-size: .7rem; color: var(--dust); letter-spacing: 2px; text-transform: uppercase; margin-bottom: .5rem; }
+  .denik-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 1px; margin-bottom: .5rem; }
+  .denik-excerpt { font-size: .85rem; color: var(--sage); line-height: 1.6; }
+
+  /* ── Kontakt ── */
+  .kontakt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 2.5rem; }
+  .kontakt-info { color: var(--sage); }
+  .kontakt-info h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 2px; color: #fff; margin-bottom: .5rem; }
+  .kontakt-info p { font-size: .9rem; line-height: 1.8; margin-bottom: 1rem; }
+  .kontakt-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: .4rem; }
+  .form-group label { font-size: .75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--dust); }
+  .form-group input, .form-group textarea {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+    border-radius: 10px; padding: .85rem 1rem; color: #fff; font-family: 'Jost', sans-serif;
+    font-size: .9rem; transition: border-color .2s; resize: vertical;
+  }
+  .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--solar); }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: var(--dust); }
+  .form-submit {
+    background: var(--solar); color: var(--night); border: none;
+    padding: .9rem 2rem; border-radius: 100px; font-family: 'Jost', sans-serif;
+    font-weight: 700; font-size: .9rem; cursor: pointer; transition: transform .2s, box-shadow .2s;
+    align-self: flex-start;
+  }
+  .form-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,197,24,.3); }
+  @media (max-width: 640px) { .kontakt-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  </style>
+  <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/geodata/czechiaHigh.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- NAVIGACE -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">
+      <span class="nav-logo-d">#D352</span>
+      <span class="nav-logo-text">352 D-obcí<br>na Rekole</span>
+    </a>
+    <ul class="nav-links">
+      <li class="nav-mobile-label">352 D-obcí na Rekole</li>
+      <li><a href="#co-je">O projektu</a></li>
+      <li><a href="statistiky.html">Statistiky</a></li>
+      <li><a href="#mapa">Mapa</a></li>
+      <li><a href="#fundraising">Fundraising</a></li>
+      <li style="margin-left:auto;"><a href="d-vyzvy.html" class="nav-cta">Přidej se</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+    <div class="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <!-- MANIFESTO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-noise"></div>
+    <div class="hero-d-bg">D</div>
+    <div class="hero-inner">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Start: 23. června 2026 &nbsp;·&nbsp; 352 obcí &nbsp;·&nbsp; Na Rekole
+      </div>
+      <h1 class="hero-title">
+        <span class="d">#D352</span>
+      </h1>
+      <div class="hero-subtitle">Projet 352 <span style="color:var(--solar);">D</span>-Obcí... <span style="color:var(--fuchsia);">na Rekole.</span></div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1rem,2vw,1.35rem);letter-spacing:2px;line-height:1.45;margin:1.25rem 0 1.5rem;">
+        <div><span style="color:rgba(255,255,255,.55);">Je<span style="color:var(--solar);">d</span>no kolo,</span> <span style="color:#fff;">352 míst.</span></div>
+        <div><span style="color:rgba(255,255,255,.55);">Je<span style="color:var(--solar);">d</span>no léto,</span> <span style="color:#fff;">90 dní.</span></div>
+        <div><span style="color:rgba(255,255,255,.55);">Je<span style="color:var(--solar);">d</span>na duše,</span> <span style="color:#fff;">na dvou duších.</span></div>
+        <div><span style="color:rgba(255,255,255,.55);">Je<span style="color:var(--solar);">d</span>na cesta,</span> <span style="color:#fff;">tisíce příběhů.</span></div>
+        <div><span style="color:rgba(255,255,255,.55);">Je<span style="color:var(--solar);">d</span>na země,</span> <span style="color:#fff;">spousty krás.</span></div>
+        <div><span style="color:var(--fuchsia);">Je<span style="color:var(--fuchsia);">d</span>en život,</span> <span style="color:var(--solar);">kolik času?</span></div>
+      </div>
+      <p style="font-family:'Kohymaaa',cursive;font-size:clamp(2.2rem,6vw,3.8rem);color:var(--sage);line-height:1.4;margin-bottom:1.2rem;position:relative;z-index:1;">Můžu dokud žiju.<br>Žiju dokud můžu.</p>
+      <a href="https://honzikovic-cesta.cz" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.7rem;margin-bottom:2.5rem;text-decoration:none;position:relative;z-index:1;">
+        <div style="width:32px;height:32px;border-radius:50%;overflow:hidden;border:1.5px solid rgba(245,197,24,.5);flex-shrink:0;">
+          <img src="Fotky/8E5695DA-9545-40A9-9EA1-CE93150999E6.jpg" style="width:100%;height:100%;object-fit:cover;object-position:28% 18%;" alt="Jan Kohoutek">
+        </div>
+        <span style="font-size:.82rem;color:rgba(255,255,255,.55);transition:color .2s;" onmouseover="this.style.color='rgba(255,255,255,.9)'" onmouseout="this.style.color='rgba(255,255,255,.55)'">— Jan Kohoutek, cestovatel a cyklista</span>
+      </a>
+      <div class="hero-ctas">
+        <a href="#fundraising" class="btn btn-fuchsia">🤍 Přispět na paliativu</a>
+        <a href="#mapa" class="btn btn-solar">Sledovat mapu</a>
+        <a href="#co-je" class="btn btn-outline">Více o projektu</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <section id="countdown-strava">
+    <div class="cs-grid">
+      <div class="cd-block">
+        <!-- Odpočet (před 16. 6. 2026) -->
+        <div id="cdBlock">
+          <div class="cd-label">Startujeme za</div>
+          <div class="cd-units">
+            <div class="cd-unit"><span class="cd-num" id="cdDays">--</span><div class="cd-lbl">Dní</div></div>
+            <div class="cd-unit"><span class="cd-num" id="cdHours">--</span><div class="cd-lbl">Hodin</div></div>
+            <div class="cd-unit"><span class="cd-num" id="cdMinutes">--</span><div class="cd-lbl">Minut</div></div>
+            <div class="cd-unit"><span class="cd-num" id="cdSeconds">--</span><div class="cd-lbl">Sekund</div></div>
+          </div>
+          <div class="cd-date" style="font-family:'Kohymaaa',cursive;font-size:2.2rem;letter-spacing:0;">📅 Start: 23. června 2026</div>
+        </div>
+        <!-- Live statistiky (po 16. 6. 2026) -->
+        <div id="statsLive" class="stats-live">
+          <div class="cd-label">🚴 Jedeme! · Live statistiky</div>
+          <div class="cd-units">
+            <div class="cd-unit">
+              <span class="cd-num" id="statVillages">0<span class="stat-of">/352</span></span>
+              <div class="cd-lbl">obcí</div>
+            </div>
+            <div class="cd-unit">
+              <span class="cd-num" id="statDays">0</span>
+              <div class="cd-lbl">dní na cestě</div>
+            </div>
+            <div class="cd-unit">
+              <span class="cd-num" id="statKm">0</span>
+              <div class="cd-lbl">km ujetých</div>
+            </div>
+            <div class="cd-unit">
+              <span class="cd-num" id="statTime">0:00</span>
+              <div class="cd-lbl">h na kole</div>
+            </div>
+          </div>
+          <div class="stats-progress">
+            <div class="stats-progress-bar">
+              <div class="stats-progress-fill" id="statProgressFill" style="width:0%"></div>
+            </div>
+            <div style="font-size:.78rem;color:var(--sage);margin-top:.3rem;">
+              <strong id="statProgressCount" style="color:var(--solar);">0</strong> / 352 obcí dokončeno
+            </div>
+          </div>
+          <div class="stats-last">📍 <strong>Poslední obec:</strong> <span id="statLastVillage">—</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CO JE D352 -->
+  <section id="co-je" class="section" style="padding-bottom:2rem;">
+    <div class="container">
+      <div class="section-label">O projektu</div>
+      <h2 class="section-title"><span class="d">D</span> jako definice<br>celého výletu</h2>
+      <div class="divider"></div>
+
+      <p style="font-size:1rem;color:var(--dust);line-height:2;margin:2.5rem 0 3rem;max-width:680px;">
+        D352 je trochu blbý nápad.<br>
+        A přesně proto dává smysl.<br><br>
+        Projet všechny české obce, jejichž název začíná písmenem D. Na Rekole.<br>
+        Na kole, které vozí lidi do práce, pro rohlíky nebo z hospody domů. Ne přes republiku.<br><br>
+        Jenže o to jde.<br>
+        Nechci objet Česko jako výkon.<br>
+        Těžké kolo je způsob, jak na cestě zpomalit.<br>
+        Jet pomalu. Mít čas na to vnímat své prostředí.<br>
+        Chci ho projet jako rozhovor. S lidmi podél cesty i sám se sebou.<br><br>
+        Obec po obci. Cedule po ceduli. Dobrý den po dobrém dni.<br>
+        Přes návsi, zastávky, kopce, kafe, déšť, smích, únavu a lidi, které bych jinak nikdy nepotkal.<br><br>
+        Obce. Lidi. Detaily. Rozhovory. I ticho mezi nimi.<br><br>
+        A někde mezi tím vším si připomínat, že život se nemá odkládat.<br>
+        <em style="color:var(--solar);font-style:normal;">Můžu, dokud žiju. Žiju, dokud můžu.</em>
+      </p>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;">
+        <div class="d-fact">
+          <div class="d-fact-icon">🚲</div>
+          <div class="d-fact-text">
+            <h4>352 obcí na D</h4>
+            <p>V Česku je 352 obcí, které začínají na D. Tak je projedu všechny. Ne proto, že je to nejrychlejší trasa. Ale protože je to dobrá záminka poznat vlastní zemi.</p>
+          </div>
+        </div>
+        <div class="d-fact">
+          <div class="d-fact-icon">🩷</div>
+          <div class="d-fact-text">
+            <h4>Na Rekole</h4>
+            <p>Městské kolo a možnost zpomalit. Vnímat své prostředí.</p>
+          </div>
+        </div>
+        <div class="d-fact">
+          <div class="d-fact-icon">🕯️</div>
+          <div class="d-fact-text">
+            <h4>Pro důstojnost</h4>
+            <p><span class="d">D</span> jako Domestici. <span class="d">D</span> jako domov. <span class="d">D</span> jako důstojnost. Cesta podporuje paliativní péči v Česku. Ne smutně, ne pateticky. Lidsky. Jako další součást příběhu.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- MAPA -->
+  <section id="mapa" class="section" style="padding-top:2rem;padding-bottom:2rem;">
+    <div class="container">
+      <div class="section-label">Interaktivní mapa</div>
+      <h2 class="section-title">Kde je?</h2>
+      <div class="divider"></div>
+      <p class="body-text">Živá mapa všech 352 D-obcí. Šedé čekají, zlaté jsou za námi. Na růžové tečce právě jedu na kole.</p>
+      <div id="dmapchart"></div>
+      <div class="map-legend" style="display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap;">
+        <div class="map-legend-item"><div class="map-dot waiting"></div> Čeká na návštěvu</div>
+        <div class="map-legend-item"><div class="map-dot done"></div> Navštíveno</div>
+        <div class="map-legend-item"><div class="map-dot live"></div> Honza je tady</div>
+        <div class="map-legend-item"><div class="map-dot contributed"></div> Navštíveno a vesnice přispěla do sbírky</div>
+      </div>
+      <!-- Strava widget -->
+      <div class="strava-widget" id="stravaWidget" style="margin-top:2rem;width:100%;max-width:100%;flex-direction:row;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1.5rem;text-align:left;">
+        <div class="strava-icon">🚴</div>
+        <h4>POSLEDNÍ AKTIVITA</h4>
+        <p id="stravaName" style="font-weight:600;color:#fff;font-size:.92rem;">—</p>
+        <div class="strava-stats-row">
+          <span class="strava-stat">📏 <strong id="stravaKm">—</strong> km</span>
+          <span class="strava-stat">⛰ <strong id="stravaElev">—</strong> m</span>
+          <span class="strava-stat">⏱ <strong id="stravaTime">—</strong></span>
+        </div>
+        <p id="stravaDate" style="font-size:.75rem;color:var(--dust);">—</p>
+        <div class="strava-divider"></div>
+        <div class="strava-30d">Posledních 30 dní: <strong id="stravaTotal30km">—</strong> km · <strong id="stravaTotal30rides">—</strong> jízd</div>
+        <a href="https://www.strava.com/athletes/158217101" target="_blank" class="btn btn-outline" style="font-size:.8rem;margin-top:.4rem;width:100%;justify-content:center;">Sledovat na Stravě →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE STATISTICS -->
+  <div class="section-label" style="text-align:center;padding:2rem 0 .5rem;letter-spacing:3px;font-size:.72rem;color:var(--dust);">Statistika &nbsp;·&nbsp; <a href="statistiky.html" style="color:var(--solar);text-decoration:none;font-weight:700;">Více ze statistiky →</a></div>
+  <section id="counter">
+    <div id="counterPreNote" style="text-align:center;padding:0 2rem 1.25rem;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--dust);">Live data startují &nbsp;·&nbsp; <strong style="color:var(--solar);">23. 6. 2026</strong></div>
+    <div class="counter-grid">
+      <div class="counter-item">
+        <span class="counter-num inactive" id="cnt-obce">0<span style="font-size:.45em;opacity:.45;">/352</span></span>
+        <div class="counter-label">Obcí navštíveno</div>
+        <div class="counter-bar-wrap">
+          <div class="counter-bar" id="bar-obce" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="counter-item">
+        <span class="counter-num inactive" id="cnt-km">0</span>
+        <div class="counter-label">Km na kole</div>
+        <div class="counter-bar-wrap">
+          <div class="counter-bar" id="bar-km" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="counter-item">
+        <span class="counter-num inactive" id="cnt-kc">0 Kč</span>
+        <div class="counter-label">Vybráno pro paliativu</div>
+        <div class="counter-bar-wrap">
+          <div class="counter-bar" id="bar-kc" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="counter-item">
+        <span class="counter-num" style="color:rgba(255,255,255,.25);">352</span>
+        <div class="counter-label">Obcí celkem</div>
+        <div class="counter-bar-wrap">
+          <div class="counter-bar" style="width:100%;background:rgba(255,255,255,.08)"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JAK SE ZAPOJIT -->
+  <style>
+    .zapojit-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:2.5rem; }
+    .zapojit-card { display:flex; flex-direction:column; gap:1rem; padding:2rem 1.6rem; border-radius:20px; text-decoration:none; transition:transform .25s,border-color .25s; height:100%; box-sizing:border-box; }
+    .zapojit-grid { align-items: stretch; }
+    .zapojit-card:hover { transform:translateY(-4px); }
+    .zk-icon { font-size:2.2rem; }
+    .zk-title { font-family:'Bebas Neue',sans-serif; font-size:1.3rem; letter-spacing:1px; color:#fff; margin-bottom:.3rem; }
+    .zk-text { font-size:.88rem; color:var(--dust); line-height:1.65; }
+    .zk-cta { font-size:.75rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-top:auto; padding:.45rem 1.2rem; border-radius:100px; border:1.5px solid currentColor; display:inline-block; align-self:flex-start; transition:background .2s, color .2s; }
+    .zapojit-card.zk-pink { background:rgba(238,60,149,.06); border:1px solid rgba(238,60,149,.2); }
+    .zapojit-card.zk-pink:hover { border-color:rgba(238,60,149,.5); }
+    .zapojit-card.zk-pink .zk-cta { color:var(--fuchsia); }
+    .zapojit-card.zk-teal { background:rgba(42,157,143,.06); border:1px solid rgba(42,157,143,.2); }
+    .zapojit-card.zk-teal:hover { border-color:rgba(42,157,143,.5); }
+    .zapojit-card.zk-teal .zk-cta { color:var(--meadow); }
+    .zapojit-card.zk-gold { background:rgba(245,197,24,.06); border:1px solid rgba(245,197,24,.2); }
+    .zapojit-card.zk-gold:hover { border-color:rgba(245,197,24,.5); }
+    .zapojit-card.zk-gold .zk-cta { color:var(--solar); }
+    @media (max-width:640px) { .zapojit-grid { grid-template-columns:1fr; } }
+  </style>
+  <section id="zapojit-se" style="padding:4rem 2rem;background:rgba(255,255,255,.015);border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05);">
+    <div class="container">
+      <div class="section-label">Tvůj vstup</div>
+      <h2 class="section-title">Jak se zapojit do <span class="d">D</span>352</h2>
+      <div class="divider"></div>
+      <div class="zapojit-grid">
+        <a href="#fundraising" class="zapojit-card zk-pink">
+          <span class="zk-icon">🤍</span>
+          <div>
+            <div style="display:inline-flex;align-items:center;gap:.4rem;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--fuchsia);margin-bottom:.6rem;">
+              <span style="width:6px;height:6px;border-radius:50%;background:var(--fuchsia);flex-shrink:0;animation:blink 1s infinite;display:inline-block;"></span>
+              Sbírka startuje 23. června
+            </div>
+            <div class="zk-title">Přispěj na paliativu</div>
+            <div class="zk-text">Každá navštívená obec = 1 000 Kč pro Domestici. Cíl: 352 tisíc korun na podporu paliativní péče v Česku.</div>
+          </div>
+          <span class="zk-cta">Přispět →</span>
+        </a>
+        <a href="#mapa" class="zapojit-card zk-teal">
+          <span class="zk-icon">🗺️</span>
+          <div>
+            <div class="zk-title">Sleduj živou mapu</div>
+            <div class="zk-text">352 teček čeká. Po průjezdu každá zlatě zazáří. Klikni na obec a přečti příběh z cesty.</div>
+          </div>
+          <span class="zk-cta">Na mapu →</span>
+        </a>
+        <a href="#d-vyzva" class="zapojit-card zk-gold">
+          <span class="zk-icon">🎲</span>
+          <div>
+            <div class="zk-title">Přidej se k jízdě i ty.</div>
+            <div class="zk-text">
+              <span style="display:block;margin-bottom:.5rem;"><strong style="color:#fff;">🚲 Fyzicky</strong> — když mě doženeš na kole, pojeď se mnou.</span>
+              <span style="display:block;"><strong style="color:#fff;">📲 Virtuálně</strong> — plň D-výzvy, které budu odkrývat během cesty — hledání kartiček, sdílení návštěvy D-obce a další.</span>
+            </div>
+          </div>
+          <span class="zk-cta">Na výzvy →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+
+  <!-- JAK TO FUNGUJE -->
+  <section id="jak-to-funguje" class="section" style="padding-top:2rem;">
+    <div class="container">
+      <div class="section-label">Jak se přidat</div>
+      <h2 class="section-title">Jak se přidat</h2>
+      <div class="divider"></div>
+      <div class="steps-grid" style="grid-template-columns:repeat(3,1fr);">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h4>Šedé body čekají</h4>
+          <p>Na začátku je mapa plná šedých teček. 352 obcí. 352 příběhů. Všechno teprve čeká.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h4>Živá GPS tečka</h4>
+          <p>Sleduj kde Honza právě je. Živá růžová tečka na mapě ukazuje jeho polohu v reálném čase.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h4>Obec se rozsvítí</h4>
+          <p>Po průjezdu nebo zastavení v obci zlatě zazáří. Příběh se odemkne. Pokud přispěje sama obec, dostane hvězdičku a speciální certifikát.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <h4>Klikni a čti</h4>
+          <p>Každá rozsvícená obec má svůj příběh, vtipný fakt a fotku z cesty. Klikni a objev.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">05</div>
+          <h4>Přispěj</h4>
+          <p>Příspěvkem podpoříš Domestici. Dle výše příspěvku odemkneš D-výzvy, soukromou skupinu nebo materiální dar.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">06</div>
+          <h4>Přidej se</h4>
+          <p>Přidej se fyzicky na kole, nebo plň D-výzvy, které budu odkrývat během cesty.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FUNDRAISING -->
+  <section id="fundraising" class="section">
+    <div class="container">
+      <div class="section-label">Fundraising</div>
+      <h2 class="section-title">352 tisíc pro<br><span class="d">Domestiky</span></h2>
+      <div class="divider"></div>
+      <div class="fundraising-card">
+        <div class="fundraising-left">
+          <h3><span>1 obec</span> = 1 000 Kč</h3>
+          <p>Za každou obec, kterou projedu, chci vybrat alespoň tisíc korun do sbírky pro neziskovou organizaci <strong>Domestici</strong>. Organizaci, která zvyšuje povědomí o paliativní péči v Česku.<br><br>
+          Písmeno D není náhoda — D jako Domestici, D jako Důstojnost, D jako péče o druhé. Celé léto příběhů, celé léto sbírky.</p>
+        </div>
+        <div class="fundraising-right">
+          <div class="fundraising-progress">
+            <div class="fp-top">
+              <span class="fp-amount" id="fp-amount">0 Kč</span>
+              <span class="fp-goal">cíl: 352 000 Kč</span>
+            </div>
+            <div class="fp-bar-wrap">
+              <div class="fp-bar" id="fp-bar"></div>
+            </div>
+            <div class="fp-label" id="fp-label">Sbírka startuje v červnu 2026</div>
+          </div>
+          <a href="https://www.domestici.cz" target="_blank" rel="noopener" class="domestici-info" style="text-decoration:none;cursor:pointer;transition:border-color .3s;" onmouseover="this.style.borderColor='rgba(238,60,149,.4)'" onmouseout="this.style.borderColor=''">
+            <div class="domestici-icon" style="background:transparent;padding:0;overflow:hidden;">
+              <img src="partners/domestici-om.png" alt="Domestici" style="width:56px;height:auto;display:block;">
+            </div>
+            <div class="domestici-text">
+              <strong>Domestici.cz →</strong>
+              Organizace, která ukazuje, že péče o druhé je přirozená součást lidství. Celá logistika sbírky běží přes ně.
+            </div>
+          </a>
+          <a href="https://domestici.cz" target="_blank" class="btn btn-fuchsia" style="margin-top:1.2rem;width:100%;justify-content:center;">
+            🤍 Přispět na Domestiky
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- D-VÝZVA -->
+  <section id="d-vyzva" class="section" style="padding-top:3rem;padding-bottom:3rem;">
+    <div class="container">
+      <div class="section-label">Herní mechaniky</div>
+      <h2 class="section-title"><span class="d">D</span>-výzvy</h2>
+      <div class="divider"></div>
+      <a href="d-vyzvy.html" style="display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;padding:2.5rem 3rem;background:rgba(245,197,24,.05);border:1px solid rgba(245,197,24,.2);border-radius:20px;text-decoration:none;transition:border-color .3s,transform .25s;" onmouseover="this.style.borderColor='rgba(245,197,24,.5)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(245,197,24,.2)';this.style.transform=''">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.5rem,3vw,2.5rem);letter-spacing:2px;color:#fff;margin-bottom:.4rem;">Zapoj se do výzev</div>
+          <p style="font-size:.95rem;color:var(--dust);line-height:1.7;max-width:520px;">Cyklo výzvy, hledání kartiček, soutěže v komentářích — každý si najde svůj vstup. Výzvy přibývají průběžně během cesty.</p>
+        </div>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2px;color:var(--solar);white-space:nowrap;flex-shrink:0;">Všechny výzvy →</span>
+      </a>
+    </div>
+  </section>
+
+
+  <!-- HONZIKOVIC CESTA LINK -->
+  <!-- PŘÍBĚHY Z CEST -->
+  <section id="pribehy" style="padding:3rem 2rem;">
+    <div class="container">
+      <div class="section-label">Zápisky z cesty</div>
+      <h2 class="section-title">Příběhy z <span class="d">cest</span></h2>
+      <div class="divider"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;">
+        <div style="padding:2rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:18px;">
+          <div style="font-size:1.5rem;margin-bottom:1rem;">📖</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:1px;color:rgba(255,255,255,.4);margin-bottom:.5rem;">Zápisky z D-obcí</div>
+          <p style="font-size:.85rem;color:var(--dust);line-height:1.65;">Příběhy přibydou průběžně po startu 23. 6. Sleduj <a href="https://www.instagram.com/honzikovic_cesta" target="_blank" style="color:var(--solar);text-decoration:none;">@honzikovic_cesta</a> na Instagramu.</p>
+        </div>
+        <a href="https://honzikovic-cesta.cz/denik.html" target="_blank" rel="noopener" style="padding:2rem;background:rgba(245,197,24,.06);border:1px solid rgba(245,197,24,.15);border-radius:18px;text-decoration:none;display:flex;flex-direction:column;gap:.6rem;transition:border-color .3s,transform .25s;" onmouseover="this.style.borderColor='rgba(245,197,24,.4)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(245,197,24,.15)';this.style.transform=''">
+          <div style="font-size:1.5rem;">✍️</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:1px;color:var(--solar);">Cestovní deník →</div>
+          <p style="font-size:.85rem;color:var(--dust);line-height:1.65;">Ázerbájdžán, cyklotúry, zápisky z cesty. Celý deník na Honzíkovic Cesta.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- KONTAKT -->
+  <section id="kontakt" class="section" style="background:var(--night);padding-bottom:3rem;">
+    <div class="container">
+      <div class="section-label">Kontaktuj a sdílej</div>
+      <h2 class="section-title" style="color:#fff;">Kontakt</h2>
+      <div class="divider"></div>
+      <div style="display:flex;align-items:flex-start;gap:1.75rem;padding:2rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;margin-bottom:1.5rem;flex-wrap:wrap;">
+        <div style="flex-shrink:0;width:90px;height:90px;border-radius:16px;overflow:hidden;border:2px solid rgba(245,197,24,.3);">
+          <img src="Fotky/8E5695DA-9545-40A9-9EA1-CE93150999E6.jpg" style="width:100%;height:100%;object-fit:cover;object-position:28% 18%;" alt="Jan Kohoutek">
+        </div>
+        <div style="flex:1;min-width:180px;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:2px;color:#fff;margin-bottom:.3rem;">Jan Kohoutek</div>
+          <div style="font-size:.78rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--solar);margin-bottom:.7rem;">Cestovatel · Cyklista</div>
+          <div style="font-size:.88rem;color:var(--dust);line-height:1.7;margin-bottom:1.2rem;">Projel Ázerbájdžán, teď projede D352. Celý příběh — odkud přišel, kam míří a proč — najdeš na Honzíkovic Cesta.</div>
+          <a href="https://honzikovic-cesta.cz" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(245,197,24,.12);border:1px solid rgba(245,197,24,.3);color:var(--solar);text-decoration:none;font-size:.78rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:.5rem 1.1rem;border-radius:100px;transition:background .2s;" onmouseover="this.style.background='rgba(245,197,24,.22)'" onmouseout="this.style.background='rgba(245,197,24,.12)'">honzikovic-cesta.cz →</a>
+        </div>
+      </div>
+      <a href="mailto:honzikovic.cesta@gmail.com" style="display:flex;align-items:center;gap:1.25rem;padding:1.75rem 2rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;text-decoration:none;transition:border-color .3s,transform .25s;margin-bottom:1.5rem;" onmouseover="this.style.borderColor='rgba(245,197,24,.4)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.transform=''">
+        <span style="font-size:1.6rem;flex-shrink:0;">✉️</span>
+        <div>
+          <div style="font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--solar);margin-bottom:.2rem;">E-mail</div>
+          <div style="font-size:.9rem;color:var(--solar);font-weight:600;">honzikovic.cesta@gmail.com</div>
+        </div>
+      </a>
+
+      <div style="padding:1.75rem 2rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;">
+        <div style="font-size:.65rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--solar);margin-bottom:1rem;">Sociální sítě</div>
+        <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;">
+          <a href="https://www.instagram.com/honzikovic_cesta" target="_blank" rel="noopener" title="Instagram" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:rgba(245,197,24,.12);border-radius:12px;color:var(--solar);text-decoration:none;font-size:1.1rem;transition:background .2s,color .2s;" onmouseover="this.style.background='rgba(245,197,24,.25)'" onmouseout="this.style.background='rgba(245,197,24,.12)'"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.facebook.com/jan.k.kohoutek/" target="_blank" rel="noopener" title="Facebook" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:rgba(245,197,24,.12);border-radius:12px;color:var(--solar);text-decoration:none;font-size:1.1rem;transition:background .2s,color .2s;" onmouseover="this.style.background='rgba(245,197,24,.25)'" onmouseout="this.style.background='rgba(245,197,24,.12)'"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.strava.com/athletes/158217101" target="_blank" rel="noopener" title="Strava" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:rgba(245,197,24,.12);border-radius:12px;color:var(--solar);text-decoration:none;font-size:1.1rem;transition:background .2s,color .2s;" onmouseover="this.style.background='rgba(245,197,24,.25)'" onmouseout="this.style.background='rgba(245,197,24,.12)'"><i class="fab fa-strava"></i></a>
+          <a href="https://www.youtube.com/@Honzikovic_cesta" target="_blank" rel="noopener" title="YouTube" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:rgba(245,197,24,.12);border-radius:12px;color:var(--solar);text-decoration:none;font-size:1.1rem;transition:background .2s,color .2s;" onmouseover="this.style.background='rgba(245,197,24,.25)'" onmouseout="this.style.background='rgba(245,197,24,.12)'"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNEŘI -->
+  <section id="partneri" style="background:var(--cream);padding:3rem 2rem;">
+    <div style="max-width:1100px;margin:0 auto;">
+      <div style="font-size:.65rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(38,64,64,.4);margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid rgba(38,64,64,.1);">Partneři</div>
+      <div style="display:flex;flex-wrap:wrap;gap:3rem;align-items:center;">
+        <a href="https://www.domestici.cz" target="_blank" rel="noopener" style="opacity:.7;transition:opacity .2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.7'"><img src="partners/domestici.png" alt="Domestici" style="height:28px;width:auto;display:block;mix-blend-mode:multiply;"></a>
+        <a href="https://www.rekola.cz" target="_blank" rel="noopener" style="opacity:.7;transition:opacity .2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.7'"><img src="partners/rekola.png" alt="Rekola" style="height:52px;width:auto;display:block;mix-blend-mode:multiply;"></a>
+        <a href="https://www.kolomotion.cz" target="_blank" rel="noopener" style="opacity:.7;transition:opacity .2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.7'"><img src="partners/kolomotion.png" alt="Kolomotion" style="height:28px;width:auto;display:block;mix-blend-mode:multiply;"></a>
+        <a href="https://nallu.cz" target="_blank" rel="noopener" style="opacity:.7;transition:opacity .2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.7'"><img src="partners/nallu.png" alt="Nallu" style="height:36px;width:auto;display:block;mix-blend-mode:multiply;"></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background:var(--solar);color:var(--night);padding:3.5rem 2rem 2rem;">
+
+    <!-- Logo + tagline uprostřed -->
+    <div style="text-align:center;margin-bottom:2.5rem;">
+      <div style="display:inline-flex;align-items:center;justify-content:center;width:140px;height:140px;background:var(--night);border-radius:28px;position:relative;overflow:hidden;margin-bottom:1rem;">
+        <div id="d-visual-map" style="position:absolute;inset:0;z-index:0;opacity:.18;pointer-events:none;border-radius:28px;overflow:hidden;"></div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:-1px;line-height:1;position:relative;z-index:1;">
+          <span style="color:var(--solar);">#D</span><span style="color:#fff;opacity:.85;">352</span>
+        </div>
+      </div>
+      <div style="font-family:'Kohymaaa',cursive;font-size:3.2rem;color:rgba(38,64,64,.55);line-height:1.1;">Nejde neexistuje.</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr auto;gap:3rem;max-width:960px;margin:0 auto 2.5rem;align-items:start;">
+
+      <!-- Vlevo: popis + socky -->
+      <div>
+        <p style="font-size:.88rem;color:rgba(38,64,64,.65);line-height:1.7;margin:0 0 1.4rem;max-width:300px;">Projet na kole všech 352 českých obcí na D. Dobrodružství, domov, důstojnost.</p>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+          <a href="https://www.instagram.com/honzikovic_cesta" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(38,64,64,.12);border-radius:8px;color:var(--night);text-decoration:none;font-size:.95rem;transition:background .2s;" onmouseover="this.style.background='rgba(38,64,64,.25)'" onmouseout="this.style.background='rgba(38,64,64,.12)'"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.facebook.com/jan.k.kohoutek/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(38,64,64,.12);border-radius:8px;color:var(--night);text-decoration:none;font-size:.95rem;transition:background .2s;" onmouseover="this.style.background='rgba(38,64,64,.25)'" onmouseout="this.style.background='rgba(38,64,64,.12)'"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.strava.com/athletes/158217101" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(38,64,64,.12);border-radius:8px;color:var(--night);text-decoration:none;font-size:.95rem;transition:background .2s;" onmouseover="this.style.background='rgba(38,64,64,.25)'" onmouseout="this.style.background='rgba(38,64,64,.12)'"><i class="fab fa-strava"></i></a>
+          <a href="https://www.youtube.com/@Honzikovic_cesta" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(38,64,64,.12);border-radius:8px;color:var(--night);text-decoration:none;font-size:.95rem;transition:background .2s;" onmouseover="this.style.background='rgba(38,64,64,.25)'" onmouseout="this.style.background='rgba(38,64,64,.12)'"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Vpravo: navigace -->
+      <div>
+        <div style="font-size:.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(38,64,64,.4);margin-bottom:1.2rem;">Projekt</div>
+        <nav style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem 2rem;">
+          <a href="#co-je" style="color:rgba(38,64,64,.7);text-decoration:none;font-size:.88rem;transition:color .2s;" onmouseover="this.style.color='#264040'" onmouseout="this.style.color='rgba(38,64,64,.7)'">O projektu</a>
+          <a href="#fundraising" style="color:rgba(38,64,64,.7);text-decoration:none;font-size:.88rem;transition:color .2s;" onmouseover="this.style.color='#264040'" onmouseout="this.style.color='rgba(38,64,64,.7)'">Fundraising</a>
+          <a href="statistiky.html" style="color:rgba(38,64,64,.7);text-decoration:none;font-size:.88rem;transition:color .2s;" onmouseover="this.style.color='#264040'" onmouseout="this.style.color='rgba(38,64,64,.7)'">Statistiky</a>
+          <a href="d-vyzvy.html" style="color:rgba(38,64,64,.7);text-decoration:none;font-size:.88rem;transition:color .2s;" onmouseover="this.style.color='#264040'" onmouseout="this.style.color='rgba(38,64,64,.7)'">D-výzvy</a>
+          <a href="#mapa" style="color:rgba(38,64,64,.7);text-decoration:none;font-size:.88rem;transition:color .2s;" onmouseover="this.style.color='#264040'" onmouseout="this.style.color='rgba(38,64,64,.7)'">Mapa</a>
+          <a href="#kontakt" style="color:rgba(38,64,64,.7);text-decoration:none;font-size:.88rem;transition:color .2s;" onmouseover="this.style.color='#264040'" onmouseout="this.style.color='rgba(38,64,64,.7)'">Kontakt</a>
+          <a href="media.html" style="color:rgba(38,64,64,.7);text-decoration:none;font-size:.88rem;transition:color .2s;grid-column:1/-1;margin-top:.25rem;border-top:1px solid rgba(38,64,64,.1);padding-top:.75rem;" onmouseover="this.style.color='#264040'" onmouseout="this.style.color='rgba(38,64,64,.7)'">Pro média a obce →</a>
+        </nav>
+      </div>
+
+    </div>
+
+    <!-- Dělicí linka + copyright -->
+    <hr style="border:none;border-top:1px solid rgba(38,64,64,.15);max-width:960px;margin:0 auto 1.5rem;">
+    <div style="max-width:960px;margin:0 auto;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(38,64,64,.4);">© 2026 Honza Kohoutek · <a href="https://honzikovic-cesta.cz" style="color:rgba(38,64,64,.4);text-decoration:none;" onmouseover="this.style.color='#264040'" onmouseout="this.style.color='rgba(38,64,64,.4)'">Honzíkovic Cesta</a> · #D352</div>
+
+  </footer>
+
+  <script>
+    /* ── Ruční data (Jan aktualizuje po startu) ── */
+    const liveStats = {
+      villages:    0,       // počet dokončených obcí
+      km:          0,       // celkem km
+      time:     "0:00",    // čas na kole formát h:mm
+      lastVillage: "—",    // název poslední navštívené obce
+      liveLat:  49.5626,   // živá GPS — aktualizuj zde! (nyní: Žďár nad Sázavou)
+      liveLon:  15.9390
+    };
+
+    /* ── Odpočítávač → po 16. 6. automaticky přepne na live statistiky ── */
+    const START_DATE = new Date("2026-06-23T00:00:00");
+
+    function updateCountdown() {
+      const now  = new Date();
+      const diff = START_DATE - now;
+
+      if (diff <= 0) {
+        // Po startu — skryj odpočet, zobraz statistiky
+        document.getElementById("cdBlock").style.display    = "none";
+        document.getElementById("statsLive").style.display  = "block";
+
+        const daysOnRoad = Math.max(0, Math.floor((now - START_DATE) / (1000 * 60 * 60 * 24)));
+        document.getElementById("statVillages").innerHTML      = liveStats.villages + '<span class="stat-of">/352</span>';
+        document.getElementById("statDays").textContent        = daysOnRoad;
+        document.getElementById("statKm").textContent          = liveStats.km;
+        document.getElementById("statTime").textContent        = liveStats.time;
+        document.getElementById("statLastVillage").textContent = liveStats.lastVillage;
+
+        const pctDone = (liveStats.villages / 352) * 100;
+        document.getElementById("statProgressFill").style.width = pctDone + '%';
+        document.getElementById("statProgressCount").textContent = liveStats.villages;
+        return;
+      }
+
+      const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours   = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById("cdDays").textContent    = String(days).padStart(2, "0");
+      document.getElementById("cdHours").textContent   = String(hours).padStart(2, "0");
+      document.getElementById("cdMinutes").textContent = String(minutes).padStart(2, "0");
+      document.getElementById("cdSeconds").textContent = String(seconds).padStart(2, "0");
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    /* ── Fundraising progress bar ── */
+    const targetAmount  = 352000;
+    // Automaticky: každá navštívená obec = 1 000 Kč
+    const currentAmount = liveStats.villages * 1000;
+    const fpPct = Math.min((currentAmount / targetAmount) * 100, 100);
+
+    document.getElementById('fp-amount').textContent = currentAmount.toLocaleString('cs-CZ') + ' Kč';
+
+    if (currentAmount > 0) {
+      document.getElementById('fp-label').textContent =
+        `${fpPct.toFixed(1)} % z cíle · zbývá ${(targetAmount - currentAmount).toLocaleString('cs-CZ')} Kč`;
+    } else {
+      document.getElementById('fp-label').textContent = 'Sbírka startuje 23. 6. 2026';
+    }
+
+    // Animace progress baru při scroll do viewportu
+    const fpBar = document.getElementById('fp-bar');
+    const fpObserver = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        fpBar.style.width = fpPct + '%';
+        fpObserver.disconnect();
+      }
+    }, { threshold: 0.3 });
+    fpObserver.observe(document.getElementById('fundraising'));
+
+    /* ── Countery (po startu) ── */
+    const START = new Date("2026-06-23T00:00:00");
+    if (new Date() >= START) {
+      const preNote = document.getElementById('counterPreNote');
+      if (preNote) preNote.style.display = 'none';
+    }
+    if (new Date() >= START && liveStats.villages > 0) {
+      const cObce = document.getElementById('cnt-obce');
+      cObce.innerHTML = liveStats.villages + '<span style="font-size:.45em;opacity:.45;">/352</span>';
+      cObce.classList.remove('inactive');
+      document.getElementById('bar-obce').style.width = ((liveStats.villages / 352) * 100) + '%';
+
+      const cKm = document.getElementById('cnt-km');
+      cKm.textContent = liveStats.km.toLocaleString('cs-CZ');
+      cKm.classList.remove('inactive');
+      document.getElementById('bar-km').style.width = Math.min((liveStats.km / 15000) * 100, 100) + '%';
+
+      const cKc = document.getElementById('cnt-kc');
+      cKc.textContent = currentAmount.toLocaleString('cs-CZ') + ' Kč';
+      cKc.classList.remove('inactive');
+      document.getElementById('bar-kc').style.width = fpPct + '%';
+    }
+
+    /* ── Strava widget ── */
+    fetch('strava-stats.json')
+      .then(r => r.json())
+      .then(d => {
+        const a = d.last_activity;
+        document.getElementById('stravaName').textContent = a.name;
+        document.getElementById('stravaKm').textContent   = a.distance_km.toFixed(1);
+        document.getElementById('stravaElev').textContent = a.elevation_m;
+        const h = Math.floor(a.moving_time_min / 60);
+        const m = a.moving_time_min % 60;
+        document.getElementById('stravaTime').textContent = h > 0 ? `${h}h ${m}min` : `${m} min`;
+        const date = new Date(a.date);
+        document.getElementById('stravaDate').textContent =
+          date.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric' });
+        document.getElementById('stravaTotal30km').textContent    = d.totals_30d.total_km.toFixed(0);
+        document.getElementById('stravaTotal30rides').textContent = d.totals_30d.rides;
+      })
+      .catch(() => {});
+
+    /* ── Hamburger menu ── */
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks  = document.querySelector('.nav-links');
+    hamburger?.addEventListener('click', () => {
+      const open = navLinks.style.display === 'flex';
+      navLinks.style.display        = open ? 'none' : 'flex';
+      navLinks.style.flexDirection  = 'column';
+      navLinks.style.position       = 'absolute';
+      navLinks.style.top            = '70px';
+      navLinks.style.right          = '1.5rem';
+      navLinks.style.background     = '#F5C518';
+      navLinks.style.padding        = '1rem 1.5rem';
+      navLinks.style.borderRadius   = '1rem';
+      navLinks.style.gap            = '1rem';
+    });
+  </script>
+
+
+<!-- ═══════════ GENERÁTOR WIDGET ═══════════ -->
+<style>
+  #gen-toggle {
+    position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 2000;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--solar); border: 2px solid var(--dust); cursor: pointer;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 20px rgba(245,197,24,.35);
+    transition: transform .2s, box-shadow .2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #gen-toggle:hover { transform: scale(1.1); box-shadow: 0 8px 28px rgba(245,197,24,.5); }
+  #gen-toggle .gen-label {
+    position: absolute; right: 64px; top: 50%; transform: translateY(-50%);
+    background: var(--night); color: var(--solar);
+    font-family: 'Jost', sans-serif; font-size: .72rem; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: .35rem .85rem; border-radius: 100px;
+    white-space: nowrap; pointer-events: none;
+    border: 1px solid rgba(245,197,24,.25);
+    animation: gen-float 3s ease-in-out infinite;
+  }
+  @keyframes gen-float {
+    0%,100% { transform: translateY(-50%) translateX(0); opacity: 1; }
+    50% { transform: translateY(calc(-50% - 5px)) translateX(-3px); opacity: .85; }
+  }
+  #gen-panel {
+    position: fixed; bottom: 5.5rem; right: 1.5rem; z-index: 1999;
+    width: 340px; height: 480px;
+    border-radius: 20px; overflow: hidden;
+    box-shadow: 0 16px 50px rgba(0,0,0,.45);
+    transform: scale(.9) translateY(20px);
+    opacity: 0; pointer-events: none;
+    transition: transform .25s ease, opacity .25s ease;
+    transform-origin: bottom right;
+  }
+  #gen-panel.open {
+    transform: scale(1) translateY(0);
+    opacity: 1; pointer-events: all;
+  }
+  #gen-panel iframe { width: 100%; height: 100%; border: none; display: block; }
+</style>
+
+<button id="gen-toggle" onclick="toggleGen()" title="Generátor D-obcí">
+  🎲
+  <span class="gen-label">projeď všechny D-obce →</span>
+</button>
+<div id="gen-panel">
+  <iframe src="generator-obci-d.html" loading="lazy"></iframe>
+</div>
+
+<script>
+  function toggleGen() {
+    document.getElementById('gen-panel').classList.toggle('open');
+  }
+</script>
+
+<script>
+  /* ── D-obce mapa ── */
+  (function() {
+    const dmRoot = am5.Root.new("dmapchart");
+    dmRoot.setThemes([am5themes_Animated.new(dmRoot)]);
+    const dmChart = dmRoot.container.children.push(
+      am5map.MapChart.new(dmRoot, {
+        panX: "translateX", panY: "translateY",
+        projection: am5map.geoMercator(),
+        minZoomLevel: 1, maxZoomLevel: 64,
+        homeGeoPoint: { longitude: 15.5, latitude: 49.8 },
+        homeZoomLevel: 1
+      })
+    );
+    dmChart.chartContainer.get("background").setAll({ fill: am5.color(0x1a2e2e), fillOpacity: 1 });
+    const dmPolygons = dmChart.series.push(
+      am5map.MapPolygonSeries.new(dmRoot, { geoJSON: am5geodata_czechiaHigh })
+    );
+    dmPolygons.mapPolygons.template.setAll({
+      fill: am5.color(0x3D6060), fillOpacity: 0.9,
+      stroke: am5.color(0x1a2e2e), strokeWidth: 0.5,
+    });
+    const dmPoints = dmChart.series.push(am5map.MapPointSeries.new(dmRoot, {
+      latitudeField: "lat", longitudeField: "lon"
+    }));
+    dmPoints.bullets.push(function() {
+      const circle = am5.Circle.new(dmRoot, {
+        radius: 4, fill: am5.color(0x4a6060), fillOpacity: 0.9,
+        stroke: am5.color(0xF5C518), strokeWidth: 0.8, strokeOpacity: 0.35,
+        tooltipText: "{name}", cursorOverStyle: "pointer"
+      });
+      circle.states.create("hover", { fill: am5.color(0xF5C518), radius: 6, fillOpacity: 1, strokeOpacity: 1 });
+      return am5.Bullet.new(dmRoot, { sprite: circle });
+    });
+    const dObce = [
+    {name: 'Dalečín', lat: 49.5915559, lon: 16.2404292},
+    {name: 'Daleké Dušníky', lat: 49.7275217, lon: 14.1865392},
+    {name: 'Dalešice', lat: 50.6817579, lon: 15.1845709},
+    {name: 'Dalešice', lat: 49.129026, lon: 16.0816581},
+    {name: 'Dalovice', lat: 50.4246134, lon: 14.8845277},
+    {name: 'Dalovice', lat: 50.2548093, lon: 12.8865178},
+    {name: 'Dambořice', lat: 49.0382834, lon: 16.917572},
+    {name: 'Damnice', lat: 48.920312, lon: 16.3741},
+    {name: 'Damníkov', lat: 49.870862, lon: 16.5609709},
+    {name: 'Daňkovice', lat: 49.6539822, lon: 16.1486064},
+    {name: 'Darkovice', lat: 49.9359191, lon: 18.2221271},
+    {name: 'Daskabát', lat: 49.5835872, lon: 17.4453455},
+    {name: 'Dasnice', lat: 50.1464536, lon: 12.5672264},
+    {name: 'Dasný', lat: 49.0192736, lon: 14.4068134},
+    {name: 'Dašice', lat: 50.0284447, lon: 15.91244},
+    {name: 'Davle', lat: 49.8921766, lon: 14.4003714},
+    {name: 'Deblín', lat: 49.3205381, lon: 16.3462457},
+    {name: 'Děčany', lat: 50.438594, lon: 13.9084663},
+    {name: 'Dačice', lat: 49.0830672, lon: 15.4284314},
+    {name: 'Děčín', lat: 50.7824196, lon: 14.2147221},
+    {name: 'Dědice', lat: 49.0296056, lon: 15.7289793},
+    {name: 'Dědová', lat: 49.7611033, lon: 15.9864641},
+    {name: 'Dehtáře', lat: 49.4860996, lon: 15.2752824},
+    {name: 'Děhylov', lat: 49.8693836, lon: 18.1633237},
+    {name: 'Děkanovice', lat: 49.6211004, lon: 15.1509521},
+    {name: 'Děkov', lat: 50.1711759, lon: 13.5543717},
+    {name: 'Děpoltovice', lat: 50.2944568, lon: 12.8140968},
+    {name: 'Desná', lat: 50.7455988, lon: 15.3101809},
+    {name: 'Desná', lat: 49.8075422, lon: 16.2240471},
+    {name: 'Dešenice', lat: 49.2742995, lon: 13.1709455},
+    {name: 'Dešná', lat: 48.9575732, lon: 15.5428248},
+    {name: 'Dešná', lat: 49.2666598, lon: 17.8464297},
+    {name: 'Dešov', lat: 48.9856084, lon: 15.7008992},
+    {name: 'Deštná', lat: 49.2651773, lon: 14.9238356},
+    {name: 'Deštná', lat: 49.6125536, lon: 16.5635535},
+    {name: 'Deštné v Orlických horách', lat: 50.3049142, lon: 16.3505997},
+    {name: 'Deštnice', lat: 50.2306311, lon: 13.6098035},
+    {name: 'Dětenice', lat: 50.3680722, lon: 15.1701828},
+    {name: 'Dětkovice', lat: 49.2726832, lon: 17.1442091},
+    {name: 'Dětkovice', lat: 49.4155003, lon: 17.0822567},
+    {name: 'Dětmarovice', lat: 49.8942584, lon: 18.4605013},
+    {name: 'Dětřichov', lat: 50.8950823, lon: 15.0371609},
+    {name: 'Dětřichov', lat: 49.7999719, lon: 16.5325958},
+    {name: 'Dětřichov nad Bystřicí', lat: 49.8343133, lon: 17.4015875},
+    {name: 'Dětřichov u Moravské Třebové', lat: 49.7875206, lon: 16.7101952},
+    {name: 'Dílce', lat: 50.4661655, lon: 15.3554732},
+    {name: 'Díly', lat: 49.4466468, lon: 12.7924869},
+    {name: 'Dírná', lat: 49.2428632, lon: 14.8447651},
+    {name: 'Diváky', lat: 48.9847787, lon: 16.7835587},
+    {name: 'Dívčí Hrad', lat: 50.2437649, lon: 17.6340751},
+    {name: 'Dívčí Kopy', lat: 49.2602796, lon: 15.0459045},
+    {name: 'Dívčice', lat: 49.1095672, lon: 14.3083099},
+    {name: 'Divec', lat: 50.2398168, lon: 15.9220837},
+    {name: 'Divišov', lat: 49.7885743, lon: 14.8756851},
+    {name: 'Dlažkovice', lat: 50.4655493, lon: 13.9649487},
+    {name: 'Dlažov', lat: 49.3657444, lon: 13.1663432},
+    {name: 'Dlouhá Brtnice', lat: 49.2360777, lon: 15.6051608},
+    {name: 'Dlouhá Lhota', lat: 50.4246797, lon: 15.0559432},
+    {name: 'Dlouhá Lhota', lat: 49.72114, lon: 14.1207868},
+    {name: 'Dlouhá Lhota', lat: 49.352282, lon: 14.7891557},
+    {name: 'Dlouhá Lhota', lat: 49.4286623, lon: 16.509833},
+    {name: 'Dlouhá Loučka', lat: 49.7008498, lon: 16.641605},
+    {name: 'Dlouhá Loučka', lat: 49.8160707, lon: 17.178642},
+    {name: 'Dlouhá Stráň', lat: 49.9599806, lon: 17.5008035},
+    {name: 'Dlouhá Třebová', lat: 49.9404, lon: 16.4232922},
+    {name: 'Dlouhá Ves', lat: 49.1945041, lon: 13.5056385},
+    {name: 'Dlouhá Ves', lat: 49.5786694, lon: 15.6745705},
+    {name: 'Dlouhé', lat: 49.5089805, lon: 16.1230431},
+    {name: 'Dlouhomilov', lat: 49.9068993, lon: 16.9913052},
+    {name: 'Dlouhoňovice', lat: 50.070198, lon: 16.4415402},
+    {name: 'Dlouhopolsko', lat: 50.1751733, lon: 15.3054784},
+    {name: 'Dlouhý Most', lat: 50.710673, lon: 15.0769449},
+    {name: 'Dlouhý Újezd', lat: 49.7682924, lon: 12.6284661},
+    {name: 'Dnešice', lat: 49.6048203, lon: 13.2645445},
+    {name: 'Dobelice', lat: 49.0168465, lon: 16.2779787},
+    {name: 'Dobev', lat: 49.2951763, lon: 14.0495304},
+    {name: 'Dobkovice', lat: 50.7148448, lon: 14.1931462},
+    {name: 'Dobrá', lat: 49.6738284, lon: 18.4139273},
+    {name: 'Dobrá Voda', lat: 49.358144, lon: 15.2700001},
+    {name: 'Dobrá Voda u Českých Budějovic', lat: 48.9680923, lon: 14.5246491},
+    {name: 'Dobrá Voda u Hořic', lat: 50.3483591, lon: 15.6026678},
+    {name: 'Dobrá Voda', lat: 49.393936, lon: 16.065068},
+    {name: 'Dobrá Voda u Pacova', lat: 49.4044897, lon: 15.027791},
+    {name: 'Dobratice', lat: 49.6603922, lon: 18.4922636},
+    {name: 'Dobrčice', lat: 49.4021301, lon: 17.4803065},
+    {name: 'Dobré', lat: 50.2697571, lon: 16.2637615},
+    {name: 'Dobré Pole', lat: 48.8260464, lon: 16.5355581},
+    {name: 'Dobrkovice', lat: 49.0937915, lon: 17.66923},
+    {name: 'Dobrná', lat: 50.7695417, lon: 14.293263},
+    {name: 'Dobročkovice', lat: 49.1629358, lon: 17.1089924},
+    {name: 'Dobročovice', lat: 50.0563187, lon: 14.6999088},
+    {name: 'Dobrohošť', lat: 49.0799944, lon: 15.4930161},
+    {name: 'Dobrochov', lat: 49.385862, lon: 17.1055658},
+    {name: 'Dobroměřice', lat: 50.3700911, lon: 13.7947324},
+    {name: 'Dobromilice', lat: 49.3573001, lon: 17.1385542},
+    {name: 'Dobronice u Bechyně', lat: 49.343441, lon: 14.4967481},
+    {name: 'Dobronín', lat: 49.4779398, lon: 15.649054},
+    {name: 'Dobroslavice', lat: 49.8803361, lon: 18.1409218},
+    {name: 'Dobroutov', lat: 49.4622416, lon: 15.7364863},
+    {name: 'Dobrovice', lat: 50.369326, lon: 14.9623322},
+    {name: 'Dobrovítov', lat: 49.7875329, lon: 15.3287123},
+    {name: 'Dobrovíz', lat: 50.1130584, lon: 14.2177331},
+    {name: 'Dobršín', lat: 49.2612918, lon: 13.5610472},
+    {name: 'Dobruška', lat: 50.2921062, lon: 16.1605457},
+    {name: 'Dobřany', lat: 49.6554407, lon: 13.2908386},
+    {name: 'Dobřany', lat: 50.3221237, lon: 16.2852925},
+    {name: 'Dobřejovice', lat: 49.9818075, lon: 14.5782861},
+    {name: 'Dobřeň', lat: 50.4794028, lon: 14.5567022},
+    {name: 'Dobřenice', lat: 50.1477218, lon: 15.6410411},
+    {name: 'Dobříč', lat: 50.0197961, lon: 14.2588505},
+    {name: 'Dobříč', lat: 49.8843272, lon: 13.468581},
+    {name: 'Dobřichov', lat: 50.0794861, lon: 15.0322383},
+    {name: 'Dobřichovice', lat: 49.9275312, lon: 14.2743416},
+    {name: 'Dobříkov', lat: 50.0025062, lon: 16.1338163},
+    {name: 'Dobříň', lat: 50.4376383, lon: 14.2936904},
+    {name: 'Dobřínsko', lat: 49.0522114, lon: 16.2616661},
+    {name: 'Dobříš', lat: 49.7813749, lon: 14.1704372},
+    {name: 'Dobřív', lat: 49.7156553, lon: 13.6868137},
+    {name: 'Dobšice', lat: 50.1340852, lon: 15.2688465},
+    {name: 'Dobšice', lat: 49.2159074, lon: 14.4839074},
+    {name: 'Dobšice', lat: 48.8483464, lon: 16.0854109},
+    {name: 'Dobšín', lat: 50.4834265, lon: 15.1167488},
+    {name: 'Dohalice', lat: 50.2872721, lon: 15.6945},
+    {name: 'Doksany', lat: 50.4548867, lon: 14.1611296},
+    {name: 'Doksy', lat: 50.1183818, lon: 14.0467382},
+    {name: 'Doksy', lat: 50.5642825, lon: 14.6553399},
+    {name: 'Dolánky nad Ohří', lat: 50.4729614, lon: 14.1632994},
+    {name: 'Dolany', lat: 50.1154665, lon: 14.1496822},
+    {name: 'Dolany', lat: 49.4431417, lon: 13.2481779},
+    {name: 'Dolany', lat: 49.8078155, lon: 13.4723566},
+    {name: 'Dolany', lat: 50.3800718, lon: 15.9610063},
+    {name: 'Dolany', lat: 50.1151649, lon: 15.6871577},
+    {name: 'Dolany', lat: 49.6500055, lon: 17.3203533},
+    {name: 'Dolany nad Vltavou', lat: 50.222037, lon: 14.3495201},
+    {name: 'Dolce', lat: 49.5525245, lon: 13.3930754},
+    {name: 'Dolenice', lat: 48.9093279, lon: 16.3649551},
+    {name: 'Dolní Bečva', lat: 49.4549771, lon: 18.1941873},
+    {name: 'Dolní Bělá', lat: 49.896155, lon: 13.273258},
+    {name: 'Dolní Benešov', lat: 49.9210128, lon: 18.1083515},
+    {name: 'Dolní Beřkovice', lat: 50.3930719, lon: 14.4508695},
+    {name: 'Dolní Bezděkov', lat: 49.9604377, lon: 15.8837721},
+    {name: 'Dolní Bojanovice', lat: 48.858608, lon: 17.0285852},
+    {name: 'Dolní Bousov', lat: 50.4384383, lon: 15.1276531},
+    {name: 'Dolní Branná', lat: 50.5931657, lon: 15.5938168},
+    {name: 'Dolní Brusnice', lat: 50.4587443, lon: 15.7267695},
+    {name: 'Dolní Břežany', lat: 49.9633609, lon: 14.4581344},
+    {name: 'Dolní Bukovsko', lat: 49.1713381, lon: 14.5815038},
+    {name: 'Dolní Cerekev', lat: 49.3445822, lon: 15.4567996},
+    {name: 'Dolní Čermná', lat: 49.9795367, lon: 16.5647524},
+    {name: 'Dolní Dobrouč', lat: 49.9925741, lon: 16.4976581},
+    {name: 'Dolní Domaslavice', lat: 49.7098311, lon: 18.4773505},
+    {name: 'Dolní Dubňany', lat: 49.0557654, lon: 16.2267335},
+    {name: 'Dolní Dunajovice', lat: 48.85468, lon: 16.5922756},
+    {name: 'Dolní Dvořiště', lat: 48.6566318, lon: 14.4522503},
+    {name: 'Dolní Dvůr', lat: 50.6520957, lon: 15.6558321},
+    {name: 'Dolní Habartice', lat: 50.7471772, lon: 14.3332786},
+    {name: 'Dolní Hbity', lat: 49.6572277, lon: 14.170248},
+    {name: 'Dolní Heřmanice', lat: 49.3047506, lon: 16.060104},
+    {name: 'Dolní Hořice', lat: 49.422334, lon: 14.8715431},
+    {name: 'Dolní Hradiště', lat: 49.913679, lon: 13.4959886},
+    {name: 'Dolní Hrachovice', lat: 49.4860782, lon: 14.7970996},
+    {name: 'Dolní Chvatliny', lat: 49.980501, lon: 15.0692848},
+    {name: 'Dolní Kalná', lat: 50.538874, lon: 15.6391934},
+    {name: 'Dolní Kounice', lat: 49.0702561, lon: 16.4649901},
+    {name: 'Dolní Kralovice', lat: 49.6721559, lon: 15.157366},
+    {name: 'Dolní Krupá', lat: 50.5463175, lon: 14.8671619},
+    {name: 'Dolní Krupá', lat: 49.6594643, lon: 15.6125253},
+    {name: 'Dolní Lánov', lat: 50.5869966, lon: 15.6643195},
+    {name: 'Dolní Lažany', lat: 49.0999324, lon: 15.822713},
+    {name: 'Dolní Lhota', lat: 49.1371713, lon: 17.8123529},
+    {name: 'Dolní Lhota', lat: 49.8423607, lon: 18.0924095},
+    {name: 'Dolní Libochová', lat: 49.4082864, lon: 16.1846015},
+    {name: 'Dolní Lochov', lat: 50.4522513, lon: 15.2862544},
+    {name: 'Dolní Lomná', lat: 49.5481983, lon: 18.7058511},
+    {name: 'Dolní Loučky', lat: 49.3609921, lon: 16.3587072},
+    {name: 'Dolní Lukavice', lat: 49.602853, lon: 13.3449073},
+    {name: 'Dolní Lutyně', lat: 49.8988168, lon: 18.4281743},
+    {name: 'Dolní Město', lat: 49.6277043, lon: 15.3822968},
+    {name: 'Dolní Morava', lat: 50.122618, lon: 16.7995081},
+    {name: 'Dolní Moravice', lat: 49.977876, lon: 17.3231489},
+    {name: 'Dolní Němčí', lat: 48.9684218, lon: 17.5853622},
+    {name: 'Dolní Nětčice', lat: 49.4758307, lon: 17.6760094},
+    {name: 'Dolní Nivy', lat: 50.2431063, lon: 12.6370405},
+    {name: 'Dolní Novosedly', lat: 49.3291191, lon: 14.1959894},
+    {name: 'Dolní Olešnice', lat: 50.5242142, lon: 15.7121138},
+    {name: 'Dolní Pěna', lat: 49.1105004, lon: 15.0220515},
+    {name: 'Dolní Podluží', lat: 50.8810017, lon: 14.5946473},
+    {name: 'Dolní Pohleď', lat: 49.7434169, lon: 15.1335206},
+    {name: 'Dolní Poustevna', lat: 50.9803948, lon: 14.2873374},
+    {name: 'Dolní Přím', lat: 50.2396557, lon: 15.7081683},
+    {name: 'Dolní Radechová', lat: 50.4383387, lon: 16.1512341},
+    {name: 'Dolní Roveň', lat: 50.0292743, lon: 15.9677393},
+    {name: 'Dolní Rožínka', lat: 49.4746071, lon: 16.2100968},
+    {name: 'Dolní Rychnov', lat: 50.1647703, lon: 12.6450804},
+    {name: 'Dolní Řasnice', lat: 50.9456852, lon: 15.168675},
+    {name: 'Dolní Ředice', lat: 50.0778071, lon: 15.9239284},
+    {name: 'Dolní Slivno', lat: 50.3084673, lon: 14.733144},
+    {name: 'Dolní Sokolovec', lat: 49.7265481, lon: 15.7151717},
+    {name: 'Dolní Stakory', lat: 50.4368588, lon: 14.9726079},
+    {name: 'Dolní Studénky', lat: 49.9349838, lon: 16.9709352},
+    {name: 'Dolní Těšice', lat: 49.4949674, lon: 17.8065296},
+    {name: 'Dolní Tošanovice', lat: 49.6842527, lon: 18.4884327},
+    {name: 'Dolní Třebonín', lat: 48.85529, lon: 14.4100298},
+    {name: 'Dolní Újezd', lat: 49.8182154, lon: 16.3068054},
+    {name: 'Dolní Újezd', lat: 49.5338471, lon: 17.5435506},
+    {name: 'Dolní Věstonice', lat: 48.8881735, lon: 16.6444867},
+    {name: 'Dolní Vilémovice', lat: 49.1535606, lon: 15.9771884},
+    {name: 'Dolní Vilímeč', lat: 49.1356883, lon: 15.5203722},
+    {name: 'Dolní Zálezly', lat: 50.5973179, lon: 14.0430777},
+    {name: 'Dolní Zimoř', lat: 50.4266145, lon: 14.5013635},
+    {name: 'Dolní Žandov', lat: 50.0179426, lon: 12.5510087},
+    {name: 'Dolní Žďár', lat: 49.1011177, lon: 14.988339},
+    {name: 'Dolní Životice', lat: 49.897321, lon: 17.77969},
+    {name: 'Doloplazy', lat: 49.5671778, lon: 17.4114741},
+    {name: 'Doloplazy', lat: 49.3543308, lon: 17.1635294},
+    {name: 'Domamil', lat: 49.0832344, lon: 15.6955734},
+    {name: 'Domanín', lat: 48.9627553, lon: 14.7547633},
+    {name: 'Domanín', lat: 48.9714693, lon: 14.7399791},
+    {name: 'Dománovice', lat: 50.111855, lon: 15.3225154},
+    {name: 'Domašín', lat: 50.4206973, lon: 13.172198},
+    {name: 'Domašov', lat: 49.2451957, lon: 16.343862},
+    {name: 'Domašov nad Bystřicí', lat: 49.7421347, lon: 17.4451954},
+    {name: 'Domašov u Šternberka', lat: 49.7057876, lon: 17.3378934},
+    {name: 'Domaželice', lat: 49.4280847, lon: 17.5448737},
+    {name: 'Domažlice', lat: 49.4403546, lon: 12.929748},
+    {name: 'Domoraz', lat: 49.2506228, lon: 13.6620036},
+    {name: 'Domousnice', lat: 50.3940748, lon: 15.1027324},
+    {name: 'Domoušice', lat: 50.2341514, lon: 13.7295157},
+    {name: 'Doňov', lat: 49.2130604, lon: 14.776164},
+    {name: 'Doubek', lat: 50.0176126, lon: 14.7377649},
+    {name: 'Doubice', lat: 50.8886016, lon: 14.4616106},
+    {name: 'Doubrava', lat: 49.811369, lon: 15.6047138},
+    {name: 'Doubravčice', lat: 50.0220507, lon: 14.7930751},
+    {name: 'Doubravice', lat: 48.9359698, lon: 14.510572},
+    {name: 'Doubravice', lat: 49.3520099, lon: 13.8619198},
+    {name: 'Doubravice', lat: 50.4149002, lon: 15.7794129},
+    {name: 'Doubravice nad Svitavou', lat: 49.435856, lon: 16.6297712},
+    {name: 'Doubravička', lat: 50.3951064, lon: 14.7761042},
+    {name: 'Doubravník', lat: 49.4290528, lon: 16.3483396},
+    {name: 'Doubravy', lat: 49.1511659, lon: 17.6715393},
+    {name: 'Doudleby', lat: 48.8936179, lon: 14.5015255},
+    {name: 'Doudleby nad Orlicí', lat: 50.1073719, lon: 16.2609892},
+    {name: 'Doupě', lat: 49.2445599, lon: 15.4286072},
+    {name: 'Doupovské Hradiště', lat: 50.2354421, lon: 13.0108231},
+    {name: 'Drahanovice', lat: 49.5785573, lon: 17.0770128},
+    {name: 'Drahany', lat: 49.43326, lon: 16.8973813},
+    {name: 'Drahelčice', lat: 50.0317981, lon: 14.2030247},
+    {name: 'Drahenice', lat: 49.5208419, lon: 13.958404},
+    {name: 'Drahkov', lat: 49.5570495, lon: 13.4723058},
+    {name: 'Drahlín', lat: 49.7322336, lon: 13.9694318},
+    {name: 'Drahňovice', lat: 49.8224724, lon: 14.9016448},
+    {name: 'Drahobudice', lat: 49.9374776, lon: 15.0662564},
+    {name: 'Drahobuz', lat: 50.5251183, lon: 14.3206979},
+    {name: 'Drahonice', lat: 49.2008028, lon: 14.0755724},
+    {name: 'Drahonín', lat: 49.4140613, lon: 16.2769004},
+    {name: 'Drahoňův Újezd', lat: 49.8768297, lon: 13.7250403},
+    {name: 'Drahotěšice', lat: 49.1243326, lon: 14.5465812},
+    {name: 'Drahotín', lat: 49.5238629, lon: 12.758059},
+    {name: 'Drahouš', lat: 50.0801242, lon: 13.4756587},
+    {name: 'Drahov', lat: 49.1753616, lon: 14.7541752},
+    {name: 'Drachkov', lat: 49.2406647, lon: 13.8374525},
+    {name: 'Dráchov', lat: 49.2264342, lon: 14.7066216},
+    {name: 'Drásov', lat: 49.7026533, lon: 14.1182829},
+    {name: 'Drásov', lat: 49.3320138, lon: 16.4781153},
+    {name: 'Dražeň', lat: 49.9268445, lon: 13.2878667},
+    {name: 'Draženov', lat: 49.4556926, lon: 12.8725625},
+    {name: 'Dražice', lat: 49.4296309, lon: 14.5894681},
+    {name: 'Dražíč', lat: 49.3058685, lon: 14.3838199},
+    {name: 'Dražičky', lat: 49.3990262, lon: 14.5987166},
+    {name: 'Drážov', lat: 49.1673069, lon: 13.7406036},
+    {name: 'Dražovice', lat: 49.2239036, lon: 13.6091603},
+    {name: 'Dražovice', lat: 49.1947426, lon: 16.9433776},
+    {name: 'Dražůvky', lat: 49.026524, lon: 17.0176954},
+    {name: 'Drevníky', lat: 49.7201546, lon: 14.2740273},
+    {name: 'Drhovice', lat: 49.4328103, lon: 14.5583773},
+    {name: 'Drhovle', lat: 49.334743, lon: 14.036318},
+    {name: 'Drhovy', lat: 49.7392521, lon: 14.2320701},
+    {name: 'Drmoul', lat: 49.9366842, lon: 12.6644339},
+    {name: 'Drnek', lat: 50.1956797, lon: 13.9715511},
+    {name: 'Drnholec', lat: 48.8572958, lon: 16.4858072},
+    {name: 'Drnovice', lat: 49.4680432, lon: 16.540633},
+    {name: 'Drnovice', lat: 49.2762951, lon: 16.951463},
+    {name: 'Drnovice', lat: 49.1867341, lon: 17.9606778},
+    {name: 'Drobovice', lat: 49.8913959, lon: 15.4123886},
+    {name: 'Droužetice', lat: 49.2891708, lon: 13.8977533},
+    {name: 'Droužkovice', lat: 50.4307789, lon: 13.4290914},
+    {name: 'Drozdov', lat: 49.8631347, lon: 13.8405766},
+    {name: 'Drozdov', lat: 49.9092869, lon: 16.7867487},
+    {name: 'Drslavice', lat: 49.0253198, lon: 13.9207641},
+    {name: 'Drslavice', lat: 49.0502688, lon: 17.6035286},
+    {name: 'Druhanov', lat: 49.6987784, lon: 15.4102188},
+    {name: 'Drunče', lat: 49.2967472, lon: 14.9357832},
+    {name: 'Druztová', lat: 49.7974077, lon: 13.4487195},
+    {name: 'Družec', lat: 50.1029559, lon: 14.0456678},
+    {name: 'Drysice', lat: 49.3345421, lon: 17.0577393},
+    {name: 'Držkov', lat: 50.6876177, lon: 15.3013264},
+    {name: 'Držková', lat: 49.3322773, lon: 17.7937197},
+    {name: 'Držovice', lat: 49.4910793, lon: 17.1338622},
+    {name: 'Dřenice', lat: 49.9825003, lon: 15.7451323},
+    {name: 'Dřešín', lat: 49.1555793, lon: 13.7736959},
+    {name: 'Dřetovice', lat: 50.1826849, lon: 14.2102595},
+    {name: 'Dřevčice', lat: 50.1677519, lon: 14.62822},
+    {name: 'Dřevěnice', lat: 50.4525124, lon: 15.4470919},
+    {name: 'Dřevnovice', lat: 49.3280872, lon: 17.143257},
+    {name: 'Dřevohostice', lat: 49.426187, lon: 17.5914716},
+    {name: 'Dřínov', lat: 50.2756115, lon: 14.0695289},
+    {name: 'Dřínov', lat: 50.25222, lon: 14.08313},
+    {name: 'Dřínov', lat: 49.2864987, lon: 17.2386875},
+    {name: 'Dřísy', lat: 50.2559959, lon: 14.6434597},
+    {name: 'Dříteč', lat: 50.1051014, lon: 15.8090919},
+    {name: 'Dříteň', lat: 49.1428094, lon: 14.3459563},
+    {name: 'Dub', lat: 49.1083445, lon: 14.0114409},
+    {name: 'Dub nad Moravou', lat: 49.4824865, lon: 17.2772326},
+    {name: 'Dubá', lat: 50.5403416, lon: 14.5402337},
+    {name: 'Dubany', lat: 49.9906285, lon: 15.7262715},
+    {name: 'Dubčany', lat: 49.6489667, lon: 17.0780777},
+    {name: 'Dubenec', lat: 49.695416, lon: 14.0795342},
+    {name: 'Dubenec', lat: 50.3776214, lon: 15.7950715},
+    {name: 'Dubí', lat: 50.6812997, lon: 13.788771},
+    {name: 'Dubicko', lat: 49.8280613, lon: 16.9626634},
+    {name: 'Dubičné', lat: 48.9810697, lon: 14.5387636},
+    {name: 'Dublovice', lat: 49.6709989, lon: 14.3640927},
+    {name: 'Dubňany', lat: 48.9175078, lon: 17.0955296},
+    {name: 'Dubné', lat: 48.9767819, lon: 14.3594962},
+    {name: 'Dubnice', lat: 50.7259718, lon: 14.8087129},
+    {name: 'Dubno', lat: 49.6958519, lon: 14.0517442},
+    {name: 'Dubovice', lat: 49.4325889, lon: 15.1745809},
+    {name: 'Dudín', lat: 49.451005, lon: 15.3976061},
+    {name: 'Duchcov', lat: 50.6040315, lon: 13.7461464},
+    {name: 'Dukovany', lat: 49.0809441, lon: 16.1915279},
+    {name: 'Důl', lat: 49.4520974, lon: 15.0302965},
+    {name: 'Dunajovice', lat: 49.0350449, lon: 14.6952479},
+    {name: 'Dunice', lat: 49.6028968, lon: 15.1532087},
+    {name: 'Dušejov', lat: 49.4087906, lon: 15.4332394},
+    {name: 'Dušníky', lat: 50.4245332, lon: 14.1901631},
+    {name: 'Dvakačovice', lat: 49.9790824, lon: 15.8945059},
+    {name: 'Dvorce', lat: 49.3826815, lon: 15.4856575},
+    {name: 'Dvorce', lat: 49.8334491, lon: 17.5478874},
+    {name: 'Dvory', lat: 50.2116956, lon: 14.9951313},
+    {name: 'Dvory', lat: 49.0394181, lon: 13.9460658},
+    {name: 'Dvory nad Lužnicí', lat: 48.852719, lon: 14.9005304},
+    {name: 'Dvůr Králové nad Labem', lat: 50.4319053, lon: 15.8139947},
+    {name: 'Dyjákovice', lat: 48.7720718, lon: 16.3012013},
+    {name: 'Dyjákovičky', lat: 48.7823, lon: 16.0956268},
+    {name: 'Dyje', lat: 48.8470392, lon: 16.1167758},
+    {name: 'Dyjice', lat: 49.174625, lon: 15.4938702},
+    {name: 'Dymokury', lat: 50.2476259, lon: 15.204077},
+    {name: 'Dynín', lat: 49.137199, lon: 14.6311949},
+    {name: 'Dýšina', lat: 49.7776678, lon: 13.4914023},
+    {name: 'Dzbel', lat: 49.612894, lon: 16.8508787},
+    {name: 'Džbánice', lat: 49.0012607, lon: 16.2109348},
+    {name: 'Džbánov', lat: 49.9163569, lon: 16.1594998},
+    ];
+    dmPoints.data.setAll(dObce);
+
+    // ── Živá lokace ──
+    const liveSeries = dmChart.series.push(am5map.MapPointSeries.new(dmRoot, {
+      latitudeField: "lat", longitudeField: "lon"
+    }));
+    liveSeries.bullets.push(function() {
+      const outer = am5.Circle.new(dmRoot, {
+        radius: 10, fill: am5.color(0xEE3C95), fillOpacity: 0.2,
+        stroke: am5.color(0xEE3C95), strokeWidth: 1, strokeOpacity: 0.4
+      });
+      outer.animate({ key: "radius", from: 10, to: 18, duration: 900, loops: Infinity, easing: am5.ease.sinInOut });
+      outer.animate({ key: "fillOpacity", from: 0.2, to: 0, duration: 900, loops: Infinity, easing: am5.ease.sinInOut });
+      const inner = am5.Circle.new(dmRoot, {
+        radius: 6, fill: am5.color(0xEE3C95), fillOpacity: 1,
+        stroke: am5.color(0xffffff), strokeWidth: 2,
+        tooltipText: "🚴 Honza je tady\n{name}"
+      });
+      const container = am5.Container.new(dmRoot, {});
+      container.children.push(outer);
+      container.children.push(inner);
+      return am5.Bullet.new(dmRoot, { sprite: container });
+    });
+    liveSeries.data.setAll([{ name: "Žďár nad Sázavou", lat: liveStats.liveLat, lon: liveStats.liveLon }]);
+
+    const dmZoom = am5map.ZoomControl.new(dmRoot, {
+      x: am5.p100, centerX: am5.p100,
+      y: am5.p100, centerY: am5.p100,
+      dx: -14, dy: -14
+    });
+    dmZoom.plusButton.get("background").setAll({ fill: am5.color(0xF5C518), stroke: am5.color(0xF5C518), fillOpacity: 1 });
+    dmZoom.minusButton.get("background").setAll({ fill: am5.color(0x2A9D8F), stroke: am5.color(0x2A9D8F), fillOpacity: 1 });
+    dmChart.set("zoomControl", dmZoom);
+    dmPolygons.events.on("datavalidated", function() {
+      dmChart.zoomToGeoPoint({ longitude: 15.5, latitude: 49.8 }, 1, true);
+    });
+  })();
+
+  /* ── D-visual mini mapa ČR ── */
+  (function() {
+    if (!document.getElementById('d-visual-map')) return;
+    // Zpoždění zajistí správné rozměry kontejneru
+    setTimeout(function() {
+    const mvRoot = am5.Root.new("d-visual-map");
+    mvRoot.setThemes([]);
+    const mvChart = mvRoot.container.children.push(
+      am5map.MapChart.new(mvRoot, {
+        projection: am5map.geoMercator(),
+        panX: "none", panY: "none",
+        wheelX: "none", wheelY: "none",
+        pinchZoom: false,
+        homeGeoPoint: { longitude: 15.5, latitude: 49.75 },
+        homeZoomLevel: 1
+      })
+    );
+    mvChart.chartContainer.get("background").setAll({ fill: am5.color(0x000000), fillOpacity: 0 });
+    const mvPolygons = mvChart.series.push(
+      am5map.MapPolygonSeries.new(mvRoot, { geoJSON: am5geodata_czechiaHigh })
+    );
+    mvPolygons.mapPolygons.template.setAll({
+      fill: am5.color(0xF5C518), fillOpacity: 1,
+      stroke: am5.color(0x264040), strokeWidth: 1,
+      interactive: false
+    });
+    mvPolygons.events.on("datavalidated", function() {
+      mvChart.zoomToGeoPoint({ longitude: 15.5, latitude: 49.75 }, 1, true);
+    });
+
+    }, 200); // konec setTimeout
+  })();
+</script>
+
+</body>
+</html>

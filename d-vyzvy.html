@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>D352 — D-výzvy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Jost:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --solar:   #F5C518;
+      --meadow:  #2A9D8F;
+      --fuchsia: #EE3C95;
+      --sage:    #A8C4BC;
+      --cream:   #EDE8DC;
+      --night:   #264040;
+      --dust:    #8A9E9B;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body { font-family: 'Jost', sans-serif; background: var(--night); color: #fff; line-height: 1.7; overflow-x: hidden; }
+
+    /* NAV */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 64px;
+      background: #F5C518;
+      border-radius: 0 0 6px 6px;
+    }
+    .nav-logo { display: flex; align-items: center; gap: .6rem; text-decoration: none; }
+    .nav-logo-d { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; line-height: 1; color: var(--night); }
+    .nav-logo-text { font-family: 'Jost', sans-serif; font-size: .75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--night); opacity: .7; line-height: 1.3; }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; list-style: none; }
+    .nav-links a { color: #404040; text-decoration: none; font-size: .82rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; transition: opacity .2s; }
+    .nav-links a:hover { opacity: .6; }
+    .nav-links a.active { opacity: .6; border-bottom: 2px solid var(--night); padding-bottom: 2px; }
+    .nav-mobile-label { display: none; font-size: .65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(38,64,64,.5); padding: .5rem 0 .25rem; border-bottom: 1px solid rgba(38,64,64,.1); margin-bottom: .25rem; list-style: none; }
+    .nav-cta { background: #264040; color: #F5C518 !important; padding: .4rem 1.1rem; border-radius: 100px; font-weight: 800 !important; }
+    .nav-cta:hover { opacity: .85 !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 22px; height: 2px; background: #264040; border-radius: 2px; }
+
+    /* PAGE */
+    .page-wrap { padding-top: 90px; max-width: 1100px; margin: 0 auto; padding-left: 2rem; padding-right: 2rem; }
+
+    /* HEADER */
+    .page-header { padding: 3rem 0 2rem; border-bottom: 1px solid rgba(255,255,255,.06); margin-bottom: 3rem; }
+    .page-header-label { font-size: .7rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--dust); margin-bottom: .5rem; }
+    .page-header-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 7vw, 5rem); line-height: .95; letter-spacing: 2px; }
+    .page-header-title .d { color: var(--solar); }
+    .page-header-sub { font-size: 1rem; color: var(--sage); margin-top: 1rem; max-width: 560px; line-height: 1.7; }
+
+    /* VÝZVY GRID */
+    .vyzvy-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 4rem; }
+
+    .vyzva-item {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 20px;
+      padding: 2rem;
+      display: flex; flex-direction: column; gap: 1rem;
+      transition: border-color .3s, transform .25s;
+    }
+    .vyzva-item:hover { border-color: rgba(245,197,24,.35); transform: translateY(-3px); }
+    .vyzva-item.active { border-color: rgba(245,197,24,.25); background: rgba(245,197,24,.04); }
+    .vyzva-item.coming { opacity: .5; }
+
+    .vyzva-icon { font-size: 2rem; }
+    .vyzva-tag {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      padding: .25rem .75rem; border-radius: 100px;
+    }
+    .vyzva-tag.live { background: rgba(238,60,149,.12); color: var(--fuchsia); }
+    .vyzva-tag.live::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--fuchsia); animation: blink 1s infinite; }
+    .vyzva-tag.soon { background: rgba(168,196,188,.1); color: var(--sage); }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+    .vyzva-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 1px; color: #fff; }
+    .vyzva-text { font-size: .9rem; color: var(--dust); line-height: 1.7; }
+    .vyzva-hashtag {
+      display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: 1px;
+      color: var(--fuchsia); background: rgba(238,60,149,.1);
+      padding: .2rem .7rem; border-radius: 100px; align-self: flex-start;
+    }
+
+    /* FOOTER */
+    footer { background: #1a2f2f; border-top: 1px solid rgba(255,255,255,.06); padding: 2.5rem 2rem; margin-top: 2rem; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+    .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--solar); letter-spacing: 3px; }
+    .footer-back { font-size: .82rem; color: var(--dust); text-decoration: none; transition: color .2s; }
+    .footer-back:hover { color: var(--solar); }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .nav-mobile-label { display: block; }
+      .vyzvy-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-d">#D352</span>
+      <span class="nav-logo-text">352 D-obcí<br>na Rekole</span>
+    </a>
+    <ul class="nav-links">
+      <li class="nav-mobile-label">352 D-obcí na Rekole</li>
+      <li><a href="index.html#co-je">O projektu</a></li>
+      <li><a href="statistiky.html">Statistiky</a></li>
+      <li><a href="index.html#mapa">Mapa</a></li>
+      <li><a href="index.html#fundraising">Fundraising</a></li>
+      <li style="margin-left:auto;"><a href="d-vyzvy.html" class="nav-cta active">Přidej se</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+    </ul>
+    <div class="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+
+  <div class="page-wrap">
+
+    <div class="page-header">
+      <div class="page-header-label">Herní mechaniky</div>
+      <h1 class="page-header-title"><span class="d">D</span>-výzvy</h1>
+      <p class="page-header-sub">Projekt není jen o kole a mapě. Komunita hraje spolu — každý si najde svůj vstup. Výzvy přibývají průběžně během cesty.</p>
+    </div>
+
+    <div class="vyzvy-grid">
+
+      <div class="vyzva-item active">
+        <span class="vyzva-icon">🚲</span>
+        <span class="vyzva-tag live">Aktivní</span>
+        <div class="vyzva-title">Cyklo výzva</div>
+        <p class="vyzva-text">Ujeď dnes stejnou vzdálenost na Rekole, jako já. Sdílej výsledek a dokaž, že to zvládneš taky.</p>
+        <span class="vyzva-hashtag">#D352</span>
+      </div>
+
+      <div class="vyzva-item active">
+        <span class="vyzva-icon">📮</span>
+        <span class="vyzva-tag live">Aktivní</span>
+        <div class="vyzva-title">Fyzické kartičky</div>
+        <p class="vyzva-text">Honza schovává po cestě hezky navržené kartičky s QR kódem. Kdo ji najde a sdílí, dostane různou odměnu. Někdy jenom radost z nálezu a hezká slova, jindy třeba fotku z cesty.</p>
+        <span class="vyzva-hashtag">#DkartičkaD</span>
+      </div>
+
+      <div class="vyzva-item coming">
+        <span class="vyzva-icon">🎲</span>
+        <span class="vyzva-tag soon">Brzy</span>
+        <div class="vyzva-title">Další výzva</div>
+        <p class="vyzva-text">Výzvy se odkrývají postupně během cesty. Sleduj Instagram nebo se vrať brzy.</p>
+        <span class="vyzva-hashtag">#D352</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">#D352</div>
+      <a href="index.html" class="footer-back">← Zpět na hlavní stránku</a>
+    </div>
+  </footer>
+
+  <script>
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    hamburger?.addEventListener('click', () => {
+      const open = navLinks.style.display === 'flex';
+      navLinks.style.display = open ? 'none' : 'flex';
+      navLinks.style.flexDirection = 'column';
+      navLinks.style.position = 'absolute';
+      navLinks.style.top = '70px';
+      navLinks.style.right = '1.5rem';
+      navLinks.style.background = '#F5C518';
+      navLinks.style.padding = '1rem 1.5rem';
+      navLinks.style.borderRadius = '1rem';
+      navLinks.style.gap = '1rem';
+    });
+  </script>
+
+</body>
+</html>
