@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Fundraising — D352</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Jost:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Kohymaaa';
+      src: url('Kohyma_final-Regular.ttf') format('truetype');
+      font-weight: normal; font-style: normal; font-display: swap;
+    }
+    :root {
+      --solar:   #F5C518;
+      --meadow:  #2A9D8F;
+      --fuchsia: #EE3C95;
+      --sage:    #A8C4BC;
+      --cream:   #EDE8DC;
+      --night:   #264040;
+      --dust:    #8A9E9B;
+      --earth:   #6B5B4F;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    .section-title, .page-title, .section-label, .why-text h3, .cta-banner h2, .domestici-info h3, .progress-stat-num, .fp-amount { font-weight: 400 !important; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body { font-family: 'Jost', sans-serif; background: var(--night); color: #fff; line-height: 1.7; overflow-x: hidden; }
+
+    /* ─── NAVIGACE ─── */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 64px;
+      background: #F5C518;
+      border-radius: 0 0 6px 6px;
+    }
+    .nav-logo { display: flex; align-items: center; gap: .6rem; text-decoration: none; }
+    .nav-logo-d { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; line-height: 1; color: var(--night); }
+    .nav-logo-text { font-family: 'Jost', sans-serif; font-size: .75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--night); opacity: .7; line-height: 1.3; }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; list-style: none; }
+    .nav-links a { color: #404040; text-decoration: none; font-size: .82rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; transition: opacity .2s; }
+    .nav-links a:hover { opacity: .6; }
+    .nav-links a.active { color: var(--night); border-bottom: 2px solid var(--night); padding-bottom: 1px; }
+    .nav-cta { background: #264040; color: #F5C518 !important; padding: .4rem 1.1rem; border-radius: 100px; font-weight: 800 !important; }
+    .nav-cta:hover { opacity: .85 !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 22px; height: 2px; background: #264040; border-radius: 2px; }
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: #F5C518; padding: 1rem 1.5rem; gap: .8rem; }
+      .nav-links.open { display: flex; }
+      .hamburger { display: flex; }
+    }
+
+    /* ─── HERO ─── */
+    .page-hero {
+      padding: 7rem 2rem 4rem;
+      background: linear-gradient(135deg, rgba(238,60,149,.08) 0%, var(--night) 60%);
+      position: relative; overflow: hidden;
+    }
+    .page-hero::before {
+      content: '🤍';
+      position: absolute; right: 4rem; top: 50%; transform: translateY(-50%);
+      font-size: clamp(10rem, 20vw, 18rem);
+      opacity: .06; pointer-events: none; user-select: none;
+      filter: saturate(0);
+    }
+    .page-hero .container { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+    .section-label { font-size: .65rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--fuchsia); margin-bottom: .6rem; }
+    .page-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 8vw, 7rem); line-height: .9; letter-spacing: 3px; color: #fff; margin-bottom: 1rem; }
+    .page-title .d { color: var(--solar); }
+    .divider { width: 50px; height: 3px; background: var(--fuchsia); border-radius: 2px; margin: 1rem 0 1.5rem; }
+    .body-text { font-size: 1rem; line-height: 1.9; color: rgba(255,255,255,.55); max-width: 640px; }
+
+    /* ─── OBECNÉ ─── */
+    .section { padding: 5rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1; letter-spacing: 1px; margin-bottom: .5rem; color: #fff; }
+    .section-title .accent { color: var(--fuchsia); }
+    .section-title .d { color: var(--solar); }
+    .section-sep { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 0; }
+    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .85rem 2rem; border-radius: 100px; font-weight: 700; font-size: .9rem; letter-spacing: .5px; text-decoration: none; transition: transform .2s, box-shadow .2s; cursor: pointer; border: none; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.3); }
+    .btn-fuchsia { background: var(--fuchsia); color: #fff; }
+    .btn-solar { background: var(--solar); color: var(--night); }
+    .btn-outline { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,.25); }
+    .btn-outline:hover { border-color: var(--fuchsia); color: var(--fuchsia); }
+
+    /* ─── PROGRESS ─── */
+    .progress-hero {
+      background: linear-gradient(135deg, rgba(238,60,149,.1) 0%, rgba(42,157,143,.06) 100%);
+      border: 1px solid rgba(238,60,149,.25);
+      border-radius: 24px;
+      padding: 3rem;
+      margin-bottom: 3rem;
+    }
+    .progress-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .6rem; flex-wrap: wrap; gap: .5rem; }
+    .fp-amount { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 7vw, 5rem); color: var(--solar); letter-spacing: 3px; line-height: 1; }
+    .fp-goal { font-size: .85rem; color: var(--dust); }
+    .fp-bar-wrap { height: 10px; background: rgba(255,255,255,.08); border-radius: 100px; overflow: hidden; margin-bottom: .6rem; }
+    .fp-bar { height: 100%; background: linear-gradient(90deg, var(--fuchsia), var(--solar)); border-radius: 100px; width: 0%; transition: width 1.5s ease; }
+    .fp-label { font-size: .8rem; color: var(--dust); }
+    .progress-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 2rem; }
+    .progress-stat { text-align: center; padding: 1.2rem; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.06); border-radius: 14px; }
+    .progress-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--fuchsia); letter-spacing: 2px; line-height: 1; }
+    .progress-stat-label { font-size: .75rem; color: var(--dust); letter-spacing: 1px; text-transform: uppercase; margin-top: .3rem; }
+
+    /* ─── PROČ ─── */
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-top: 2rem; }
+    .why-text h3 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem, 3.5vw, 3rem); color: #fff; letter-spacing: 2px; line-height: 1; margin-bottom: 1rem; }
+    .why-text h3 .accent { color: var(--fuchsia); }
+    .why-text p { font-size: 1rem; color: rgba(255,255,255,.55); line-height: 1.9; margin-bottom: 1.2rem; }
+    .why-text p strong { color: #fff; }
+    .why-visual {
+      background: linear-gradient(135deg, rgba(238,60,149,.1), rgba(245,197,24,.06));
+      border: 1px solid rgba(238,60,149,.2);
+      border-radius: 24px;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    .why-big-d { font-family: 'Bebas Neue', sans-serif; font-size: 8rem; color: var(--fuchsia); opacity: .15; line-height: 1; }
+    .why-words { display: flex; flex-direction: column; gap: .6rem; }
+    .why-word { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 3px; color: rgba(255,255,255,.7); }
+    .why-word .letter { color: var(--fuchsia); }
+
+    /* ─── JAK PŘISPĚT ─── */
+    .how-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 2rem; }
+    .how-card {
+      padding: 2rem 1.6rem;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 20px;
+      transition: transform .25s, border-color .25s;
+      position: relative;
+    }
+    .how-card:hover { transform: translateY(-4px); border-color: rgba(238,60,149,.3); }
+    .how-card-num { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: rgba(238,60,149,.15); line-height: 1; margin-bottom: .8rem; }
+    .how-card h4 { font-size: 1rem; font-weight: 700; color: var(--fuchsia); margin-bottom: .6rem; }
+    .how-card p { font-size: .88rem; color: var(--dust); line-height: 1.7; }
+    .how-card .how-cta { display: inline-block; margin-top: 1.2rem; font-size: .82rem; font-weight: 700; color: var(--solar); text-decoration: none; letter-spacing: .5px; }
+    .how-card .how-cta:hover { color: var(--fuchsia); }
+
+    /* ─── DOMESTICI ─── */
+    .domestici-section {
+      background: rgba(238,60,149,.04);
+      border: 1px solid rgba(238,60,149,.15);
+      border-radius: 24px;
+      padding: 3rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 3rem;
+      align-items: center;
+      margin-top: 2rem;
+    }
+    .domestici-logo-wrap { width: 120px; flex-shrink: 0; }
+    .domestici-logo-wrap img { width: 100%; height: auto; display: block; }
+    .domestici-info h3 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: #fff; letter-spacing: 2px; margin-bottom: .8rem; }
+    .domestici-info p { font-size: .95rem; color: rgba(255,255,255,.55); line-height: 1.8; margin-bottom: 1.5rem; }
+
+    /* ─── CTA BANNER ─── */
+    .cta-banner {
+      background: var(--fuchsia);
+      border-radius: 24px;
+      padding: 3.5rem 3rem;
+      text-align: center;
+      margin-top: 4rem;
+    }
+    .cta-banner h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); color: #fff; letter-spacing: 3px; margin-bottom: .8rem; line-height: 1; }
+    .cta-banner p { font-size: 1rem; color: rgba(255,255,255,.8); margin-bottom: 2rem; }
+    .cta-banner .btn-solar { font-size: 1rem; padding: 1rem 2.5rem; }
+
+    /* ─── FOOTER ─── */
+    footer { background: #1a2f2f; border-top: 1px solid rgba(255,255,255,.06); padding: 2.5rem 2rem; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+    .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--solar); letter-spacing: 3px; }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; flex-wrap: wrap; }
+    .footer-links a { font-size: .82rem; color: var(--dust); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--solar); }
+    .footer-meta { font-size: .75rem; color: rgba(255,255,255,.2); }
+
+    @media (max-width: 900px) {
+      .why-grid { grid-template-columns: 1fr; }
+      .why-visual { display: none; }
+      .how-cards { grid-template-columns: 1fr; }
+      .progress-stats { grid-template-columns: 1fr 1fr; }
+      .domestici-section { grid-template-columns: 1fr; }
+      .domestici-logo-wrap { width: 80px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">
+      <img src="img/d352-logo-transparent.png" alt="#D352" style="height:36px;width:auto;display:block;">
+
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html#co-je">O projektu</a></li>
+      <li><a href="statistiky.html">Statistiky</a></li>
+      <li><a href="mapa.html">Mapa</a></li>
+      <li><a href="fundraising.html" class="active">Fundraising</a></li>
+      <li style="margin-left:auto;"><a href="d-vyzvy.html" class="nav-cta">Přidej se</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="page-hero">
+    <div class="container">
+      <div class="section-label">Podpora paliativy</div>
+      <h1 class="page-title">352 tisíc<br>pro <span class="d">Domestiky</span></h1>
+      <div class="divider"></div>
+      <p class="body-text">Za každou D-obec, kterou projedu, chci vybrat alespoň tisíc korun. 352 obcí = 352 000 Kč pro Domestici — organizaci, která zvyšuje povědomí o paliativní péči v Česku.</p>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <section class="section" style="padding-top: 2rem;">
+    <div class="container">
+      <div class="progress-hero">
+        <div class="progress-top">
+          <span class="fp-amount" id="fp-amount">0 Kč</span>
+          <span class="fp-goal">cíl: 352 000 Kč</span>
+        </div>
+        <div class="fp-bar-wrap">
+          <div class="fp-bar" id="fp-bar"></div>
+        </div>
+        <div class="fp-label" id="fp-label">Sbírka startuje 1. 7. 2026</div>
+
+        <div class="progress-stats">
+          <div class="progress-stat">
+            <div class="progress-stat-num" id="stat-obce">0</div>
+            <div class="progress-stat-label">Obcí projeto</div>
+          </div>
+          <div class="progress-stat">
+            <div class="progress-stat-num" id="stat-darci">0</div>
+            <div class="progress-stat-label">Dárců</div>
+          </div>
+          <div class="progress-stat">
+            <div class="progress-stat-num" id="stat-prumer">—</div>
+            <div class="progress-stat-label">Průměrný dar</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center;">
+        <a href="https://domestici.cz" target="_blank" rel="noopener" class="btn btn-fuchsia" style="font-size:1.05rem;padding:1rem 2.8rem;">
+          🤍 Přispět do sbírky #D352
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-sep">
+
+  <!-- PROČ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-label">Proč právě Domestici</div>
+      <h2 class="section-title">D jako <span class="accent">Důstojnost</span></h2>
+      <div class="divider"></div>
+
+      <div class="why-grid">
+        <div class="why-text">
+          <p>Písmeno <strong>D</strong> v názvu projektu není náhoda. D jako Domov. D jako Dobrodružství. D jako Dobrý Den. A taky D jako <strong>Domestici</strong> — organizace, která ukazuje, že péče o druhé je přirozená součást lidství.</p>
+          <p>Domestici zvyšují povědomí o <strong>paliativní péči</strong> v Česku. Pomáhají lidem důstojně prožít poslední kapitolu svého příběhu — doma, obklopeni těmi, které milují.</p>
+          <p>Celé léto budu projíždět vesnicemi po celém Česku. Každá obec je příběh. Každý příspěvek pomáhá psát příběhy, které by jinak zůstaly nevyslechnuté.</p>
+          <a href="https://domestici.cz" target="_blank" rel="noopener" class="btn btn-outline" style="margin-top:.8rem;">Zjistit více o Domestici →</a>
+        </div>
+        <div class="why-visual">
+          <div class="why-words">
+            <div class="why-word"><span class="letter">D</span> jako Domov</div>
+            <div class="why-word"><span class="letter">D</span> jako Důstojnost</div>
+            <div class="why-word"><span class="letter">D</span> jako Dobrý Den</div>
+            <div class="why-word"><span class="letter">D</span> jako Domestici</div>
+            <div class="why-word"><span class="letter">D</span> jako Dobrodružství</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-sep">
+
+  <!-- JAK PŘISPĚT -->
+  <section class="section">
+    <div class="container">
+      <div class="section-label">Jak se zapojit</div>
+      <h2 class="section-title">Přispěj <span class="accent">jakkoliv</span></h2>
+      <div class="divider"></div>
+
+      <div class="how-cards">
+        <div class="how-card">
+          <div class="how-card-num">01</div>
+          <h4>Přispěj na sbírku</h4>
+          <p>Přes web Domestici.cz — jednoduše, bezpečně. Libovolná částka, každá koruna se počítá.</p>
+          <a href="https://domestici.cz" target="_blank" rel="noopener" class="how-cta">Přispět na Domestici.cz →</a>
+        </div>
+        <div class="how-card">
+          <div class="how-card-num">02</div>
+          <h4>Vyber si odměnu</h4>
+          <p>Za příspěvek si vyber odměnu: kšiltovka, tričko, fotka z cesty nebo uzavřená skupina „Behind the scenes".</p>
+          <a href="https://domestici.cz" target="_blank" rel="noopener" class="how-cta">Zobrazit odměny →</a>
+        </div>
+        <div class="how-card">
+          <div class="how-card-num">03</div>
+          <h4>Sdílej projekt</h4>
+          <p>Pošli odkaz přátelům, sdílej na sociálních sítích. Čím víc lidí ví, tím víc se vybere.</p>
+          <a href="https://www.instagram.com" target="_blank" class="how-cta">Sledovat na Instagramu →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-sep">
+
+  <!-- DOMESTICI INFO -->
+  <section class="section">
+    <div class="container">
+      <div class="section-label">Partner sbírky</div>
+      <h2 class="section-title"><span class="d">Domestici</span>.cz</h2>
+      <div class="divider"></div>
+
+      <div class="domestici-section">
+        <div class="domestici-logo-wrap">
+          <img src="partners/domestici-om.png" alt="Domestici">
+        </div>
+        <div class="domestici-info">
+          <h3>Péče o druhé je přirozená součást lidství</h3>
+          <p>Domestici jsou organizace, která ukazuje, že mluvit o umírání a paliativní péči není tabu — je to projev lásky. Celá logistika sbírky běží přes ně. Každý příspěvek jde přímo k nim.</p>
+          <a href="https://domestici.cz" target="_blank" rel="noopener" class="btn btn-fuchsia">Navštívit Domestici.cz →</a>
+        </div>
+      </div>
+
+      <div class="cta-banner">
+        <h2>Přispěj dnes</h2>
+        <p>Sbírka startuje 1. 7. 2026. Každá koruna se počítá — doma, v hospici, na kole.</p>
+        <a href="https://domestici.cz" target="_blank" rel="noopener" class="btn btn-solar">🤍 Přispět na paliativu</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">#D352</div>
+      <ul class="footer-links">
+        <li><a href="index.html">Domů</a></li>
+        <li><a href="statistiky.html">Statistiky</a></li>
+        <li><a href="mapa.html">Mapa</a></li>
+        <li><a href="fundraising.html">Fundraising</a></li>
+        <li><a href="d-vyzvy.html">D-výzvy</a></li>
+      </ul>
+      <div class="footer-meta">© 2026 Jan Kohoutek</div>
+    </div>
+  </footer>
+
+<script>
+  document.getElementById('hamburger').addEventListener('click', function() {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+
+  // Progress bar animace (zatím 0, data přijdou po startu)
+  const liveStats = { raised: 0, goal: 352000 };
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      const pct = Math.min((liveStats.raised / liveStats.goal) * 100, 100);
+      document.getElementById('fp-bar').style.width = pct + '%';
+      document.getElementById('fp-amount').textContent = liveStats.raised.toLocaleString('cs-CZ') + ' Kč';
+    }, 400);
+  });
+</script>
+
+</body>
+</html>

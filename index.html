@@ -247,11 +247,19 @@
     .d-visual-ring:nth-child(1) { width: 85%; height: 85%; }
     .d-visual-ring:nth-child(2) { width: 115%; height: 115%; border-color: rgba(245,197,24,.03); }
     .d-facts { display: flex; flex-direction: column; gap: 1.2rem; }
+    .d-facts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    @media (max-width: 768px) { .d-facts-grid { grid-template-columns: 1fr; } }
+    .logos-grid { display: flex; flex-wrap: wrap; gap: 3rem; align-items: center; }
+    .logos-item { opacity: .7; mix-blend-mode: multiply; transition: opacity .2s, transform .2s; }
+    @media (max-width: 768px) {
+      .logos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem 1.5rem; align-items: center; justify-items: center; }
+      .logos-grid a.logos-main { grid-column: 1 / -1; }
+    }
     .d-fact {
       display: flex; align-items: flex-start; gap: 1rem;
       padding: 1.2rem 1.4rem;
       background: rgba(255,255,255,.03);
-      border: 1px solid rgba(255,255,255,.06);
+      border: 1px solid rgba(245,197,24,.35);
       border-radius: 14px;
       transition: border-color .3s;
     }
@@ -350,8 +358,8 @@
     }
     .fundraising-left h3 {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      line-height: .9; letter-spacing: 2px; color: #fff;
+      font-size: clamp(1.8rem, 5vw, 4rem);
+      line-height: .9; letter-spacing: 2px; color: #fff; white-space: nowrap;
       margin-bottom: 1rem;
     }
     .fundraising-left h3 span { color: var(--fuchsia); }
@@ -728,15 +736,15 @@
   <!-- NAVIGACE -->
   <nav id="navbar">
     <a href="#" class="nav-logo">
-      <span class="nav-logo-d">#D352</span>
+      <img src="img/d352-logo-transparent.png" alt="#D352" style="height:36px;width:auto;display:block;">
       <span class="nav-logo-text">352 D-obcí<br>na Rekole</span>
     </a>
     <ul class="nav-links">
       <li class="nav-mobile-label">352 D-obcí na Rekole</li>
       <li><a href="#co-je">O projektu</a></li>
       <li><a href="statistiky.html">Statistiky</a></li>
-      <li><a href="#mapa">Mapa</a></li>
-      <li><a href="#fundraising">Fundraising</a></li>
+      <li><a href="mapa.html">Mapa</a></li>
+      <li><a href="fundraising.html">Fundraising</a></li>
       <li style="margin-left:auto;"><a href="d-vyzvy.html" class="nav-cta">Přidej se</a></li>
       <li><a href="#kontakt">Kontakt</a></li>
     </ul>
@@ -757,7 +765,10 @@
         Start: 1. července 2026 · 17:00 Farčata &nbsp;·&nbsp; 352 obcí &nbsp;·&nbsp; Na Rekole
       </div>
       <h1 class="hero-title">
-        <span class="d">#D352</span>
+        <div style="display:inline-flex;align-items:center;height:80px;margin-bottom:.5rem;gap:0;">
+          <img src="img/d352-text.png" alt="#D352" style="height:80px;width:auto;filter:brightness(0) saturate(100%) invert(83%) sepia(60%) saturate(700%) hue-rotate(349deg);">
+          <img src="img/d352-bike.png" alt="" aria-hidden="true" style="height:80px;width:auto;">
+        </div>
       </h1>
       <div class="hero-subtitle">Projet 352 <span style="color:var(--solar);">D</span>-Obcí... <span style="color:var(--fuchsia);">na Rekole.</span></div>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1rem,2vw,1.35rem);letter-spacing:2px;line-height:1.45;margin:1.25rem 0 1.5rem;">
@@ -776,8 +787,8 @@
         <span style="font-size:.82rem;color:rgba(255,255,255,.55);transition:color .2s;" onmouseover="this.style.color='rgba(255,255,255,.9)'" onmouseout="this.style.color='rgba(255,255,255,.55)'">— Jan Kohoutek, cestovatel a cyklista</span>
       </a>
       <div class="hero-ctas">
-        <a href="#fundraising" class="btn btn-fuchsia">🤍 Přispět na paliativu</a>
-        <a href="#mapa" class="btn btn-solar">Sledovat mapu</a>
+        <a href="fundraising.html" class="btn btn-fuchsia">🤍 Přispět na paliativu</a>
+        <a href="mapa.html" class="btn btn-solar">Sledovat mapu</a>
         <a href="#co-je" class="btn btn-outline">Více o projektu</a>
       </div>
     </div>
@@ -857,23 +868,20 @@
         <em style="color:var(--solar);font-style:normal;">Můžu, dokud žiju. Žiju, dokud můžu.</em>
       </p>
 
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;">
+      <div class="d-facts-grid">
         <div class="d-fact">
-          <div class="d-fact-icon">🚲</div>
           <div class="d-fact-text">
             <h4>352 obcí na D</h4>
             <p>V Česku je 352 obcí, které začínají na D. Tak je projedu všechny. Ne proto, že je to nejrychlejší trasa. Ale protože je to dobrá záminka poznat vlastní zemi.</p>
           </div>
         </div>
         <div class="d-fact">
-          <div class="d-fact-icon">🩷</div>
           <div class="d-fact-text">
-            <h4>Na Rekole</h4>
-            <p>Městské kolo a možnost zpomalit. Vnímat své prostředí.</p>
+            <h4>Na sdíleném těžkém kole</h4>
+            <p>Jako symbol. Nečekat na nejlepší podmínky a prostě vyrazit. Těžké kolo jako možnost zpomalit a vnímat život okolo mě.</p>
           </div>
         </div>
         <div class="d-fact">
-          <div class="d-fact-icon">🕯️</div>
           <div class="d-fact-text">
             <h4>Pro důstojnost</h4>
             <p><span class="d">D</span> jako Domestici. <span class="d">D</span> jako domov. <span class="d">D</span> jako důstojnost. Cesta podporuje paliativní péči v Česku. Ne smutně, ne pateticky. Lidsky. Jako další součást příběhu.</p>
@@ -893,7 +901,7 @@
         <div class="fundraising-left">
           <h3><span>1 obec</span> = 1 000 Kč</h3>
           <p>Za každou obec, kterou projedu, chci vybrat alespoň tisíc korun do sbírky pro neziskovou organizaci <strong>Domestici</strong>. Organizaci, která zvyšuje povědomí o paliativní péči v Česku.<br><br>
-          Písmeno D není náhoda — D jako Domestici, D jako Důstojnost, D jako péče o druhé. Celé léto příběhů, celé léto sbírky.</p>
+          Písmeno D není náhoda — D jako Domestici, D jako Dar, D jako Díky! Celé léto příběhů, celé léto sbírky.</p>
         </div>
         <div class="fundraising-right">
           <div class="fundraising-progress">
@@ -932,11 +940,16 @@
       <p class="body-text">Živá mapa všech 352 D-obcí. Šedé čekají, zlaté jsou za námi. Na růžové tečce právě jedu na kole.</p>
       <p style="font-family:'Kohymaaa',cursive;font-size:1.6rem;letter-spacing:0;color:var(--solar);margin-bottom:1.5rem;">📅 Start: 1. července 2026 · 17:00 Farčata</p>
       <div id="dmapchart"></div>
-      <div class="map-legend" style="display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap;">
+      <div class="map-legend" style="display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap;margin-bottom:2rem;">
         <div class="map-legend-item"><div class="map-dot waiting"></div> Čeká na návštěvu</div>
         <div class="map-legend-item"><div class="map-dot done"></div> Navštíveno</div>
         <div class="map-legend-item"><div class="map-dot live"></div> Honza je tady</div>
         <div class="map-legend-item"><div class="map-dot contributed"></div> Navštíveno a vesnice přispěla do sbírky</div>
+      </div>
+      <!-- Plánovaná trasa Mapy.com -->
+      <div style="margin-top:2rem;border-radius:16px;overflow:hidden;border:1px solid rgba(42,157,143,.2);">
+        <div style="padding:.6rem 1rem;background:rgba(42,157,143,.08);font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--meadow);">🗺 Plánovaná trasa</div>
+        <iframe style="border:none;display:block;" src="https://mapy.com/s/gukadoboja" width="100%" height="340" frameborder="0" allowfullscreen></iframe>
       </div>
       <!-- Strava widget -->
       <div class="strava-widget" id="stravaWidget" style="margin-top:2rem;width:100%;max-width:100%;flex-direction:row;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1.5rem;text-align:left;">
@@ -1034,19 +1047,16 @@
         <a href="#mapa" class="zapojit-card zk-teal">
           <span class="zk-icon">🗺️</span>
           <div>
-            <div class="zk-title">Sleduj živou mapu</div>
-            <div class="zk-text">352 teček čeká. Po průjezdu každá zlatě zazáří. Klikni na obec a přečti příběh z cesty.</div>
+            <div class="zk-title">Přidej se na cestě</div>
+            <div class="zk-text">Sleduj živou mapu a pojeď kousek se mnou. Hodinu, nebo celý den.</div>
           </div>
           <span class="zk-cta">Na mapu →</span>
         </a>
         <a href="#d-vyzva" class="zapojit-card zk-gold">
           <span class="zk-icon">🎲</span>
           <div>
-            <div class="zk-title">Přidej se k jízdě i ty.</div>
-            <div class="zk-text">
-              <span style="display:block;margin-bottom:.5rem;"><strong style="color:#fff;">🚲 Fyzicky</strong> — když mě doženeš na kole, pojeď se mnou.</span>
-              <span style="display:block;"><strong style="color:#fff;">📲 Virtuálně</strong> — plň D-výzvy, které budu odkrývat během cesty — hledání kartiček, sdílení návštěvy D-obce a další.</span>
-            </div>
+            <div class="zk-title">Plň se mnou výzvy</div>
+            <div class="zk-text">Život má být i o zábavě. Proto budu po cestě plnit různé výzvy. Plň je se mnou.</div>
           </div>
           <span class="zk-cta">Na výzvy →</span>
         </a>
@@ -1057,30 +1067,6 @@
   <!-- QUOTE -->
 
   <!-- JAK TO FUNGUJE -->
-  <section id="jak-to-funguje" class="section" style="padding-top:2rem;">
-    <div class="container">
-      <div class="section-label">Jak se přidat</div>
-      <h2 class="section-title">Jak se přidat</h2>
-      <div class="divider"></div>
-      <div class="steps-grid" style="grid-template-columns:repeat(3,1fr);">
-        <div class="step">
-          <div class="step-num">01</div>
-          <h4>Sleduj mapu</h4>
-          <p>Mapa ukazuje kde jsem, kudy jedu a které obce už svítí. Po průjezdu každá obec zlatě zazáří a odemkne svůj příběh, fakt nebo fotku z cesty.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">02</div>
-          <h4>Přispěj</h4>
-          <p>Příspěvkem podpoříš Domestici. Dle výše příspěvku odemkneš D-výzvy, soukromou skupinu nebo materiální dar.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">03</div>
-          <h4>Přidej se</h4>
-          <p>Přidej se fyzicky na kole, nebo plň D-výzvy, které budu odkrývat během cesty.</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- D-VÝZVA -->
   <section id="d-vyzva" class="section" style="padding-top:3rem;padding-bottom:3rem;">
@@ -1163,14 +1149,14 @@
   <section id="partneri" style="background:var(--cream);padding:3rem 2rem;">
     <div style="max-width:1100px;margin:0 auto;">
       <div style="font-size:.65rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(38,64,64,.4);margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid rgba(38,64,64,.1);">Partneři</div>
-      <div style="display:flex;flex-wrap:wrap;gap:3rem;align-items:center;">
-        <a href="https://www.domestici.cz" target="_blank" rel="noopener" style="opacity:.7;mix-blend-mode:multiply;transition:opacity .2s,transform .2s;" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/domestici.png" alt="Domestici" style="height:28px;width:auto;display:block;"></a>
-        <a href="https://www.rekola.cz" target="_blank" rel="noopener" style="opacity:.7;mix-blend-mode:multiply;transition:opacity .2s,transform .2s;" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/rekola.png" alt="Rekola" style="height:52px;width:auto;display:block;"></a>
-        <a href="https://www.kolomotion.cz" target="_blank" rel="noopener" style="opacity:.7;mix-blend-mode:multiply;transition:opacity .2s,transform .2s;" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/kolomotion.png" alt="Kolomotion" style="height:28px;width:auto;display:block;"></a>
-        <a href="https://nallu.cz" target="_blank" rel="noopener" style="opacity:.7;mix-blend-mode:multiply;transition:opacity .2s,transform .2s;" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/nallu.png" alt="Nallu" style="height:36px;width:auto;display:block;"></a>
-        <a href="https://www.burley.com" target="_blank" rel="noopener" style="opacity:.7;mix-blend-mode:multiply;transition:opacity .2s,transform .2s;" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/burley.png" alt="Burley" style="height:28px;width:auto;display:block;"></a>
-        <a href="https://www.ortlieb.com" target="_blank" rel="noopener" style="opacity:.7;mix-blend-mode:multiply;transition:opacity .2s,transform .2s;" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/ortlieb.jpg" alt="Ortlieb" style="height:36px;width:auto;display:block;"></a>
-        <a href="https://www.patizon.eu" target="_blank" rel="noopener" style="opacity:.7;mix-blend-mode:multiply;transition:opacity .2s,transform .2s;" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/patizon.png" alt="Patizon" style="height:28px;width:auto;display:block;"></a>
+      <div class="logos-grid">
+        <a href="https://www.domestici.cz" target="_blank" rel="noopener" class="logos-item logos-main" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/domestici.png" alt="Domestici" style="height:48px;width:auto;display:block;"></a>
+        <a href="https://www.patizon.eu" target="_blank" rel="noopener" class="logos-item" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/patizon.png" alt="Patizon" style="height:56px;width:auto;display:block;"></a>
+        <a href="https://www.burley.com" target="_blank" rel="noopener" class="logos-item" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/burley.png" alt="Burley" style="height:22px;width:auto;display:block;"></a>
+        <a href="https://www.ortlieb.com" target="_blank" rel="noopener" class="logos-item" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/ortlieb.jpg" alt="Ortlieb" style="height:22px;width:auto;display:block;"></a>
+        <a href="https://nallu.cz" target="_blank" rel="noopener" class="logos-item" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/nallu.png" alt="Nallu" style="height:36px;width:auto;display:block;"></a>
+        <a href="https://www.rekola.cz" target="_blank" rel="noopener" class="logos-item" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/rekola.png" alt="Rekola" style="height:64px;width:auto;display:block;"></a>
+        <a href="https://www.kolomotion.cz" target="_blank" rel="noopener" class="logos-item" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/kolomotion.png" alt="Kolomotion" style="height:36px;width:auto;display:block;"></a>
       </div>
     </div>
   </section>
@@ -1180,12 +1166,7 @@
 
     <!-- Logo + tagline uprostřed -->
     <div style="text-align:center;margin-bottom:2.5rem;">
-      <div style="display:inline-flex;align-items:center;justify-content:center;width:140px;height:140px;background:var(--night);border-radius:28px;position:relative;overflow:hidden;margin-bottom:1rem;">
-        <div id="d-visual-map" style="position:absolute;inset:0;z-index:0;opacity:.18;pointer-events:none;border-radius:28px;overflow:hidden;"></div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:-1px;line-height:1;position:relative;z-index:1;">
-          <span style="color:var(--solar);">#D</span><span style="color:#fff;opacity:.85;">352</span>
-        </div>
-      </div>
+      <img src="img/d352-logo-transparent.png" alt="#D352" style="height:70px;max-width:100%;width:auto;display:block;margin:0 auto 1rem;">
       <div style="font-family:'Kohymaaa',cursive;font-size:3.2rem;color:rgba(38,64,64,.55);line-height:1.1;">Nejde neexistuje.</div>
     </div>
 
