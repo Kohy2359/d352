@@ -111,17 +111,18 @@
 
     /* ─── LIVE TRACK ─── */
     .live-track-wrap {
-      position: relative;
-      border-radius: 20px; overflow: hidden;
-      border: 1px solid rgba(238,60,149,.2);
-      background: rgba(238,60,149,.04);
+      display: flex; flex-direction: column; gap: .75rem;
     }
     .live-badge {
-      position: absolute; top: 1.2rem; left: 1.2rem; z-index: 10;
       display: inline-flex; align-items: center; gap: .5rem;
       background: var(--fuchsia); color: #fff;
       font-size: .72rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
       padding: .35rem 1rem; border-radius: 100px;
+      align-self: flex-start;
+    }
+    .live-track-wrap iframe {
+      border-radius: 20px; overflow: hidden;
+      border: 1px solid rgba(238,60,149,.2);
     }
     .live-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #fff; animation: blink 1.2s ease-in-out infinite; }
     .live-placeholder {
