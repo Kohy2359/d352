@@ -173,6 +173,7 @@
       .info-cards { grid-template-columns: 1fr; }
     }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
@@ -182,8 +183,7 @@
 
     </a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="index.html#co-je">O projektu</a></li>
-      <li><a href="statistiky.html">Statistiky</a></li>
+      <!-- <li><a href="statistiky.html">Statistiky</a></li> -->
       <li><a href="mapa.html" class="active">Mapa</a></li>
       <li><a href="fundraising.html">Fundraising</a></li>
       <li style="margin-left:auto;"><a href="d-vyzvy.html" class="nav-cta">Přidej se</a></li>
@@ -213,12 +213,7 @@
 
       <div class="live-track-wrap">
         <div class="live-badge"><span class="dot"></span> Live</div>
-        <!-- Garmin LiveTrack embed přijde sem po aktivaci zařízení -->
-        <div class="live-placeholder">
-          <div class="live-placeholder-icon">📡</div>
-          <h3>LIVE TRACK BRZY</h3>
-          <p>Garmin dorazí za pár dní — pak tu bude živá poloha. Start cesty: <strong style="color:var(--solar);">1. 7. 2026</strong></p>
-        </div>
+        <iframe src="https://eur-share.explore.garmin.com/VUVPZ9U5JN" style="width:100%;height:480px;border:none;border-radius:12px;display:block;" allowfullscreen loading="lazy"></iframe>
       </div>
     </div>
   </section>
@@ -278,18 +273,35 @@
   </section>
 
   <!-- FOOTER -->
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-brand">#D352</div>
-      <ul class="footer-links">
-        <li><a href="index.html">Domů</a></li>
-        <li><a href="statistiky.html">Statistiky</a></li>
-        <li><a href="mapa.html">Mapa</a></li>
-        <li><a href="fundraising.html">Fundraising</a></li>
-        <li><a href="d-vyzvy.html">D-výzvy</a></li>
-      </ul>
-      <div class="footer-meta">© 2026 Jan Kohoutek</div>
+    <footer style="background:var(--solar);color:var(--night);padding:3.5rem 2rem 2rem;">
+    <div style="text-align:center;margin-bottom:2.5rem;">
+      <img src="img/d352-logo-transparent.png" alt="#D352" style="height:70px;max-width:100%;width:auto;display:block;margin:0 auto 1rem;">
+      <div style="font-size:2.5rem;color:rgba(38,64,64,.55);line-height:1.1;font-style:italic;">Nejde neexistuje.</div>
     </div>
+    <div style="display:grid;grid-template-columns:1fr auto;gap:3rem;max-width:960px;margin:0 auto 2.5rem;align-items:start;">
+      <div>
+        <p style="font-size:.88rem;color:rgba(38,64,64,.65);line-height:1.7;margin:0 0 1.4rem;max-width:300px;">Projet na kole všech 352 českých obcí na D. Dobrodružství, domov, důstojnost.</p>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+          <a href="https://www.instagram.com/honzikovic_cesta" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(38,64,64,.12);border-radius:8px;color:var(--night);text-decoration:none;font-size:.95rem;"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.facebook.com/jan.k.kohoutek/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(38,64,64,.12);border-radius:8px;color:var(--night);text-decoration:none;font-size:.95rem;"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.strava.com/athletes/158217101" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(38,64,64,.12);border-radius:8px;color:var(--night);text-decoration:none;font-size:.95rem;"><i class="fab fa-strava"></i></a>
+          <a href="https://www.youtube.com/@Honzikovic_cesta" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(38,64,64,.12);border-radius:8px;color:var(--night);text-decoration:none;font-size:.95rem;"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.tiktok.com/@honzikovic_cesta" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(38,64,64,.12);border-radius:8px;color:var(--night);text-decoration:none;font-size:.95rem;"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(38,64,64,.4);margin-bottom:1.2rem;">Projekt</div>
+        <nav style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem 2rem;">
+          <a href="index.html" style="color:rgba(38,64,64,.7);text-decoration:none;font-size:.88rem;">Hlavní stránka</a>
+          <a href="fundraising.html" style="color:rgba(38,64,64,.7);text-decoration:none;font-size:.88rem;">Fundraising</a>
+          <a href="mapa.html" style="color:rgba(38,64,64,.7);text-decoration:none;font-size:.88rem;">Mapa</a>
+          <a href="d-vyzvy.html" style="color:rgba(38,64,64,.7);text-decoration:none;font-size:.88rem;">Přidej se</a>
+          <a href="media.html" style="color:rgba(38,64,64,.7);text-decoration:none;font-size:.88rem;grid-column:1/-1;margin-top:.25rem;border-top:1px solid rgba(38,64,64,.1);padding-top:.75rem;">Pro média a obce →</a>
+        </nav>
+      </div>
+    </div>
+    <hr style="border:none;border-top:1px solid rgba(38,64,64,.15);max-width:960px;margin:0 auto 1.5rem;">
+    <div style="max-width:960px;margin:0 auto;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(38,64,64,.4);">© 2026 Honza Kohoutek · #D352</div>
   </footer>
 
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
