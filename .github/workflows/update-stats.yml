@@ -92,14 +92,17 @@ jobs:
           with open('obce.json') as f:
               obce = json.load(f)
 
-          # ── Pro každou jízdu zkontroluj obce ──
+          # ── Pro každou jízdu zkontroluj obce + ulož trasy ──
           newly_visited = 0
+          all_routes = []
           for ride in rides:
               polyline = ride.get('map', {}).get('summary_polyline', '')
               if not polyline:
                   continue
               route = decode_polyline(polyline)
               ride_date = ride['start_date_local'][:10]
+              # Ulož trasu (každý 2. bod pro menší velikost)
+              all_routes.append([[round(p[1],5), round(p[0],5)] for p in route[::2]])
 
               for o in obce:
                   if o['visited']:
@@ -165,6 +168,7 @@ jobs:
           if last_lat is not None:
               stats['live_lat'] = round(last_lat, 5)
               stats['live_lon'] = round(last_lon, 5)
+          stats['routes'] = all_routes
 
           with open('stats.json', 'w') as f:
               json.dump(stats, f, ensure_ascii=False, indent=2)

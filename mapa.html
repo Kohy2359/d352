@@ -326,6 +326,17 @@
       if (s.live_lat && s.live_lon) {
         liveSeries.data.setAll([{ name: "Honza je tady", lat: s.live_lat, lon: s.live_lon }]);
       }
+      if (s.routes && s.routes.length) {
+        const routeSeries = dmChart.series.push(am5map.MapLineSeries.new(dmRoot, {}));
+        routeSeries.mapLines.template.setAll({
+          stroke: am5.color(0xEE3C95),
+          strokeWidth: 2,
+          strokeOpacity: 0.85
+        });
+        routeSeries.data.setAll(s.routes.map(coords => ({
+          geometry: { type: "LineString", coordinates: coords }
+        })));
+      }
     }).catch(()=>{});
     const dmRoot = am5.Root.new("dmapchart");
     dmRoot.setThemes([am5themes_Animated.new(dmRoot)]);
