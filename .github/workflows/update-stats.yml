@@ -115,6 +115,17 @@ jobs:
           visited_count = sum(1 for o in obce if o['visited'])
           print(f'Celkem projet: {visited_count} obcí (+{newly_visited} nových)')
 
+          # ── Poslední GPS pozice z nejnovější jízdy ──
+          last_lat, last_lon = None, None
+          if rides:
+              newest = sorted(rides, key=lambda r: r['start_date_local'], reverse=True)[0]
+              poly = newest.get('map', {}).get('summary_polyline', '')
+              if poly:
+                  pts = decode_polyline(poly)
+                  if pts:
+                      last_lat, last_lon = pts[-1]
+                      print(f'Poslední pozice: {last_lat:.4f}, {last_lon:.4f}')
+
           with open('obce.json', 'w') as f:
               json.dump(obce, f, ensure_ascii=False, indent=2)
 
@@ -151,6 +162,9 @@ jobs:
               'elevation_m': round(y['activities__total_elevation_gain']) if y else 0
           }
           stats['last_updated'] = datetime.date.today().isoformat()
+          if last_lat is not None:
+              stats['live_lat'] = round(last_lat, 5)
+              stats['live_lon'] = round(last_lon, 5)
 
           with open('stats.json', 'w') as f:
               json.dump(stats, f, ensure_ascii=False, indent=2)

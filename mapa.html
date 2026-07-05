@@ -322,6 +322,11 @@
   // D-obce mapa
   (function() {
     const liveStats = { liveLat: 49.56, liveLon: 15.46 };
+    fetch('stats.json').then(r=>r.json()).then(s=>{
+      if (s.live_lat && s.live_lon) {
+        liveSeries.data.setAll([{ name: "Honza je tady", lat: s.live_lat, lon: s.live_lon }]);
+      }
+    }).catch(()=>{});
     const dmRoot = am5.Root.new("dmapchart");
     dmRoot.setThemes([am5themes_Animated.new(dmRoot)]);
     const dmChart = dmRoot.container.children.push(
