@@ -1270,6 +1270,11 @@
         if (t && t.total_km > 0) {
           liveStats.km = t.total_km;
           document.getElementById('statKm').textContent = t.total_km;
+          const th = Math.floor(t.total_time_min / 60);
+          const tm = t.total_time_min % 60;
+          const timeStr = `${th}:${String(tm).padStart(2,'0')}`;
+          liveStats.time = timeStr;
+          document.getElementById('statTime').textContent = timeStr;
         }
       })
       .catch(() => {});
