@@ -344,16 +344,26 @@
     const dmPoints = dmChart.series.push(am5map.MapPointSeries.new(dmRoot, {
       latitudeField: "lat", longitudeField: "lon"
     }));
-    dmPoints.bullets.push(function() {
+    dmPoints.bullets.push(function(root, series, dataItem) {
+      const visited = dataItem.dataContext.visited;
       const circle = am5.Circle.new(dmRoot, {
-        radius: 4, fill: am5.color(0x4a6060), fillOpacity: 0.9,
-        stroke: am5.color(0xF5C518), strokeWidth: 0.8, strokeOpacity: 0.35,
-        tooltipText: "{name}", cursorOverStyle: "pointer"
+        radius: visited ? 5 : 4,
+        fill: am5.color(visited ? 0xF5C518 : 0x4a6060),
+        fillOpacity: visited ? 1 : 0.9,
+        stroke: am5.color(visited ? 0xF5C518 : 0xF5C518),
+        strokeWidth: visited ? 0 : 0.8,
+        strokeOpacity: visited ? 0 : 0.35,
+        tooltipText: visited ? "✓ {name}" : "{name}",
+        cursorOverStyle: "pointer"
       });
-      circle.states.create("hover", { fill: am5.color(0xF5C518), radius: 6, fillOpacity: 1, strokeOpacity: 1 });
+      circle.states.create("hover", { fill: am5.color(0xF5C518), radius: 6, fillOpacity: 1, strokeOpacity: 0 });
       return am5.Bullet.new(dmRoot, { sprite: circle });
     });
-    const dObce = [
+    fetch('obce.json').then(r=>r.json()).then(obce=>{
+      const dObce = obce.filter(o=>o.lat).map(o=>({name:o.name, lat:o.lat, lon:o.lon, visited:o.visited}));
+      dmPoints.data.setAll(dObce);
+    });
+    const dObce_unused = [
     {name: 'Dalečín', lat: 49.5915559, lon: 16.2404292},
     {name: 'Daleké Dušníky', lat: 49.7275217, lon: 14.1865392},
     {name: 'Dalešice', lat: 50.6817579, lon: 15.1845709},
@@ -707,7 +717,7 @@
     {name: 'Džbánice', lat: 49.0012607, lon: 16.2109348},
     {name: 'Džbánov', lat: 49.9163569, lon: 16.1594998},
     ];
-    dmPoints.data.setAll(dObce);
+    // data loaded via fetch above
 
     // ── Živá lokace ──
     const liveSeries = dmChart.series.push(am5map.MapPointSeries.new(dmRoot, {
