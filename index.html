@@ -1287,6 +1287,17 @@
       })
       .catch(() => {});
 
+    fetch('obce.json')
+      .then(r => r.json())
+      .then(obce => {
+        const visited = obce.filter(o => o.visited && o.visited_date);
+        if (visited.length) {
+          visited.sort((a, b) => b.visited_date.localeCompare(a.visited_date));
+          liveStats.lastVillage = visited[0].name;
+        }
+      })
+      .catch(() => {});
+
     /* ── Odpočítávač → po 16. 6. automaticky přepne na live statistiky ── */
     const START_DATE = new Date("2026-07-01T00:00:00");
 
