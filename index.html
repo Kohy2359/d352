@@ -790,7 +790,7 @@
       <div class="hero-ctas">
         <a href="pridej-se.html" class="btn btn-fuchsia">Jak se přidat?</a>
         <a href="mapa.html" class="btn btn-solar">Sledovat aktuální polohu</a>
-        <a href="#co-je" class="btn btn-outline">Více o projektu</a>
+        <a href="obce.html" class="btn btn-outline">Seznam obcí</a>
       </div>
     </div>
   </section>
@@ -844,7 +844,7 @@
               <div class="counter-sub">z 65 000 m</div>
             </div>
           </div>
-          <div class="stats-last" style="margin-top:1rem;">📍 <strong>Poslední obec:</strong> <span id="statLastVillage">—</span></div>
+          <div class="stats-last" style="margin-top:1rem;">📍 <strong>Poslední navštívená obec:</strong> <span id="statLastVillage">—</span></div>
         </div>
       </div>
     </div>
@@ -1223,6 +1223,7 @@
           const tm = t.total_time_min % 60;
           const timeStr = `${th}:${String(tm).padStart(2,'0')}`;
           liveStats.time = timeStr;
+          liveStats.elev = t.total_elevation_m;
           document.getElementById('statTime').textContent = timeStr;
           document.getElementById('statElev').textContent = t.total_elevation_m.toLocaleString('cs-CZ');
         }
