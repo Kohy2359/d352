@@ -1270,10 +1270,13 @@
           document.getElementById('stravaDate').textContent =
             date.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric' });
         }
-        // Celkové km do live stats
+        // Celkové km + obce do live stats
         if (t && t.total_km > 0) {
           liveStats.km = t.total_km;
           document.getElementById('statKm').textContent = t.total_km;
+          if (t.villages !== undefined) {
+            liveStats.villages = t.villages;
+          }
           const th = Math.floor(t.total_time_min / 60);
           const tm = t.total_time_min % 60;
           const timeStr = `${th}:${String(tm).padStart(2,'0')}`;

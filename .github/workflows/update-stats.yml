@@ -16,60 +16,152 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Compute totals from Windsor.ai
+      - name: Update stats and detect visited villages
         env:
           WINDSOR_API_KEY: ${{ secrets.WINDSOR_API_KEY }}
+          STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+          STRAVA_REFRESH_TOKEN: ${{ secrets.STRAVA_REFRESH_TOKEN }}
         run: |
           python3 - <<'EOF'
-          import json, urllib.request, datetime, os
+          import json, urllib.request, urllib.parse, datetime, os, math
 
-          api_key = os.environ["WINDSOR_API_KEY"]
-          url = f"https://connectors.windsor.ai/strava?api_key={api_key}&fields=activities__name,activities__distance,activities__moving_time,activities__total_elevation_gain,activities__average_speed,activities__type,activities__start_date_local&date_from=2026-07-01"
+          # ── Strava token refresh ──
+          def get_access_token():
+              data = urllib.parse.urlencode({
+                  'client_id': os.environ['STRAVA_CLIENT_ID'],
+                  'client_secret': os.environ['STRAVA_CLIENT_SECRET'],
+                  'refresh_token': os.environ['STRAVA_REFRESH_TOKEN'],
+                  'grant_type': 'refresh_token'
+              }).encode()
+              req = urllib.request.Request('https://www.strava.com/oauth/token', data=data, method='POST')
+              resp = json.loads(urllib.request.urlopen(req).read())
+              return resp['access_token']
 
-          data = json.loads(urllib.request.urlopen(url).read())["data"]
+          # ── Polyline decoder ──
+          def decode_polyline(polyline):
+              coords = []
+              index, lat, lng = 0, 0, 0
+              while index < len(polyline):
+                  for is_lat in [True, False]:
+                      shift, result = 0, 0
+                      while True:
+                          b = ord(polyline[index]) - 63
+                          index += 1
+                          result |= (b & 0x1f) << shift
+                          shift += 5
+                          if b < 0x20:
+                              break
+                      delta = ~(result >> 1) if result & 1 else result >> 1
+                      if is_lat:
+                          lat += delta
+                      else:
+                          lng += delta
+                  coords.append((lat / 1e5, lng / 1e5))
+              return coords
 
-          # Jen reálné jízdy
-          rides = [r for r in data if r.get("activities__type") == "Ride" and r.get("activities__distance", 0) > 1000]
+          # ── Vzdálenost v metrech ──
+          def dist_m(lat1, lon1, lat2, lon2):
+              R = 6371000
+              dlat = math.radians(lat2 - lat1)
+              dlon = math.radians(lon2 - lon1)
+              a = math.sin(dlat/2)**2 + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dlon/2)**2
+              return R * 2 * math.asin(math.sqrt(a))
 
-          total_km   = round(sum(r["activities__distance"] for r in rides) / 1000, 1)
-          total_elev = round(sum(r["activities__total_elevation_gain"] for r in rides))
-          total_min  = round(sum(r["activities__moving_time"] for r in rides) / 60)
+          # ── Zkontroluj jestli trasa prošla blízko bodu ──
+          def passed_near(route_coords, lat, lon, radius=600):
+              # Optimalizace: kontroluj jen každý 5. bod pro rychlost
+              for i in range(0, len(route_coords), 5):
+                  if dist_m(route_coords[i][0], route_coords[i][1], lat, lon) < radius:
+                      return True
+              return False
 
-          # Yesterday
+          # ── Načti Strava aktivity s polylines ──
+          token = get_access_token()
+          headers = {'Authorization': f'Bearer {token}'}
+
+          start_ts = int(datetime.datetime(2026, 7, 1).timestamp())
+          url = f'https://www.strava.com/api/v3/athlete/activities?after={start_ts}&per_page=100'
+          req = urllib.request.Request(url, headers=headers)
+          activities = json.loads(urllib.request.urlopen(req).read())
+
+          rides = [a for a in activities if a.get('type') == 'Ride' and a.get('distance', 0) > 1000]
+          print(f'Rides nalezeno: {len(rides)}')
+
+          # ── Načti obce.json ──
+          with open('obce.json') as f:
+              obce = json.load(f)
+
+          # ── Pro každou jízdu zkontroluj obce ──
+          newly_visited = 0
+          for ride in rides:
+              polyline = ride.get('map', {}).get('summary_polyline', '')
+              if not polyline:
+                  continue
+              route = decode_polyline(polyline)
+              ride_date = ride['start_date_local'][:10]
+
+              for o in obce:
+                  if o['visited']:
+                      continue
+                  if not o['lat']:
+                      continue
+                  if passed_near(route, o['lat'], o['lon']):
+                      o['visited'] = True
+                      o['visited_date'] = ride_date
+                      newly_visited += 1
+                      print(f'  ✓ {o["name"]} ({ride_date})')
+
+          visited_count = sum(1 for o in obce if o['visited'])
+          print(f'Celkem projet: {visited_count} obcí (+{newly_visited} nových)')
+
+          with open('obce.json', 'w') as f:
+              json.dump(obce, f, ensure_ascii=False, indent=2)
+
+          # ── Windsor.ai stats ──
+          api_key = os.environ['WINDSOR_API_KEY']
+          wurl = f'https://connectors.windsor.ai/strava?api_key={api_key}&fields=activities__name,activities__distance,activities__moving_time,activities__total_elevation_gain,activities__average_speed,activities__type,activities__start_date_local&date_from=2026-07-01'
+          wdata = json.loads(urllib.request.urlopen(wurl).read())['data']
+          wrides = [r for r in wdata if r.get('activities__type') == 'Ride' and r.get('activities__distance', 0) > 1000]
+
+          total_km   = round(sum(r['activities__distance'] for r in wrides) / 1000, 1)
+          total_elev = round(sum(r['activities__total_elevation_gain'] for r in wrides))
+          total_min  = round(sum(r['activities__moving_time'] for r in wrides) / 60)
+
           yesterday = (datetime.date.today() - datetime.timedelta(days=1)).isoformat()
-          y_rides = [r for r in rides if r["activities__start_date_local"][:10] == yesterday]
+          y_rides = [r for r in wrides if r['activities__start_date_local'][:10] == yesterday]
           y = y_rides[-1] if y_rides else None
 
-          # Přečti existující stats.json (last_activity zapsal Make.com)
-          with open("stats.json") as f:
+          # ── Načti existující stats.json (last_activity z Make.com) ──
+          with open('stats.json') as f:
               stats = json.load(f)
 
-          # Aktualizuj jen totals + yesterday
-          stats["totals_30d"] = {
-              "rides": len(rides),
-              "total_km": total_km,
-              "total_elevation_m": total_elev,
-              "total_time_min": total_min
+          stats['totals_30d'] = {
+              'rides': len(wrides),
+              'total_km': total_km,
+              'total_elevation_m': total_elev,
+              'total_time_min': total_min,
+              'villages': visited_count
           }
-          stats["yesterday"] = {
-              "name": y["activities__name"] if y else "—",
-              "date": y["activities__start_date_local"][:10] if y else "—",
-              "distance_km": round(y["activities__distance"] / 1000, 1) if y else 0,
-              "moving_time_min": round(y["activities__moving_time"] / 60) if y else 0,
-              "elevation_m": round(y["activities__total_elevation_gain"]) if y else 0
+          stats['yesterday'] = {
+              'name': y['activities__name'] if y else '—',
+              'date': y['activities__start_date_local'][:10] if y else '—',
+              'distance_km': round(y['activities__distance'] / 1000, 1) if y else 0,
+              'moving_time_min': round(y['activities__moving_time'] / 60) if y else 0,
+              'elevation_m': round(y['activities__total_elevation_gain']) if y else 0
           }
-          stats["last_updated"] = datetime.date.today().isoformat()
+          stats['last_updated'] = datetime.date.today().isoformat()
 
-          with open("stats.json", "w") as f:
+          with open('stats.json', 'w') as f:
               json.dump(stats, f, ensure_ascii=False, indent=2)
 
-          print(json.dumps(stats, indent=2, ensure_ascii=False))
+          print(f'stats.json: {total_km}km, {total_elev}m elev, {visited_count} obcí')
           EOF
 
-      - name: Commit stats.json
+      - name: Commit changes
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add stats.json
-          git diff --staged --quiet || git commit -m "Auto: update stats totals"
+          git add stats.json obce.json
+          git diff --staged --quiet || git commit -m "Auto: update stats + visited villages"
           git push
