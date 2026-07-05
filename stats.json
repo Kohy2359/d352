@@ -1,0 +1,17 @@
+{
+  "last_updated": "2026-07-05",
+  "last_activity": {
+    "name": "—",
+    "date": "2026-07-05",
+    "type": "Ride",
+    "distance_km": 0,
+    "moving_time_min": 0,
+    "elevation_m": 0,
+    "avg_speed_kmh": 0
+  },
+  "totals_30d": {
+    "rides": 0,
+    "total_km": 0,
+    "total_elevation_m": 0
+  }
+}
