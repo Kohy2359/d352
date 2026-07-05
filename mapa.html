@@ -336,6 +336,29 @@
         routeSeries.data.setAll(s.routes.map(coords => ({
           geometry: { type: "LineString", coordinates: coords }
         })));
+
+        // Start bod — první bod první trasy
+        const startPt = s.routes[0][0];
+        const startSeries = dmChart.series.push(am5map.MapPointSeries.new(dmRoot, {
+          latitudeField: "lat", longitudeField: "lon"
+        }));
+        startSeries.bullets.push(function() {
+          const container = am5.Container.new(dmRoot, {});
+          container.children.push(am5.Circle.new(dmRoot, {
+            radius: 7, fill: am5.color(0xF5C518), fillOpacity: 1,
+            stroke: am5.color(0x264040), strokeWidth: 2
+          }));
+          container.children.push(am5.Label.new(dmRoot, {
+            text: "START", fontSize: 9, fontWeight: "700",
+            fill: am5.color(0xF5C518),
+            centerX: am5.percent(50), dy: -16, dx: 0,
+            background: am5.RoundedRectangle.new(dmRoot, {
+              fill: am5.color(0x264040), fillOpacity: 0.75, cornerRadiusTL: 3, cornerRadiusTR: 3, cornerRadiusBL: 3, cornerRadiusBR: 3
+            })
+          }));
+          return am5.Bullet.new(dmRoot, { sprite: container });
+        });
+        startSeries.data.setAll([{ lat: startPt[1], lon: startPt[0] }]);
       }
     }).catch(()=>{});
     const dmRoot = am5.Root.new("dmapchart");
