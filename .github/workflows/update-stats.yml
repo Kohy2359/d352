@@ -5,6 +5,9 @@ on:
     - cron: '0 23 * * *'  # každý den ve 23:00 UTC
   workflow_dispatch:       # možnost spustit ručně
 
+permissions:
+  contents: write
+
 jobs:
   update:
     runs-on: ubuntu-latest
