@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seznam D-obcí — D352</title>
+  <meta name="description" content="Všech 352 D-obcí které Jan Kohoutek projede na kole. Sleduj postup — které obce jsou za ním, které ho čekají.">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Jost:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Kohymaaa';
+      src: url('Kohyma_final-Regular.ttf') format('truetype');
+      font-weight: normal; font-style: normal; font-display: swap;
+    }
+    :root {
+      --solar:   #F5C518;
+      --meadow:  #2A9D8F;
+      --fuchsia: #EE3C95;
+      --sage:    #A8C4BC;
+      --cream:   #EDE8DC;
+      --night:   #264040;
+      --dust:    #8A9E9B;
+      --earth:   #6B5B4F;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body { font-family: 'Jost', sans-serif; background: var(--night); color: #fff; line-height: 1.7; overflow-x: hidden; }
+
+    /* NAV */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 64px;
+      background: #F5C518; border-radius: 0 0 6px 6px;
+    }
+    .nav-logo { display: flex; align-items: center; gap: .6rem; text-decoration: none; }
+    .nav-logo-d { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; line-height: 1; color: var(--night); }
+    .nav-logo-text { font-family: 'Jost', sans-serif; font-size: .75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--night); opacity: .7; line-height: 1.3; }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; list-style: none; }
+    .nav-links a { color: #404040; text-decoration: none; font-size: .82rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; transition: opacity .2s; }
+    .nav-links a:hover { opacity: .6; }
+    .nav-links a.active { color: var(--night); border-bottom: 2px solid var(--night); padding-bottom: 1px; }
+    .nav-cta { background: #264040; color: #F5C518 !important; padding: .4rem 1.1rem; border-radius: 100px; font-weight: 800 !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 22px; height: 2px; background: #264040; border-radius: 2px; }
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: #F5C518; padding: 1rem 1.5rem; gap: .8rem; }
+      .nav-links.open { display: flex; }
+      .hamburger { display: flex; }
+    }
+
+    /* HERO */
+    .hero {
+      padding: 7rem 2rem 4rem;
+      background: linear-gradient(135deg, rgba(245,197,24,.06) 0%, var(--night) 60%);
+    }
+    .hero .container { max-width: 1100px; margin: 0 auto; }
+    .section-label { font-size: .65rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--solar); margin-bottom: .6rem; }
+    .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 8vw, 6rem); line-height: .9; letter-spacing: 3px; margin-bottom: 1rem; }
+    .hero h1 .d { color: var(--solar); }
+    .divider { width: 50px; height: 3px; background: var(--solar); border-radius: 2px; margin: 1rem 0 1.5rem; }
+    .hero p { font-size: 1rem; color: rgba(255,255,255,.55); max-width: 600px; line-height: 1.9; }
+
+    /* PROGRESS BAR */
+    .progress-wrap {
+      max-width: 1100px; margin: 0 auto 0; padding: 0 2rem 3rem;
+    }
+    .progress-bar-outer { height: 8px; background: rgba(255,255,255,.08); border-radius: 100px; overflow: hidden; margin-bottom: .5rem; }
+    .progress-bar-inner { height: 100%; background: linear-gradient(90deg, var(--fuchsia), var(--solar)); border-radius: 100px; transition: width 1s ease; }
+    .progress-label { font-size: .8rem; color: var(--dust); }
+    .progress-label strong { color: var(--solar); }
+
+    /* FILTERS */
+    .filters {
+      max-width: 1100px; margin: 0 auto; padding: 0 2rem 2rem;
+      display: flex; gap: .75rem; flex-wrap: wrap; align-items: center;
+    }
+    .filter-btn {
+      padding: .45rem 1.2rem; border-radius: 100px;
+      font-size: .8rem; font-weight: 700; letter-spacing: .5px;
+      cursor: pointer; border: 2px solid rgba(255,255,255,.12);
+      background: transparent; color: var(--dust); transition: all .2s;
+    }
+    .filter-btn:hover { border-color: var(--solar); color: var(--solar); }
+    .filter-btn.active { background: var(--solar); color: var(--night); border-color: var(--solar); }
+    .search-wrap { margin-left: auto; }
+    .search-input {
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+      border-radius: 100px; padding: .45rem 1.2rem;
+      color: #fff; font-size: .85rem; font-family: 'Jost', sans-serif;
+      outline: none; width: 220px; transition: border-color .2s;
+    }
+    .search-input::placeholder { color: var(--dust); }
+    .search-input:focus { border-color: rgba(245,197,24,.4); }
+
+    /* TABLE */
+    .table-wrap { max-width: 1100px; margin: 0 auto; padding: 0 2rem 6rem; }
+    .obce-table { width: 100%; border-collapse: collapse; }
+    .obce-table th {
+      text-align: left; font-size: .65rem; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--dust); padding: .6rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .obce-table td { padding: .75rem 1rem; border-bottom: 1px solid rgba(255,255,255,.04); font-size: .9rem; vertical-align: middle; }
+    .obce-table tr:hover td { background: rgba(255,255,255,.02); }
+
+    .num { color: var(--dust); font-size: .8rem; width: 48px; }
+    .name-cell { font-weight: 500; }
+    .name-sub { font-size: .75rem; color: var(--dust); }
+    .etapa-badge {
+      display: inline-block; padding: .2rem .6rem; border-radius: 100px;
+      font-size: .7rem; font-weight: 700; background: rgba(255,255,255,.07); color: var(--dust);
+    }
+    .date-cell { font-size: .82rem; color: var(--dust); white-space: nowrap; }
+
+    /* Status */
+    .status-visited {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .78rem; font-weight: 700; color: var(--solar);
+    }
+    .status-visited::before { content: '✓'; font-size: .9rem; }
+    .status-planned { font-size: .78rem; color: var(--dust); }
+    .status-today {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .78rem; font-weight: 700; color: var(--fuchsia);
+    }
+    .dot-live { width: 6px; height: 6px; border-radius: 50%; background: var(--fuchsia); display: inline-block; animation: blink 1.2s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+    .empty-state { text-align: center; padding: 4rem 2rem; color: var(--dust); }
+    .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; filter: saturate(0) opacity(.4); }
+
+    /* FOOTER */
+    footer { background: var(--solar); color: var(--night); padding: 3.5rem 2rem 2rem; }
+    footer .tagline { font-family: 'Kohymaaa', cursive; font-size: 3.2rem; color: rgba(38,64,64,.55); line-height: 1.1; text-align: center; margin-bottom: 2rem; }
+
+    @media (max-width: 640px) {
+      .filters { flex-direction: column; align-items: stretch; }
+      .search-wrap { margin-left: 0; }
+      .search-input { width: 100%; }
+      .obce-table th:nth-child(3), .obce-table td:nth-child(3),
+      .obce-table th:nth-child(4), .obce-table td:nth-child(4) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <span class="nav-logo-d">D</span>
+    <span class="nav-logo-text">352 D-obcí<br>na rekole</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Domů</a></li>
+    <li><a href="mapa.html">Mapa</a></li>
+    <li><a href="pridej-se.html">Přidej se</a></li>
+    <li><a href="obce.html" class="active">D-obce</a></li>
+    <li><a href="fundraising.html">Fundraising</a></li>
+    <li><a href="media.html">Média</a></li>
+    <li><a href="index.html#kontakt">Kontakt</a></li>
+    <li><a href="https://www.domestici.cz/vyzva/d352" target="_blank" rel="noopener" class="nav-cta">Přispět 🤍</a></li>
+  </ul>
+  <div class="hamburger" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="section-label">352 D-obcí</div>
+    <h1>Seznam<br><span class="d">D</span>-obcí</h1>
+    <div class="divider"></div>
+    <p>Všechny obce začínající na D, které Jan projede na kole. Sleduj postup — zelené jsou za ním, šedé ho čekají.</p>
+  </div>
+</section>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-bar-outer">
+    <div class="progress-bar-inner" id="progressBar" style="width:0%"></div>
+  </div>
+  <div class="progress-label"><strong id="progressCount">0</strong> / 352 obcí projeto</div>
+</div>
+
+<!-- FILTERS -->
+<div class="filters">
+  <button class="filter-btn active" data-filter="all">Všechny (352)</button>
+  <button class="filter-btn" data-filter="visited">Projeto</button>
+  <button class="filter-btn" data-filter="planned">Čeká</button>
+  <div class="search-wrap">
+    <input class="search-input" type="text" id="searchInput" placeholder="Hledat obec…">
+  </div>
+</div>
+
+<!-- TABLE -->
+<div class="table-wrap">
+  <table class="obce-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Obec</th>
+        <th>Etapa</th>
+        <th>Plánované datum</th>
+        <th>Stav</th>
+      </tr>
+    </thead>
+    <tbody id="obceBody">
+      <tr><td colspan="5" class="empty-state"><div class="icon">🚴</div>Načítám obce…</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- PARTNERS -->
+<section style="background:var(--cream);padding:3rem 2rem;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div style="font-size:.65rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(38,64,64,.4);margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid rgba(38,64,64,.1);">Partneři</div>
+    <div style="display:flex;flex-wrap:wrap;gap:3rem;align-items:center;">
+      <a href="https://www.domestici.cz" target="_blank" rel="noopener" style="opacity:.7;mix-blend-mode:multiply;transition:opacity .2s,transform .2s;" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/domestici.png" alt="Domestici" style="height:48px;width:auto;display:block;"></a>
+      <a href="https://www.patizon.eu" target="_blank" rel="noopener" style="opacity:.7;mix-blend-mode:multiply;transition:opacity .2s,transform .2s;" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/patizon.png" alt="Patizon" style="height:56px;width:auto;display:block;"></a>
+      <a href="https://www.burley.com" target="_blank" rel="noopener" style="opacity:.7;mix-blend-mode:multiply;transition:opacity .2s,transform .2s;" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/burley.png" alt="Burley" style="height:22px;width:auto;display:block;"></a>
+      <a href="https://www.ortlieb.com" target="_blank" rel="noopener" style="opacity:.7;mix-blend-mode:multiply;transition:opacity .2s,transform .2s;" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/ortlieb.jpg" alt="Ortlieb" style="height:22px;width:auto;display:block;"></a>
+      <a href="https://nallu.cz" target="_blank" rel="noopener" style="opacity:.7;mix-blend-mode:multiply;transition:opacity .2s,transform .2s;" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/nallu.png" alt="Nallu" style="height:36px;width:auto;display:block;"></a>
+      <a href="https://www.rekola.cz" target="_blank" rel="noopener" style="opacity:.7;mix-blend-mode:multiply;transition:opacity .2s,transform .2s;" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/rekola.png" alt="Rekola" style="height:64px;width:auto;display:block;"></a>
+      <a href="https://www.kolomotion.cz" target="_blank" rel="noopener" style="opacity:.7;mix-blend-mode:multiply;transition:opacity .2s,transform .2s;" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='.7';this.style.transform='scale(1)'"><img src="partners/kolomotion.png" alt="Kolomotion" style="height:36px;width:auto;display:block;"></a>
+    </div>
+  </div>
+</section>
+
+<footer style="background:var(--solar);color:var(--night);padding:3.5rem 2rem 2rem;">
+  <div style="text-align:center;margin-bottom:2.5rem;">
+    <img src="img/d352-logo-transparent.png" alt="#D352" style="height:70px;max-width:100%;width:auto;display:block;margin:0 auto 1rem;">
+    <div style="font-family:'Kohymaaa',cursive;font-size:3.2rem;color:rgba(38,64,64,.55);line-height:1.1;">Nejde neexistuje.</div>
+  </div>
+  <div style="text-align:center;font-size:.8rem;color:rgba(38,64,64,.5);margin-top:2rem;">
+    © 2026 Jan Kohoutek · #D352
+  </div>
+</footer>
+
+<script>
+  let allObce = [];
+  let activeFilter = 'all';
+  let searchQuery = '';
+
+  const today = new Date().toISOString().slice(0, 10);
+
+  function formatDate(str) {
+    if (!str) return '—';
+    const d = new Date(str);
+    return d.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'short' });
+  }
+
+  function statusHTML(o) {
+    if (o.visited) {
+      return `<span class="status-visited">${formatDate(o.visited_date)}</span>`;
+    }
+    if (o.planned_date === today) {
+      return `<span class="status-today"><span class="dot-live"></span> Dnes!</span>`;
+    }
+    return `<span class="status-planned">${formatDate(o.planned_date)}</span>`;
+  }
+
+  function render() {
+    const tbody = document.getElementById('obceBody');
+    let filtered = allObce;
+
+    if (activeFilter === 'visited') filtered = filtered.filter(o => o.visited);
+    if (activeFilter === 'planned') filtered = filtered.filter(o => !o.visited);
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      filtered = filtered.filter(o => o.name.toLowerCase().includes(q) || o.name_full.toLowerCase().includes(q));
+    }
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="icon">🔍</div>Žádná obec nenalezena</div></td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = filtered.map(o => `
+      <tr>
+        <td class="num">${o.id}</td>
+        <td class="name-cell">
+          ${o.name}
+          ${o.name_full !== o.name ? `<div class="name-sub">${o.name_full}</div>` : ''}
+        </td>
+        <td><span class="etapa-badge">Etapa ${o.etapa}</span></td>
+        <td class="date-cell">${formatDate(o.planned_date)}</td>
+        <td>${statusHTML(o)}</td>
+      </tr>
+    `).join('');
+  }
+
+  function updateProgress(obce) {
+    const visited = obce.filter(o => o.visited).length;
+    const pct = (visited / 352 * 100).toFixed(1);
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('progressCount').textContent = visited;
+
+    const visitedBtn = document.querySelector('[data-filter="visited"]');
+    const plannedBtn = document.querySelector('[data-filter="planned"]');
+    visitedBtn.textContent = `Projeto (${visited})`;
+    plannedBtn.textContent = `Čeká (${352 - visited})`;
+  }
+
+  fetch('obce.json')
+    .then(r => r.json())
+    .then(data => {
+      allObce = data;
+      updateProgress(data);
+      render();
+    });
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      render();
+    });
+  });
+
+  document.getElementById('searchInput').addEventListener('input', e => {
+    searchQuery = e.target.value;
+    render();
+  });
+</script>
+</body>
+</html>
