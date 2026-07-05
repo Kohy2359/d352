@@ -829,6 +829,10 @@
               <span class="cd-num" id="statTime">0:00</span>
               <div class="cd-lbl">h na kole</div>
             </div>
+            <div class="cd-unit">
+              <span class="cd-num" id="statElev">0</span>
+              <div class="cd-lbl">m převýšení</div>
+            </div>
           </div>
           <div class="stats-progress">
             <div class="stats-progress-bar">
@@ -1275,6 +1279,7 @@
           const timeStr = `${th}:${String(tm).padStart(2,'0')}`;
           liveStats.time = timeStr;
           document.getElementById('statTime').textContent = timeStr;
+          document.getElementById('statElev').textContent = t.total_elevation_m.toLocaleString('cs-CZ');
         }
       })
       .catch(() => {});
