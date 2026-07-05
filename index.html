@@ -1012,7 +1012,7 @@
       <!-- Strava widget -->
       <div class="strava-widget" id="stravaWidget" style="margin-top:2rem;width:100%;max-width:100%;flex-direction:row;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1.5rem;text-align:left;">
         <div class="strava-icon">🚴</div>
-        <h4>POSLEDNÍ AKTIVITA</h4>
+        <h4>VČERA</h4>
         <p id="stravaName" style="font-weight:600;color:#fff;font-size:.92rem;">—</p>
         <div class="strava-stats-row">
           <span class="strava-stat">📏 <strong id="stravaKm">—</strong> km</span>
@@ -1020,8 +1020,6 @@
           <span class="strava-stat">⏱ <strong id="stravaTime">—</strong></span>
         </div>
         <p id="stravaDate" style="font-size:.75rem;color:var(--dust);">—</p>
-        <div class="strava-divider"></div>
-        <div class="strava-30d">Posledních 30 dní: <strong id="stravaTotal30km">—</strong> km · <strong id="stravaTotal30rides">—</strong> jízd</div>
         <a href="https://www.strava.com/athletes/158217101" target="_blank" class="btn btn-outline" style="font-size:.8rem;margin-top:.4rem;width:100%;justify-content:center;">Sledovat na Stravě →</a>
       </div>
     </div>
@@ -1338,21 +1336,19 @@
     }
 
     /* ── Strava widget ── */
-    fetch('strava-stats.json')
+    fetch('stats-yesterday.json')
       .then(r => r.json())
       .then(d => {
-        const a = d.last_activity;
-        document.getElementById('stravaName').textContent = a.name;
-        document.getElementById('stravaKm').textContent   = a.distance_km.toFixed(1);
-        document.getElementById('stravaElev').textContent = a.elevation_m;
-        const h = Math.floor(a.moving_time_min / 60);
-        const m = a.moving_time_min % 60;
+        if (!d.name || d.name === '—') return;
+        document.getElementById('stravaName').textContent = d.name;
+        document.getElementById('stravaKm').textContent   = d.distance_km.toFixed(1);
+        document.getElementById('stravaElev').textContent = d.elevation_m;
+        const h = Math.floor(d.moving_time_min / 60);
+        const m = d.moving_time_min % 60;
         document.getElementById('stravaTime').textContent = h > 0 ? `${h}h ${m}min` : `${m} min`;
-        const date = new Date(a.date);
+        const date = new Date(d.date);
         document.getElementById('stravaDate').textContent =
           date.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric' });
-        document.getElementById('stravaTotal30km').textContent    = d.totals_30d.total_km.toFixed(0);
-        document.getElementById('stravaTotal30rides').textContent = d.totals_30d.rides;
       })
       .catch(() => {});
 
