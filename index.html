@@ -1241,13 +1241,38 @@
   <script>
     /* ── Ruční data (Jan aktualizuje po startu) ── */
     const liveStats = {
-      villages:    0,       // počet dokončených obcí
-      km:          0,       // celkem km
-      time:     "0:00",    // čas na kole formát h:mm
-      lastVillage: "—",    // název poslední navštívené obce
-      liveLat:  49.5626,   // živá GPS — aktualizuj zde! (nyní: Žďár nad Sázavou)
+      villages:    0,
+      km:          0,
+      time:     "0:00",
+      lastVillage: "—",
+      liveLat:  49.5626,
       liveLon:  15.9390
     };
+
+    fetch('stats.json')
+      .then(r => r.json())
+      .then(d => {
+        const a = d.last_activity;
+        const t = d.totals_30d;
+        // Včera widget
+        if (a && a.name && a.name !== '—') {
+          document.getElementById('stravaName').textContent = a.name;
+          document.getElementById('stravaKm').textContent   = a.distance_km.toFixed ? a.distance_km.toFixed(1) : a.distance_km;
+          document.getElementById('stravaElev').textContent = a.elevation_m;
+          const h = Math.floor(a.moving_time_min / 60);
+          const m = a.moving_time_min % 60;
+          document.getElementById('stravaTime').textContent = h > 0 ? `${h}h ${m}min` : `${m} min`;
+          const date = new Date(a.date);
+          document.getElementById('stravaDate').textContent =
+            date.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric' });
+        }
+        // Celkové km do live stats
+        if (t && t.total_km > 0) {
+          liveStats.km = t.total_km;
+          document.getElementById('statKm').textContent = t.total_km;
+        }
+      })
+      .catch(() => {});
 
     /* ── Odpočítávač → po 16. 6. automaticky přepne na live statistiky ── */
     const START_DATE = new Date("2026-07-01T00:00:00");
@@ -1336,21 +1361,6 @@
     }
 
     /* ── Strava widget ── */
-    fetch('stats-yesterday.json')
-      .then(r => r.json())
-      .then(d => {
-        if (!d.name || d.name === '—') return;
-        document.getElementById('stravaName').textContent = d.name;
-        document.getElementById('stravaKm').textContent   = d.distance_km.toFixed(1);
-        document.getElementById('stravaElev').textContent = d.elevation_m;
-        const h = Math.floor(d.moving_time_min / 60);
-        const m = d.moving_time_min % 60;
-        document.getElementById('stravaTime').textContent = h > 0 ? `${h}h ${m}min` : `${m} min`;
-        const date = new Date(d.date);
-        document.getElementById('stravaDate').textContent =
-          date.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric' });
-      })
-      .catch(() => {});
 
     /* ── Hamburger menu ── */
     const hamburger = document.querySelector('.hamburger');
