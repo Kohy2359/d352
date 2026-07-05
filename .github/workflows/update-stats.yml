@@ -1,0 +1,76 @@
+name: Update Stats
+
+on:
+  schedule:
+    - cron: '0 23 * * *'  # každý den ve 23:00 UTC
+  workflow_dispatch:       # možnost spustit ručně
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch & compute stats
+        run: |
+          python3 - <<'EOF'
+          import json, urllib.request, datetime, base64, os
+
+          API_KEY = "${{ secrets.WINDSOR_API_KEY }}"
+          url = f"https://connectors.windsor.ai/strava?api_key={API_KEY}&fields=activities__name,activities__distance,activities__moving_time,activities__total_elevation_gain,activities__average_speed,activities__type,activities__start_date_local&date_from=2026-07-01"
+
+          data = json.loads(urllib.request.urlopen(url).read())["data"]
+
+          # Jen reálné jízdy
+          rides = [r for r in data if r.get("activities__type") == "Ride" and r.get("activities__distance", 0) > 1000]
+
+          total_km    = round(sum(r["activities__distance"] for r in rides) / 1000, 1)
+          total_elev  = round(sum(r["activities__total_elevation_gain"] for r in rides))
+          total_min   = round(sum(r["activities__moving_time"] for r in rides) / 60)
+
+          last = rides[-1] if rides else None
+
+          # Yesterday's activity
+          yesterday = (datetime.date.today() - datetime.timedelta(days=1)).isoformat()
+          yesterday_rides = [r for r in rides if r["activities__start_date_local"][:10] == yesterday]
+          y = yesterday_rides[-1] if yesterday_rides else None
+
+          stats = {
+            "last_updated": datetime.date.today().isoformat(),
+            "last_activity": {
+              "name": last["activities__name"] if last else "—",
+              "date": last["activities__start_date_local"][:10] if last else "—",
+              "type": "Ride",
+              "distance_km": round(last["activities__distance"] / 1000, 1) if last else 0,
+              "moving_time_min": round(last["activities__moving_time"] / 60) if last else 0,
+              "elevation_m": round(last["activities__total_elevation_gain"]) if last else 0,
+              "avg_speed_kmh": round(last["activities__average_speed"] * 3.6, 1) if last else 0
+            },
+            "totals_30d": {
+              "rides": len(rides),
+              "total_km": total_km,
+              "total_elevation_m": total_elev,
+              "total_time_min": total_min
+            },
+            "yesterday": {
+              "name": y["activities__name"] if y else "—",
+              "date": y["activities__start_date_local"][:10] if y else "—",
+              "distance_km": round(y["activities__distance"] / 1000, 1) if y else 0,
+              "moving_time_min": round(y["activities__moving_time"] / 60) if y else 0,
+              "elevation_m": round(y["activities__total_elevation_gain"]) if y else 0
+            }
+          }
+
+          with open("stats.json", "w") as f:
+            json.dump(stats, f, ensure_ascii=False, indent=2)
+
+          print(json.dumps(stats, indent=2, ensure_ascii=False))
+          EOF
+
+      - name: Commit stats.json
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add stats.json
+          git diff --staged --quiet || git commit -m "Auto: update stats.json"
+          git push
