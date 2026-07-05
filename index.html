@@ -812,37 +812,34 @@
         <!-- Live statistiky (po 16. 6. 2026) -->
         <div id="statsLive" class="stats-live">
           <div class="cd-label">🚴 Jedeme! · Live statistiky</div>
-          <div class="cd-units">
-            <div class="cd-unit">
-              <span class="cd-num" id="statVillages">0<span class="stat-of">/352</span></span>
-              <div class="cd-lbl">obcí</div>
+          <div class="counter-grid">
+            <div class="counter-item">
+              <span class="counter-num" id="statVillages">0<span style="font-size:.45em;opacity:.45;">/352</span></span>
+              <div class="counter-label">Obcí projet</div>
+              <div class="counter-bar-wrap"><div class="counter-bar" id="statProgressFill" style="width:0%"></div></div>
             </div>
-            <div class="cd-unit">
-              <span class="cd-num" id="statDays">0</span>
-              <div class="cd-lbl">dní na cestě</div>
+            <div class="counter-item">
+              <span class="counter-num" id="statDays">0</span>
+              <div class="counter-label">Dní na cestě</div>
+              <div class="counter-bar-wrap"><div class="counter-bar" id="bar-days" style="width:0%"></div></div>
             </div>
-            <div class="cd-unit">
-              <span class="cd-num" id="statKm">0</span>
-              <div class="cd-lbl">km ujetých</div>
+            <div class="counter-item">
+              <span class="counter-num" id="statKm">0</span>
+              <div class="counter-label">Km ujetých</div>
+              <div class="counter-bar-wrap"><div class="counter-bar" id="bar-live-km" style="width:0%"></div></div>
             </div>
-            <div class="cd-unit">
-              <span class="cd-num" id="statTime">0:00</span>
-              <div class="cd-lbl">h na kole</div>
+            <div class="counter-item">
+              <span class="counter-num" id="statTime">0:00</span>
+              <div class="counter-label">H na kole</div>
+              <div class="counter-bar-wrap"><div class="counter-bar" style="width:0%" id="bar-live-time"></div></div>
             </div>
-            <div class="cd-unit">
-              <span class="cd-num" id="statElev">0</span>
-              <div class="cd-lbl">m převýšení</div>
-            </div>
-          </div>
-          <div class="stats-progress">
-            <div class="stats-progress-bar">
-              <div class="stats-progress-fill" id="statProgressFill" style="width:0%"></div>
-            </div>
-            <div style="font-size:.78rem;color:var(--sage);margin-top:.3rem;">
-              <strong id="statProgressCount" style="color:var(--solar);">0</strong> / 352 obcí dokončeno
+            <div class="counter-item">
+              <span class="counter-num" id="statElev">0</span>
+              <div class="counter-label">M převýšení</div>
+              <div class="counter-bar-wrap"><div class="counter-bar" style="width:0%" id="bar-live-elev"></div></div>
             </div>
           </div>
-          <div class="stats-last">📍 <strong>Poslední obec:</strong> <span id="statLastVillage">—</span></div>
+          <div class="stats-last" style="margin-top:1rem;">📍 <strong>Poslední obec:</strong> <span id="statLastVillage">—</span></div>
         </div>
       </div>
     </div>
@@ -1283,15 +1280,16 @@
         document.getElementById("statsLive").style.display  = "block";
 
         const daysOnRoad = Math.max(0, Math.floor((now - START_DATE) / (1000 * 60 * 60 * 24)));
-        document.getElementById("statVillages").innerHTML      = liveStats.villages + '<span class="stat-of">/352</span>';
+        document.getElementById("statVillages").innerHTML      = liveStats.villages + '<span style="font-size:.45em;opacity:.45;">/352</span>';
         document.getElementById("statDays").textContent        = daysOnRoad;
         document.getElementById("statKm").textContent          = liveStats.km;
         document.getElementById("statTime").textContent        = liveStats.time;
         document.getElementById("statLastVillage").textContent = liveStats.lastVillage;
 
-        const pctDone = (liveStats.villages / 352) * 100;
-        document.getElementById("statProgressFill").style.width = pctDone + '%';
-        document.getElementById("statProgressCount").textContent = liveStats.villages;
+        document.getElementById("statProgressFill").style.width = ((liveStats.villages / 352) * 100) + '%';
+        document.getElementById("bar-days").style.width          = Math.min((daysOnRoad / 90) * 100, 100) + '%';
+        document.getElementById("bar-live-km").style.width       = Math.min((liveStats.km / 4000) * 100, 100) + '%';
+        document.getElementById("bar-live-elev").style.width     = Math.min((parseFloat(String(liveStats.elev).replace(/\s/g,'')) / 50000) * 100, 100) + '%';
         return;
       }
 
