@@ -303,7 +303,7 @@
     plannedBtn.textContent = `Čeká (${352 - visited})`;
   }
 
-  fetch('obce.json')
+  fetch('obce.json', { cache: 'no-store' })
     .then(r => r.json())
     .then(data => {
       allObce = data;

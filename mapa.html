@@ -320,7 +320,7 @@
   // D-obce mapa
   (function() {
     const liveStats = { liveLat: 49.56, liveLon: 15.46 };
-    fetch('stats.json').then(r=>r.json()).then(s=>{
+    fetch('stats.json', { cache: 'no-store' }).then(r=>r.json()).then(s=>{
       if (s.live_lat && s.live_lon) {
         liveSeries.data.setAll([{ name: "Honza je tady", lat: s.live_lat, lon: s.live_lon }]);
       }
@@ -396,7 +396,7 @@
       circle.states.create("hover", { fill: am5.color(0xF5C518), radius: 6, fillOpacity: 1, strokeOpacity: 0 });
       return am5.Bullet.new(dmRoot, { sprite: circle });
     });
-    fetch('obce.json').then(r=>r.json()).then(obce=>{
+    fetch('obce.json', { cache: 'no-store' }).then(r=>r.json()).then(obce=>{
       const dObce = obce.filter(o=>o.lat).map(o=>({name:o.name, lat:o.lat, lon:o.lon, visited:o.visited}));
       dmPoints.data.setAll(dObce);
     });

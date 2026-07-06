@@ -1165,7 +1165,7 @@
       liveLon:  15.9390
     };
 
-    fetch('stats.json')
+    fetch('stats.json', { cache: 'no-store' })
       .then(r => r.json())
       .then(d => {
         const a = d.last_activity;
@@ -1200,7 +1200,7 @@
       })
       .catch(() => {});
 
-    fetch('obce.json')
+    fetch('obce.json', { cache: 'no-store' })
       .then(r => r.json())
       .then(obce => {
         const visited = obce.filter(o => o.visited && o.visited_date);

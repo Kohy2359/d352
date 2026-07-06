@@ -324,7 +324,7 @@
     }
 
     /* ── Strava ── */
-    fetch('strava-stats.json')
+    fetch('strava-stats.json', { cache: 'no-store' })
       .then(r => r.json())
       .then(d => {
         const a = d.last_activity;
