@@ -1168,20 +1168,7 @@
     fetch('stats.json', { cache: 'no-store' })
       .then(r => r.json())
       .then(d => {
-        const a = d.last_activity;
         const t = d.totals_30d;
-        // Včera widget
-        if (a && a.name && a.name !== '—') {
-          document.getElementById('stravaName').textContent = a.name;
-          document.getElementById('stravaKm').textContent   = a.distance_km.toFixed ? a.distance_km.toFixed(1) : a.distance_km;
-          document.getElementById('stravaElev').textContent = a.elevation_m;
-          const h = Math.floor(a.moving_time_min / 60);
-          const m = a.moving_time_min % 60;
-          document.getElementById('stravaTime').textContent = h > 0 ? `${h}h ${m}min` : `${m} min`;
-          const date = new Date(a.date);
-          document.getElementById('stravaDate').textContent =
-            date.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric' });
-        }
         // Celkové km + obce do live stats
         if (t && t.total_km > 0) {
           liveStats.km = t.total_km;
