@@ -248,8 +248,8 @@
     "planned_date": "2026-07-06",
     "lat": 49.016846,
     "lon": 16.277979,
-    "visited": false,
-    "visited_date": null
+    "visited": true,
+    "visited_date": "2026-07-07"
   },
   {
     "id": 22,
@@ -260,8 +260,8 @@
     "planned_date": "2026-07-06",
     "lat": 49.001261,
     "lon": 16.210935,
-    "visited": false,
-    "visited_date": null
+    "visited": true,
+    "visited_date": "2026-07-07"
   },
   {
     "id": 23,
