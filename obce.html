@@ -243,7 +243,9 @@
   let activeFilter = 'all';
   let searchQuery = '';
 
-  const today = new Date().toISOString().slice(0, 10);
+  // "Další na řadě" se řídí skutečným postupem (první nenavštívená obec v pořadí),
+  // ne kalendářním datem — jízda může být oproti harmonogramu napřed nebo pozadu.
+  let nextVillageId = null;
 
   function formatDate(str) {
     if (!str) return '—';
@@ -255,8 +257,8 @@
     if (o.visited) {
       return `<span class="status-visited">${formatDate(o.visited_date)}</span>`;
     }
-    if (o.planned_date === today) {
-      return `<span class="status-today"><span class="dot-live"></span> Dnes!</span>`;
+    if (o.id === nextVillageId) {
+      return `<span class="status-today"><span class="dot-live"></span> Další na řadě</span>`;
     }
     return `<span class="status-planned">${formatDate(o.planned_date)}</span>`;
   }
@@ -307,6 +309,8 @@
     .then(r => r.json())
     .then(data => {
       allObce = data;
+      const next = data.find(o => !o.visited);
+      nextVillageId = next ? next.id : null;
       updateProgress(data);
       render();
     });
