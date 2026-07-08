@@ -126,6 +126,13 @@
     }
     .dot-live { width: 6px; height: 6px; border-radius: 50%; background: var(--fuchsia); display: inline-block; animation: blink 1.2s ease-in-out infinite; }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+    .diff-badge {
+      display: inline-block; margin-left: .5rem; padding: .1rem .5rem; border-radius: 100px;
+      font-size: .72rem; font-weight: 700;
+    }
+    .diff-late  { background: rgba(228,87,46,.15); color: #E4572E; }
+    .diff-ahead { background: rgba(42,157,143,.15); color: var(--meadow); }
+    .diff-now   { background: rgba(245,197,24,.15); color: var(--solar); }
 
     .empty-state { text-align: center; padding: 4rem 2rem; color: var(--dust); }
     .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; filter: saturate(0) opacity(.4); }
@@ -246,6 +253,7 @@
   // "Další na řadě" se řídí skutečným postupem (první nenavštívená obec v pořadí),
   // ne kalendářním datem — jízda může být oproti harmonogramu napřed nebo pozadu.
   let nextVillageId = null;
+  const today = new Date(); today.setHours(0,0,0,0);
 
   function formatDate(str) {
     if (!str) return '—';
@@ -253,14 +261,25 @@
     return d.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'short' });
   }
 
+  // Kolik dní obec předbíhá (+) nebo zpožďuje (-) oproti plánovanému datu
+  function diffBadgeHTML(plannedDate) {
+    if (!plannedDate) return '';
+    const d = new Date(plannedDate); d.setHours(0,0,0,0);
+    const diff = Math.round((d - today) / 86400000);
+    if (diff === 0) return `<span class="diff-badge diff-now">dnes</span>`;
+    const cls = diff < 0 ? 'diff-late' : 'diff-ahead';
+    const label = diff > 0 ? `+${diff}` : `${diff}`;
+    return `<span class="diff-badge ${cls}">${label}</span>`;
+  }
+
   function statusHTML(o) {
     if (o.visited) {
       return `<span class="status-visited">${formatDate(o.visited_date)}</span>`;
     }
     if (o.id === nextVillageId) {
-      return `<span class="status-today"><span class="dot-live"></span> Další na řadě</span>`;
+      return `<span class="status-today"><span class="dot-live"></span> Další na řadě</span>${diffBadgeHTML(o.planned_date)}`;
     }
-    return `<span class="status-planned">${formatDate(o.planned_date)}</span>`;
+    return `<span class="status-planned">${formatDate(o.planned_date)}</span>${diffBadgeHTML(o.planned_date)}`;
   }
 
   function render() {
