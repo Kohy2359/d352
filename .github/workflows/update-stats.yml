@@ -176,6 +176,33 @@ jobs:
           print(f'stats.json: {total_km}km, {total_elev}m elev, {visited_count} obcí')
           EOF
 
+      - name: Update fundraising total (independent of Strava data)
+        continue-on-error: true
+        run: |
+          python3 - <<'EOF'
+          import json, re, urllib.request
+
+          try:
+              req = urllib.request.Request(
+                  'https://www.domestici.cz/vyzva/d352',
+                  headers={'User-Agent': 'Mozilla/5.0'}
+              )
+              html = urllib.request.urlopen(req, timeout=15).read().decode('utf-8', errors='ignore')
+              m = re.search(r'fundraisingGoal\\?":(\d+),\\?"raisedAmount\\?":(\d+)', html)
+              if not m:
+                  print('fundraising: raisedAmount not found on page, skipping')
+              else:
+                  goal, raised = int(m.group(1)), int(m.group(2))
+                  with open('stats.json') as f:
+                      stats = json.load(f)
+                  stats['fundraising'] = {'raised': raised, 'goal': goal}
+                  with open('stats.json', 'w') as f:
+                      json.dump(stats, f, ensure_ascii=False, indent=2)
+                  print(f'fundraising: {raised}/{goal} Kč')
+          except Exception as e:
+              print(f'fundraising: skipped due to error: {e}')
+          EOF
+
       - name: Commit changes
         run: |
           git config user.name "github-actions"

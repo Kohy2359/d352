@@ -1138,7 +1138,9 @@
       time:     "0:00",
       lastVillage: "—",
       liveLat:  49.5626,
-      liveLon:  15.9390
+      liveLon:  15.9390,
+      raised:   0,
+      goal:     352000
     };
 
     fetch('stats.json', { cache: 'no-store' })
@@ -1160,6 +1162,12 @@
           document.getElementById('statTime').textContent = timeStr;
           document.getElementById('statElev').textContent = t.total_elevation_m.toLocaleString('cs-CZ');
         }
+        // Skutečná vybraná částka ze sbírky
+        if (d.fundraising) {
+          liveStats.raised = d.fundraising.raised;
+          liveStats.goal   = d.fundraising.goal || liveStats.goal;
+        }
+        renderFundraising();
       })
       .catch(() => {});
 
@@ -1213,25 +1221,33 @@
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
-    /* ── Fundraising progress bar ── */
-    const targetAmount  = 352000;
-    // Automaticky: každá navštívená obec = 1 000 Kč
-    const currentAmount = liveStats.villages * 1000;
-    const fpPct = Math.min((currentAmount / targetAmount) * 100, 100);
+    /* ── Fundraising progress bar (skutečná data ze stats.json → domestici.cz) ── */
+    let fpPct = 0;
+    const fpBar = document.getElementById('fp-bar');
+    let fpRevealed = false;
 
-    document.getElementById('fp-amount').textContent = currentAmount.toLocaleString('cs-CZ') + ' Kč';
+    function renderFundraising() {
+      const targetAmount  = liveStats.goal;
+      const currentAmount = liveStats.raised;
+      fpPct = Math.min((currentAmount / targetAmount) * 100, 100);
 
-    if (currentAmount > 0) {
-      document.getElementById('fp-label').textContent =
-        `${fpPct.toFixed(1)} % z cíle · zbývá ${(targetAmount - currentAmount).toLocaleString('cs-CZ')} Kč`;
-    } else {
-      document.getElementById('fp-label').textContent = 'Sbírka startuje 1. 7. 2026';
+      document.getElementById('fp-amount').textContent = currentAmount.toLocaleString('cs-CZ') + ' Kč';
+
+      if (currentAmount > 0) {
+        document.getElementById('fp-label').textContent =
+          `${fpPct.toFixed(1)} % z cíle · zbývá ${(targetAmount - currentAmount).toLocaleString('cs-CZ')} Kč`;
+      } else {
+        document.getElementById('fp-label').textContent = 'Sbírka startuje 1. 7. 2026';
+      }
+
+      if (fpRevealed) fpBar.style.width = fpPct + '%';
     }
+    renderFundraising();
 
     // Animace progress baru při scroll do viewportu
-    const fpBar = document.getElementById('fp-bar');
     const fpObserver = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
+        fpRevealed = true;
         fpBar.style.width = fpPct + '%';
         fpObserver.disconnect();
       }
@@ -1256,7 +1272,7 @@
       document.getElementById('bar-km').style.width = Math.min((liveStats.km / 15000) * 100, 100) + '%';
 
       const cKc = document.getElementById('cnt-kc');
-      cKc.textContent = currentAmount.toLocaleString('cs-CZ') + ' Kč';
+      cKc.textContent = liveStats.raised.toLocaleString('cs-CZ') + ' Kč';
       cKc.classList.remove('inactive');
       document.getElementById('bar-kc').style.width = fpPct + '%';
     }

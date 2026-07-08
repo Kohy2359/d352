@@ -397,14 +397,28 @@
     document.getElementById('navLinks').classList.toggle('open');
   });
 
-  // Progress bar animace (zatím 0, data přijdou po startu)
+  // Progress bar — skutečná data ze stats.json (naplněná z domestici.cz)
   const liveStats = { raised: 0, goal: 352000 };
+
+  function renderFundraising() {
+    const pct = Math.min((liveStats.raised / liveStats.goal) * 100, 100);
+    document.getElementById('fp-bar').style.width = pct + '%';
+    document.getElementById('fp-amount').textContent = liveStats.raised.toLocaleString('cs-CZ') + ' Kč';
+  }
+
+  fetch('stats.json', { cache: 'no-store' })
+    .then(r => r.json())
+    .then(d => {
+      if (d.fundraising) {
+        liveStats.raised = d.fundraising.raised;
+        liveStats.goal   = d.fundraising.goal || liveStats.goal;
+      }
+      renderFundraising();
+    })
+    .catch(() => {});
+
   window.addEventListener('load', function() {
-    setTimeout(function() {
-      const pct = Math.min((liveStats.raised / liveStats.goal) * 100, 100);
-      document.getElementById('fp-bar').style.width = pct + '%';
-      document.getElementById('fp-amount').textContent = liveStats.raised.toLocaleString('cs-CZ') + ' Kč';
-    }, 400);
+    setTimeout(renderFundraising, 400);
   });
 </script>
 
