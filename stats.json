@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-07",
+  "last_updated": "2026-07-09",
   "last_activity": {
     "name": "D352 Den 3",
     "date": "2026-07-03",
@@ -17,11 +17,11 @@
     "villages": 22
   },
   "yesterday": {
-    "name": "Odpolední jízda na horském kole",
-    "date": "2026-07-06",
-    "distance_km": 44.2,
-    "moving_time_min": 164,
-    "elevation_m": 307
+    "name": "—",
+    "date": "—",
+    "distance_km": 0,
+    "moving_time_min": 0,
+    "elevation_m": 0
   },
   "live_lat": 48.89342,
   "live_lon": 16.06165,
@@ -4682,7 +4682,7 @@
     ]
   ],
   "fundraising": {
-    "raised": 20154,
+    "raised": 22710,
     "goal": 352000
   }
 }
