@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-10",
+  "last_updated": "2026-07-11",
   "last_activity": {
     "name": "D352 Den 3",
     "date": "2026-07-03",
@@ -17,11 +17,11 @@
     "villages": 32
   },
   "yesterday": {
-    "name": "Morning Mountain Bike Ride",
-    "date": "2026-07-09",
-    "distance_km": 50.2,
-    "moving_time_min": 194,
-    "elevation_m": 470
+    "name": "—",
+    "date": "—",
+    "distance_km": 0,
+    "moving_time_min": 0,
+    "elevation_m": 0
   },
   "live_lat": 48.94117,
   "live_lon": 16.7375,
@@ -6014,7 +6014,7 @@
     ]
   ],
   "fundraising": {
-    "raised": 24766,
+    "raised": 27822,
     "goal": 352000
   }
 }
