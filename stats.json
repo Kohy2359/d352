@@ -10,18 +10,18 @@
     "avg_speed_kmh": 14
   },
   "totals_30d": {
-    "rides": 11,
-    "total_km": 633.6,
-    "total_elevation_m": 7260,
-    "total_time_min": 2494,
-    "villages": 44
+    "rides": 13,
+    "total_km": 743.4,
+    "total_elevation_m": 8811,
+    "total_time_min": 2924,
+    "villages": 46
   },
   "yesterday": {
-    "name": "—",
-    "date": "—",
-    "distance_km": 0,
-    "moving_time_min": 0,
-    "elevation_m": 0
+    "name": "#d352 den 14",
+    "date": "2026-07-14",
+    "distance_km": 38.5,
+    "moving_time_min": 151,
+    "elevation_m": 642
   },
   "live_lat": 49.29872,
   "live_lon": 17.8437,
@@ -8662,7 +8662,7 @@
     ]
   ],
   "fundraising": {
-    "raised": 32989,
+    "raised": 35893,
     "goal": 352000
   }
 }
