@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-16",
+  "last_updated": "2026-07-17",
   "last_activity": {
     "name": "D352 Den 3",
     "date": "2026-07-03",
@@ -17,11 +17,11 @@
     "villages": 53
   },
   "yesterday": {
-    "name": "Morning Mountain Bike Ride",
-    "date": "2026-07-15",
-    "distance_km": 64.6,
-    "moving_time_min": 242,
-    "elevation_m": 772
+    "name": "#d352 den 16",
+    "date": "2026-07-16",
+    "distance_km": 70.1,
+    "moving_time_min": 275,
+    "elevation_m": 873
   },
   "live_lat": 49.52042,
   "live_lon": 18.23898,
