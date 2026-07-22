@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-21",
+  "last_updated": "2026-07-22",
   "last_activity": {
     "name": "D352 Den 3",
     "date": "2026-07-03",
@@ -17,11 +17,11 @@
     "villages": 59
   },
   "yesterday": {
-    "name": "D352 den 20",
-    "date": "2026-07-20",
-    "distance_km": 71.9,
-    "moving_time_min": 271,
-    "elevation_m": 870
+    "name": "#d352 den 21",
+    "date": "2026-07-21",
+    "distance_km": 70.8,
+    "moving_time_min": 252,
+    "elevation_m": 643
   },
   "live_lat": 49.86511,
   "live_lon": 18.47856,
@@ -11940,7 +11940,7 @@
     ]
   ],
   "fundraising": {
-    "raised": 40949,
+    "raised": 42653,
     "goal": 352000
   }
 }
