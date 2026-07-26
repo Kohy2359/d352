@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-25",
+  "last_updated": "2026-07-26",
   "last_activity": {
     "name": "D352 Den 3",
     "date": "2026-07-03",
@@ -17,11 +17,11 @@
     "villages": 72
   },
   "yesterday": {
-    "name": "#d352 Den 24",
-    "date": "2026-07-24",
-    "distance_km": 115.7,
-    "moving_time_min": 441,
-    "elevation_m": 1623
+    "name": "—",
+    "date": "—",
+    "distance_km": 0,
+    "moving_time_min": 0,
+    "elevation_m": 0
   },
   "live_lat": 49.83029,
   "live_lon": 17.39998,
