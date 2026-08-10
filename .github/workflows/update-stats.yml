@@ -18,7 +18,6 @@ jobs:
 
       - name: Update stats and detect visited villages
         env:
-          WINDSOR_API_KEY: ${{ secrets.WINDSOR_API_KEY }}
           STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
           STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
           STRAVA_REFRESH_TOKEN: ${{ secrets.STRAVA_REFRESH_TOKEN }}
@@ -132,38 +131,45 @@ jobs:
           with open('obce.json', 'w') as f:
               json.dump(obce, f, ensure_ascii=False, indent=2)
 
-          # ── Windsor.ai stats ──
-          api_key = os.environ['WINDSOR_API_KEY']
-          wurl = f'https://connectors.windsor.ai/strava?api_key={api_key}&fields=activities__name,activities__distance,activities__moving_time,activities__total_elevation_gain,activities__average_speed,activities__type,activities__start_date_local&date_from=2026-07-01'
-          wdata = json.loads(urllib.request.urlopen(wurl).read())['data']
-          wrides = [r for r in wdata if r.get('activities__type') == 'Ride' and r.get('activities__distance', 0) > 1000]
-
-          total_km   = round(sum(r['activities__distance'] for r in wrides) / 1000, 1)
-          total_elev = round(sum(r['activities__total_elevation_gain'] for r in wrides))
-          total_min  = round(sum(r['activities__moving_time'] for r in wrides) / 60)
+          # ── Totals přímo ze Strava aktivit (bez Windsor.ai) ──
+          total_km   = round(sum(r['distance'] for r in rides) / 1000, 1)
+          total_elev = round(sum(r['total_elevation_gain'] for r in rides))
+          total_min  = round(sum(r['moving_time'] for r in rides) / 60)
 
           yesterday = (datetime.date.today() - datetime.timedelta(days=1)).isoformat()
-          y_rides = [r for r in wrides if r['activities__start_date_local'][:10] == yesterday]
+          y_rides = [r for r in rides if r['start_date_local'][:10] == yesterday]
           y = y_rides[-1] if y_rides else None
 
-          # ── Načti existující stats.json (last_activity z Make.com) ──
+          newest = sorted(rides, key=lambda r: r['start_date_local'], reverse=True)[0] if rides else None
+
+          # ── Načti existující stats.json ──
           with open('stats.json') as f:
               stats = json.load(f)
 
           stats['totals_30d'] = {
-              'rides': len(wrides),
+              'rides': len(rides),
               'total_km': total_km,
               'total_elevation_m': total_elev,
               'total_time_min': total_min,
               'villages': visited_count
           }
           stats['yesterday'] = {
-              'name': y['activities__name'] if y else '—',
-              'date': y['activities__start_date_local'][:10] if y else '—',
-              'distance_km': round(y['activities__distance'] / 1000, 1) if y else 0,
-              'moving_time_min': round(y['activities__moving_time'] / 60) if y else 0,
-              'elevation_m': round(y['activities__total_elevation_gain']) if y else 0
+              'name': y['name'] if y else '—',
+              'date': y['start_date_local'][:10] if y else '—',
+              'distance_km': round(y['distance'] / 1000, 1) if y else 0,
+              'moving_time_min': round(y['moving_time'] / 60) if y else 0,
+              'elevation_m': round(y['total_elevation_gain']) if y else 0
           }
+          if newest:
+              stats['last_activity'] = {
+                  'name': newest['name'],
+                  'date': newest['start_date_local'][:10],
+                  'type': newest['type'],
+                  'distance_km': round(newest['distance'] / 1000, 1),
+                  'moving_time_min': round(newest['moving_time'] / 60),
+                  'elevation_m': round(newest['total_elevation_gain']),
+                  'avg_speed_kmh': round(newest['average_speed'] * 3.6, 1)
+              }
           stats['last_updated'] = datetime.date.today().isoformat()
           if last_lat is not None:
               stats['live_lat'] = round(last_lat, 5)

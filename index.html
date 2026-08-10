@@ -856,6 +856,7 @@
             </div>
           </div>
           <div class="stats-last" style="margin-top:1rem;">📍 <strong>Poslední navštívená obec:</strong> <span id="statLastVillage">—</span></div>
+          <div class="stats-last" style="margin-top:.4rem;">🚵 <strong>Poslední jízda:</strong> <span id="statLastRide">—</span></div>
         </div>
       </div>
     </div>
@@ -1161,6 +1162,14 @@
           liveStats.elev = t.total_elevation_m;
           document.getElementById('statTime').textContent = timeStr;
           document.getElementById('statElev').textContent = t.total_elevation_m.toLocaleString('cs-CZ');
+        }
+        // Poslední aktivita
+        if (d.last_activity) {
+          const la = d.last_activity;
+          const lh = Math.floor(la.moving_time_min / 60);
+          const lm = la.moving_time_min % 60;
+          document.getElementById('statLastRide').textContent =
+            `${la.name} · ${la.distance_km} km · ${lh}:${String(lm).padStart(2,'0')} h · ${la.elevation_m} m převýšení`;
         }
         // Skutečná vybraná částka ze sbírky
         if (d.fundraising) {
