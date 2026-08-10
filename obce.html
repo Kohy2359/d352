@@ -299,7 +299,7 @@
     }
 
     tbody.innerHTML = filtered.map(o => `
-      <tr>
+      <tr${o.id === nextVillageId ? ' id="current-row"' : ''}>
         <td class="num">${o.id}</td>
         <td class="name-cell">
           ${o.name}
@@ -332,6 +332,8 @@
       nextVillageId = next ? next.id : null;
       updateProgress(data);
       render();
+      const currentRow = document.getElementById('current-row');
+      if (currentRow) setTimeout(() => currentRow.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
     });
 
   document.querySelectorAll('.filter-btn').forEach(btn => {
