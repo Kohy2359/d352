@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-18",
+  "last_updated": "2026-08-19",
   "last_activity": {
     "name": "Morning Gravel Ride",
     "date": "2026-08-18",
@@ -17,11 +17,11 @@
     "villages": 170
   },
   "yesterday": {
-    "name": "Morning Mountain Bike Ride",
-    "date": "2026-08-17",
-    "distance_km": 90.5,
-    "moving_time_min": 357,
-    "elevation_m": 1190
+    "name": "Morning Gravel Ride",
+    "date": "2026-08-18",
+    "distance_km": 69.5,
+    "moving_time_min": 313,
+    "elevation_m": 912
   },
   "live_lat": 49.37463,
   "live_lon": 14.4413,
@@ -24324,7 +24324,7 @@
     ]
   ],
   "fundraising": {
-    "raised": 97252,
+    "raised": 100308,
     "goal": 352000
   }
 }
