@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-24",
+  "last_updated": "2026-08-25",
   "last_activity": {
     "name": "Afternoon Mountain Bike Ride",
     "date": "2026-08-24",
@@ -14,14 +14,14 @@
     "total_km": 3379.0,
     "total_elevation_m": 38070,
     "total_time_min": 12598,
-    "villages": 192
+    "villages": 194
   },
   "yesterday": {
-    "name": "—",
-    "date": "—",
-    "distance_km": 0,
-    "moving_time_min": 0,
-    "elevation_m": 0
+    "name": "Afternoon Mountain Bike Ride",
+    "date": "2026-08-24",
+    "distance_km": 20.9,
+    "moving_time_min": 88,
+    "elevation_m": 156
   },
   "live_lat": 48.9896,
   "live_lon": 14.4663,
@@ -28184,8 +28184,8 @@
     ]
   ],
   "fundraising": {
-    "raised": 105568,
-"goal": 352000,
-    "donors": 114
+    "raised": 106568,
+    "goal": 352000,
+    "donors": 115
   }
 }
