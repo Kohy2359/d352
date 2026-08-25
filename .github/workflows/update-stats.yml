@@ -194,17 +194,22 @@ jobs:
                   headers={'User-Agent': 'Mozilla/5.0'}
               )
               html = urllib.request.urlopen(req, timeout=15).read().decode('utf-8', errors='ignore')
-              m = re.search(r'fundraisingGoal\\?":(\d+),\\?"raisedAmount\\?":(\d+)', html)
+              m = re.search(r'"fundraisingGoal\\?":([\d.]+)[^}]*?"raisedAmount\\?":([\d.]+)', html)
+              donors_m = re.search(r'"donorsCount\\?":(\d+)', html)
               if not m:
                   print('fundraising: raisedAmount not found on page, skipping')
               else:
-                  goal, raised = int(m.group(1)), int(m.group(2))
+                  goal = int(float(m.group(1)))
+                  raised = int(float(m.group(2)))
+                  donors = int(donors_m.group(1)) if donors_m else None
                   with open('stats.json') as f:
                       stats = json.load(f)
                   stats['fundraising'] = {'raised': raised, 'goal': goal}
+                  if donors is not None:
+                      stats['fundraising']['donors'] = donors
                   with open('stats.json', 'w') as f:
                       json.dump(stats, f, ensure_ascii=False, indent=2)
-                  print(f'fundraising: {raised}/{goal} Kč')
+                  print(f'fundraising: {raised}/{goal} Kč, {donors} dárců')
           except Exception as e:
               print(f'fundraising: skipped due to error: {e}')
           EOF

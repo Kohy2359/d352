@@ -233,18 +233,18 @@
         </div>
         <div class="fp-label" id="fp-label">Sbírka startuje 1. 7. 2026</div>
 
-        <div class="progress-stats">
+        <div class="progress-stats" style="grid-template-columns:repeat(3,1fr);">
           <div class="progress-stat">
-            <div class="progress-stat-num" id="stat-obce">0</div>
-            <div class="progress-stat-label">Obcí projeto</div>
-          </div>
-          <div class="progress-stat">
-            <div class="progress-stat-num" id="stat-darci">0</div>
-            <div class="progress-stat-label">Dárců</div>
+            <div class="progress-stat-num" id="stat-darci">—</div>
+            <div class="progress-stat-label">Počet dárců</div>
           </div>
           <div class="progress-stat">
             <div class="progress-stat-num" id="stat-prumer">—</div>
             <div class="progress-stat-label">Průměrný dar</div>
+          </div>
+          <div class="progress-stat">
+            <div class="progress-stat-num" id="stat-dni">—</div>
+            <div class="progress-stat-label">Dní na cestě</div>
           </div>
         </div>
       </div>
@@ -399,25 +399,38 @@
     document.getElementById('navLinks').classList.toggle('open');
   });
 
-  // Progress bar — skutečná data ze stats.json (naplněná z domestici.cz)
-  const liveStats = { raised: 0, goal: 352000 };
+  const START_DATE = new Date('2026-07-01');
+  const liveStats = { raised: 0, goal: 352000, donors: 0 };
 
   function renderFundraising() {
     const pct = Math.min((liveStats.raised / liveStats.goal) * 100, 100);
     document.getElementById('fp-bar').style.width = pct + '%';
     document.getElementById('fp-amount').textContent = liveStats.raised.toLocaleString('cs-CZ') + ' Kč';
+
+    if (liveStats.donors > 0) {
+      document.getElementById('stat-darci').textContent = liveStats.donors;
+      if (liveStats.raised > 0) {
+        const avg = Math.round(liveStats.raised / liveStats.donors);
+        document.getElementById('stat-prumer').textContent = avg.toLocaleString('cs-CZ') + ' Kč';
+      }
+    }
+
+    const today = new Date();
+    const days = Math.floor((today - START_DATE) / (1000 * 60 * 60 * 24));
+    document.getElementById('stat-dni').textContent = days > 0 ? days : 0;
   }
 
   fetch('stats.json', { cache: 'no-store' })
     .then(r => r.json())
     .then(d => {
       if (d.fundraising) {
-        liveStats.raised = d.fundraising.raised;
-        liveStats.goal   = d.fundraising.goal || liveStats.goal;
+        liveStats.raised  = d.fundraising.raised || 0;
+        liveStats.goal    = d.fundraising.goal   || liveStats.goal;
+        liveStats.donors  = d.fundraising.donors || 0;
       }
       renderFundraising();
     })
-    .catch(() => {});
+    .catch(() => { renderFundraising(); });
 
   window.addEventListener('load', function() {
     setTimeout(renderFundraising, 400);
