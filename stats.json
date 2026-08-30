@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-29",
+  "last_updated": "2026-08-30",
   "last_activity": {
     "name": "Morning Mountain Bike Ride",
     "date": "2026-08-28",
@@ -17,11 +17,11 @@
     "villages": 214
   },
   "yesterday": {
-    "name": "Morning Mountain Bike Ride",
-    "date": "2026-08-28",
-    "distance_km": 95.5,
-    "moving_time_min": 394,
-    "elevation_m": 1296
+    "name": "—",
+    "date": "—",
+    "distance_km": 0,
+    "moving_time_min": 0,
+    "elevation_m": 0
   },
   "live_lat": 49.27289,
   "live_lon": 13.16867,
