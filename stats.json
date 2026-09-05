@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-04",
+  "last_updated": "2026-09-05",
   "last_activity": {
     "name": "Ranní jízda",
     "date": "2026-09-04",
@@ -17,11 +17,11 @@
     "villages": 227
   },
   "yesterday": {
-    "name": "—",
-    "date": "—",
-    "distance_km": 0,
-    "moving_time_min": 0,
-    "elevation_m": 0
+    "name": "Ranní jízda",
+    "date": "2026-09-04",
+    "distance_km": 81.3,
+    "moving_time_min": 314,
+    "elevation_m": 954
   },
   "live_lat": 50.22455,
   "live_lon": 12.82303,
