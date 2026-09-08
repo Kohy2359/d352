@@ -2708,8 +2708,8 @@
     "planned_date": "2026-08-30",
     "lat": 50.420697,
     "lon": 13.172198,
-    "visited": false,
-    "visited_date": null
+    "visited": true,
+    "visited_date": "2026-09-06"
   },
   {
     "id": 227,
@@ -2720,8 +2720,8 @@
     "planned_date": "2026-08-31",
     "lat": 50.430779,
     "lon": 13.429091,
-    "visited": false,
-    "visited_date": null
+    "visited": true,
+    "visited_date": "2026-09-06"
   },
   {
     "id": 228,
@@ -2732,8 +2732,8 @@
     "planned_date": "2026-08-31",
     "lat": 50.604031,
     "lon": 13.746146,
-    "visited": false,
-    "visited_date": null
+    "visited": true,
+    "visited_date": "2026-09-06"
   },
   {
     "id": 229,
@@ -2744,8 +2744,8 @@
     "planned_date": "2026-08-31",
     "lat": 50.6813,
     "lon": 13.788771,
-    "visited": false,
-    "visited_date": null
+    "visited": true,
+    "visited_date": "2026-09-06"
   },
   {
     "id": 230,
@@ -2756,8 +2756,8 @@
     "planned_date": "2026-09-01",
     "lat": 50.597318,
     "lon": 14.043078,
-    "visited": false,
-    "visited_date": null
+    "visited": true,
+    "visited_date": "2026-09-07"
   },
   {
     "id": 231,
@@ -2780,8 +2780,8 @@
     "planned_date": "2026-09-01",
     "lat": 50.747177,
     "lon": 14.333279,
-    "visited": false,
-    "visited_date": null
+    "visited": true,
+    "visited_date": "2026-09-07"
   },
   {
     "id": 233,
@@ -2792,8 +2792,8 @@
     "planned_date": "2026-09-01",
     "lat": 50.769542,
     "lon": 14.293263,
-    "visited": false,
-    "visited_date": null
+    "visited": true,
+    "visited_date": "2026-09-07"
   },
   {
     "id": 234,
@@ -2804,8 +2804,8 @@
     "planned_date": "2026-09-01",
     "lat": 50.78242,
     "lon": 14.214722,
-    "visited": false,
-    "visited_date": null
+    "visited": true,
+    "visited_date": "2026-09-07"
   },
   {
     "id": 235,
