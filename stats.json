@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-11",
+  "last_updated": "2026-09-12",
   "last_activity": {
     "name": "Ranní jízda na gravelu",
     "date": "2026-09-10",
@@ -17,11 +17,11 @@
     "villages": 242
   },
   "yesterday": {
-    "name": "Ranní jízda na gravelu",
-    "date": "2026-09-10",
-    "distance_km": 59.3,
-    "moving_time_min": 257,
-    "elevation_m": 748
+    "name": "—",
+    "date": "—",
+    "distance_km": 0,
+    "moving_time_min": 0,
+    "elevation_m": 0
   },
   "live_lat": 50.73969,
   "live_lon": 15.31006,
@@ -38042,8 +38042,8 @@
     ]
   ],
   "fundraising": {
-    "raised": 125640,
+    "raised": 131344,
     "goal": 352000,
-    "donors": 133
+    "donors": 135
   }
 }
