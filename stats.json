@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-15",
+  "last_updated": "2026-09-16",
   "last_activity": {
     "name": "Morning Gravel Ride",
     "date": "2026-09-14",
@@ -17,11 +17,11 @@
     "villages": 262
   },
   "yesterday": {
-    "name": "Morning Gravel Ride",
-    "date": "2026-09-14",
-    "distance_km": 96.7,
-    "moving_time_min": 352,
-    "elevation_m": 964
+    "name": "—",
+    "date": "—",
+    "distance_km": 0,
+    "moving_time_min": 0,
+    "elevation_m": 0
   },
   "live_lat": 50.44627,
   "live_lon": 14.81039,
