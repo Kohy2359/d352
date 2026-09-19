@@ -3368,8 +3368,8 @@
     "planned_date": "2026-09-12",
     "lat": 50.234151,
     "lon": 13.729516,
-    "visited": false,
-    "visited_date": null
+    "visited": true,
+    "visited_date": "2026-09-17"
   },
   {
     "id": 282,
@@ -3380,8 +3380,8 @@
     "planned_date": "2026-09-12",
     "lat": 50.230631,
     "lon": 13.609803,
-    "visited": false,
-    "visited_date": null
+    "visited": true,
+    "visited_date": "2026-09-17"
   },
   {
     "id": 283,
@@ -3404,8 +3404,8 @@
     "planned_date": "2026-09-13",
     "lat": 50.080124,
     "lon": 13.475659,
-    "visited": false,
-    "visited_date": null
+    "visited": true,
+    "visited_date": "2026-09-17"
   },
   {
     "id": 285,
@@ -3416,8 +3416,8 @@
     "planned_date": "2026-09-13",
     "lat": 49.926845,
     "lon": 13.287867,
-    "visited": false,
-    "visited_date": null
+    "visited": true,
+    "visited_date": "2026-09-17"
   },
   {
     "id": 286,
@@ -3440,8 +3440,8 @@
     "planned_date": "2026-09-13",
     "lat": 49.913679,
     "lon": 13.495989,
-    "visited": false,
-    "visited_date": null
+    "visited": true,
+    "visited_date": "2026-09-18"
   },
   {
     "id": 288,
@@ -3452,8 +3452,8 @@
     "planned_date": "2026-09-13",
     "lat": 49.884442,
     "lon": 13.471027,
-    "visited": false,
-    "visited_date": null
+    "visited": true,
+    "visited_date": "2026-09-18"
   },
   {
     "id": 289,
@@ -3500,8 +3500,8 @@
     "planned_date": "2026-09-14",
     "lat": 49.777668,
     "lon": 13.491402,
-    "visited": false,
-    "visited_date": null
+    "visited": true,
+    "visited_date": "2026-09-18"
   },
   {
     "id": 293,
@@ -3512,8 +3512,8 @@
     "planned_date": "2026-09-14",
     "lat": 49.8064,
     "lon": 13.47383,
-    "visited": false,
-    "visited_date": null
+    "visited": true,
+    "visited_date": "2026-09-18"
   },
   {
     "id": 294,
@@ -3788,8 +3788,8 @@
     "planned_date": "2026-09-19",
     "lat": 49.8843272,
     "lon": 13.468581,
-    "visited": false,
-    "visited_date": null
+    "visited": true,
+    "visited_date": "2026-09-18"
   },
   {
     "id": 317,
