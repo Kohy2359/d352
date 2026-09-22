@@ -3596,8 +3596,8 @@
     "planned_date": "2026-09-16",
     "lat": 49.520842,
     "lon": 13.958404,
-    "visited": false,
-    "visited_date": null
+    "visited": true,
+    "visited_date": "2026-09-21"
   },
   {
     "id": 301,
