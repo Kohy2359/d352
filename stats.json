@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-01",
+  "last_updated": "2026-10-02",
   "last_activity": {
     "name": "#d353 poslední etapa",
     "date": "2026-09-30",
@@ -17,11 +17,11 @@
     "villages": 332
   },
   "yesterday": {
-    "name": "#d353 poslední etapa",
-    "date": "2026-09-30",
-    "distance_km": 69.9,
-    "moving_time_min": 185,
-    "elevation_m": 1164
+    "name": "—",
+    "date": "—",
+    "distance_km": 0,
+    "moving_time_min": 0,
+    "elevation_m": 0
   },
   "live_lat": 49.56773,
   "live_lon": 15.93043,
@@ -49808,8 +49808,8 @@
     ]
   ],
   "fundraising": {
-    "raised": 166198,
+    "raised": 169102,
     "goal": 352000,
-    "donors": 170
+    "donors": 173
   }
 }
